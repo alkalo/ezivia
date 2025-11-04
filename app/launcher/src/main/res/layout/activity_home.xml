@@ -31,40 +31,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homeTitle" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/callsButton"
-        style="@style/Widget.Ezivia.HomeButton"
+    <TextView
+        android:id="@+id/favoritesTitle"
+        style="@style/TextAppearance.Ezivia.BodyLarge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/home_calls"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        app:iconGravity="textStart"
+        android:text="@string/home_favorites_title"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homeSubtitle" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/messagesButton"
-        style="@style/Widget.Ezivia.HomeButton"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoriteContactsList"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:text="@string/home_messages"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        app:iconGravity="textStart"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/settingsButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/callsButton" />
+        app:layout_constraintTop_toBottomOf="@id/favoritesTitle"
+        tools:listitem="@layout/item_favorite_contact" />
+
+    <TextView
+        android:id="@+id/emptyContactsView"
+        style="@style/TextAppearance.Ezivia.BodyLarge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/home_contacts_empty"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/favoriteContactsList"
+        app:layout_constraintEnd_toEndOf="@id/favoriteContactsList"
+        app:layout_constraintStart_toStartOf="@id/favoriteContactsList"
+        app:layout_constraintTop_toTopOf="@id/favoriteContactsList" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/settingsButton"
         style="@style/Widget.Ezivia.HomeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/home_settings"
         android:textAlignment="center"
         android:textAllCaps="false"
@@ -72,6 +84,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/messagesButton" />
+        app:layout_constraintTop_toBottomOf="@id/favoriteContactsList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
