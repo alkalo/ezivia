@@ -7,5 +7,6 @@
     <color name="ezivia_on_background">#121212</color>
     <color name="ezivia_surface">#FFFFFFFF</color>
     <color name="ezivia_on_surface">#121212</color>
+    <color name="ezivia_on_surface_variant">#4A4A4A</color>
     <color name="ezivia_outline">#5F6368</color>
 </resources>

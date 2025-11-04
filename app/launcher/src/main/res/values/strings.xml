@@ -2,7 +2,11 @@
     <string name="app_name">Ezivia</string>
     <string name="home_title">Hola, bienvenido a Ezivia</string>
     <string name="home_subtitle">Elige qué deseas hacer hoy. Todo está simplificado para ti.</string>
-    <string name="home_calls">Llamar a mis contactos</string>
-    <string name="home_messages">Ver mis mensajes</string>
+    <string name="home_favorites_title">Tus contactos favoritos</string>
+    <string name="home_contacts_empty">Aún no has marcado contactos como favoritos. Ve a tu agenda y selecciona la estrella en las personas que quieres tener siempre a mano.</string>
+    <string name="action_call">Llamar</string>
+    <string name="action_message">Mensaje</string>
     <string name="home_settings">Abrir ajustes sencillos</string>
+    <string name="home_contacts_permission_needed">Para ver tus favoritos, permite que Ezivia acceda a tus contactos.</string>
+    <string name="telephony_not_available">No se pudo abrir la aplicación del teléfono en este dispositivo.</string>
 </resources>
