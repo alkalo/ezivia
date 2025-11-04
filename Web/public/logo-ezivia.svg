@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48" role="img" aria-labelledby="title desc">
+  <title id="title">Logo de Ezivia</title>
+  <desc id="desc">Logotipo con letras redondeadas en color naranja cálido y marrón oscuro.</desc>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffb347" />
+      <stop offset="100%" stop-color="#ff8c42" />
+    </linearGradient>
+  </defs>
+  <rect width="160" height="48" rx="16" fill="#f7f5f0" />
+  <text x="24" y="30" font-family="Nunito, 'Segoe UI', sans-serif" font-size="22" font-weight="700" fill="#2f2a1f">
+    ezi
+  </text>
+  <text x="74" y="30" font-family="Nunito, 'Segoe UI', sans-serif" font-size="22" font-weight="700" fill="url(#grad)">
+    via
+  </text>
+  <circle cx="32" cy="16" r="6" fill="#ff8c42" />
+  <circle cx="40" cy="16" r="6" fill="#2f2a1f" />
+</svg>

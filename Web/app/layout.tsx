@@ -1,12 +1,17 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "./globals.css";
+import { Nunito } from "next/font/google";
 
-export const metadata: Metadata = {
-  title: "Ezivia - Móviles sencillos para mayores",
-  description:
-    "Ezivia convierte smartphones Android en experiencias accesibles para personas mayores, con navegación clara y texto legible."
-};
+import "./globals.css";
+import metadata from "./metadata";
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  display: "swap",
+  variable: "--font-primary"
+});
+
+export { metadata };
 
 export default function RootLayout({
   children
@@ -14,8 +19,15 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body>{children}</body>
+    <html lang="es" className={nunito.variable}>
+      <body className={`${nunito.className} app-body`}>
+        <a className="skip-link" href="#contenido-principal">
+          Saltar al contenido principal
+        </a>
+        <div id="contenido-principal" className="app-shell">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
