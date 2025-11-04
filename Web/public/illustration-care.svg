@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 320" role="img" aria-labelledby="title desc">
+  <title id="title">Ilustración de acompañamiento Ezivia</title>
+  <desc id="desc">Una persona mayor y una cuidadora compartiendo un móvil Android simplificado rodeado de elementos cálidos.</desc>
+  <defs>
+    <linearGradient id="sunrise" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff4d6" />
+      <stop offset="100%" stop-color="#ffd2a3" />
+    </linearGradient>
+    <linearGradient id="phone" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffb347" />
+      <stop offset="100%" stop-color="#ff8c42" />
+    </linearGradient>
+    <clipPath id="groundClip">
+      <rect x="0" y="180" width="420" height="140" rx="60" />
+    </clipPath>
+  </defs>
+  <rect width="420" height="320" rx="36" fill="url(#sunrise)" />
+  <g clip-path="url(#groundClip)">
+    <rect x="-20" y="180" width="460" height="180" fill="#ffe8cc" />
+    <ellipse cx="70" cy="260" rx="90" ry="45" fill="#ffd9b0" opacity="0.8" />
+    <ellipse cx="350" cy="250" rx="110" ry="55" fill="#ffd9b0" opacity="0.8" />
+  </g>
+  <g fill="none" stroke="#ffb347" stroke-width="6" stroke-linecap="round" opacity="0.6">
+    <path d="M60 86c18-12 42-12 60 0" />
+    <path d="M302 82c20-10 44-10 64 0" />
+    <path d="M118 66c24-16 52-16 76 0" />
+  </g>
+  <g>
+    <path
+      d="M130 220c-28 0-52-22-52-50s24-58 52-58 48 28 48 56-20 52-48 52z"
+      fill="#f3c08f"
+    />
+    <path
+      d="M138 110c0-22 18-40 40-40s40 18 40 40-18 32-40 32-40-10-40-32z"
+      fill="#ffcf9f"
+    />
+    <path d="M210 104c-2 14-16 22-32 22" fill="none" stroke="#2f2a1f" stroke-width="6" stroke-linecap="round" />
+    <circle cx="154" cy="102" r="8" fill="#2f2a1f" />
+    <circle cx="198" cy="102" r="8" fill="#2f2a1f" />
+    <path d="M118 150c16 22 76 26 96 0" fill="none" stroke="#2f2a1f" stroke-width="6" stroke-linecap="round" />
+  </g>
+  <g>
+    <path
+      d="M292 242c-30 0-56-24-56-54s26-64 56-64 52 30 52 60-22 58-52 58z"
+      fill="#f5b98a"
+    />
+    <path
+      d="M300 120c0-26 20-46 46-46s46 20 46 46-20 36-46 36-46-12-46-36z"
+      fill="#ffd2a3"
+    />
+    <path d="M376 112c-2 16-18 24-34 24" fill="none" stroke="#2f2a1f" stroke-width="6" stroke-linecap="round" />
+    <circle cx="308" cy="106" r="8" fill="#2f2a1f" />
+    <circle cx="348" cy="104" r="8" fill="#2f2a1f" />
+    <path d="M280 164c18 24 84 28 108 0" fill="none" stroke="#2f2a1f" stroke-width="6" stroke-linecap="round" />
+  </g>
+  <g>
+    <rect x="188" y="162" width="44" height="86" rx="12" fill="#2f2a1f" opacity="0.85" />
+    <rect x="194" y="168" width="32" height="70" rx="8" fill="#fff" opacity="0.95" />
+    <rect x="204" y="180" width="12" height="12" rx="4" fill="url(#phone)" />
+    <rect x="204" y="200" width="12" height="12" rx="4" fill="url(#phone)" opacity="0.9" />
+    <rect x="204" y="220" width="12" height="12" rx="4" fill="url(#phone)" opacity="0.8" />
+  </g>
+  <g>
+    <path d="M120 212l56 28" stroke="#2f2a1f" stroke-width="10" stroke-linecap="round" />
+    <path d="M304 224l-60 20" stroke="#2f2a1f" stroke-width="10" stroke-linecap="round" />
+    <path d="M192 250c12 12 28 18 48 18" fill="none" stroke="#ff8c42" stroke-width="8" stroke-linecap="round" />
+  </g>
+</svg>
