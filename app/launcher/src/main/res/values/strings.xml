@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Ezivia</string>
-    <string name="launcher_welcome_title">Bienvenido a Ezivia</string>
-    <string name="launcher_welcome_message">Tu asistente para acompañar a %1$s y simplificar su dispositivo.</string>
-    <string name="launcher_start_button">Empezar configuración</string>
+    <string name="home_title">Hola, bienvenido a Ezivia</string>
+    <string name="home_subtitle">Elige qué deseas hacer hoy. Todo está simplificado para ti.</string>
+    <string name="home_calls">Llamar a mis contactos</string>
+    <string name="home_messages">Ver mis mensajes</string>
+    <string name="home_settings">Abrir ajustes sencillos</string>
 </resources>
