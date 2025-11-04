@@ -1,0 +1,186 @@
+{
+  "project": "Ezivia Web Simplified Interfaces",
+  "description": "Wireframes for desktop, tablet, and mobile views focused on simplifying Android experiences for seniors.",
+  "personas": [
+    {
+      "name": "Adulto mayor principal",
+      "needs": [
+        "Acceso rápido a funciones críticas",
+        "Texto grande y contrastado",
+        "Indicaciones claras y lenguaje amigable"
+      ]
+    },
+    {
+      "name": "Familiar o cuidador",
+      "needs": [
+        "Configurar accesos directos para la persona mayor",
+        "Verificar que el dispositivo esté en modo simplificado",
+        "Solicitar ayuda rápida en caso de emergencia"
+      ]
+    }
+  ],
+  "flows": [
+    "Encendido del modo Ezivia",
+    "Realizar llamada o videollamada",
+    "Activar SOS",
+    "Configurar recordatorios de medicamentos"
+  ],
+  "frames": [
+    {
+      "id": "desktop-home",
+      "title": "Desktop - Landing",
+      "viewport": { "width": 1440, "height": 1024 },
+      "sections": [
+        {
+          "name": "Hero",
+          "elements": [
+            "Encabezado con slogan 'Convierte tu Android en un teléfono amigable para adultos mayores'",
+            "Descripción breve resaltando simplicidad y seguridad",
+            "Botones primarios: 'Descargar app' y 'Ver cómo funciona'",
+            "Ilustración mostrando un teléfono Android con UI ampliada"
+          ]
+        },
+        {
+          "name": "Funcionalidades",
+          "columns": 4,
+          "items": [
+            {
+              "title": "Llamadas claras",
+              "copy": "Acceso inmediato a contactos favoritos con texto grande",
+              "icon": "telefono"
+            },
+            {
+              "title": "Videollamadas sencillas",
+              "copy": "Botón único para ver a tus seres queridos",
+              "icon": "videollamada"
+            },
+            {
+              "title": "Botón SOS",
+              "copy": "Alerta a familiares y servicios de emergencia",
+              "icon": "sos"
+            },
+            {
+              "title": "Recordatorios guiados",
+              "copy": "Notificaciones de medicinas y citas médicas",
+              "icon": "recordatorio"
+            }
+          ]
+        },
+        {
+          "name": "Testimonios",
+          "layout": "slider",
+          "quotes": [
+            {
+              "persona": "María, 72 años",
+              "quote": "Ahora puedo hablar con mis nietos sin pedir ayuda."
+            },
+            {
+              "persona": "Jorge, hijo cuidador",
+              "quote": "Saber que mamá tiene un botón SOS me da mucha tranquilidad."
+            }
+          ]
+        },
+        {
+          "name": "CTA final",
+          "elements": [
+            "Mensaje recordando que Ezivia está disponible para Android",
+            "Botón primario 'Instalar desde Google Play'",
+            "Nota para familiares explicando cómo configurar"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tablet-home",
+      "title": "Tablet - Landing",
+      "viewport": { "width": 1024, "height": 1366 },
+      "sections": [
+        {
+          "name": "Hero",
+          "layout": "split",
+          "elements": [
+            "Logo Ezivia y claim",
+            "Botones apilados para 'Descargar app' y 'Solicitar demo'",
+            "Imagen del modo tablet con iconos grandes"
+          ]
+        },
+        {
+          "name": "Funcionalidades",
+          "grid": {
+            "columns": 2,
+            "rows": 2,
+            "tileHeight": 240
+          },
+          "items": [
+            "Tarjeta Llamadas con foto de contacto destacado",
+            "Tarjeta Videollamadas con previsualización",
+            "Tarjeta SOS con indicador de emergencia",
+            "Tarjeta Recordatorios con calendario simplificado"
+          ]
+        },
+        {
+          "name": "Testimonios",
+          "layout": "cards",
+          "notes": "Dos tarjetas visibles con opción de deslizar"
+        },
+        {
+          "name": "CTA final",
+          "elements": [
+            "Bloque con fondo de color",
+            "Botón ancho con ícono de Google Play",
+            "Texto de apoyo para cuidadores"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mobile-home",
+      "title": "Mobile - Landing",
+      "viewport": { "width": 390, "height": 844 },
+      "sections": [
+        {
+          "name": "Hero",
+          "layout": "stacked",
+          "elements": [
+            "Logotipo centrado",
+            "Headline: 'Tu Android, versión amigable'",
+            "Botón primario ocupar ancho completo",
+            "Botón secundario texto 'Ver demo rápida'"
+          ]
+        },
+        {
+          "name": "Funcionalidades",
+          "layout": "vertical cards",
+          "items": [
+            "Card Llamadas con icono grande y descripción",
+            "Card Videollamadas con miniatura",
+            "Card SOS con color de alerta",
+            "Card Recordatorios con lista de horarios"
+          ]
+        },
+        {
+          "name": "Testimonios",
+          "layout": "single column",
+          "notes": "Carrusel con indicadores accesibles"
+        },
+        {
+          "name": "CTA final",
+          "elements": [
+            "Texto reiterando disponibilidad exclusiva para Android",
+            "Botón con ícono de Play Store",
+            "Nota pequeña sobre compatibilidad mínima"
+          ]
+        }
+      ]
+    }
+  ],
+  "stakeholder_review": {
+    "participants": [
+      "Product Owner",
+      "Diseñador UX",
+      "Representante de soporte"
+    ],
+    "feedback_summary": "Se validó que los flujos cumplen con requisitos de accesibilidad. Se agregó nota para familiares en CTA y se destacó disponibilidad exclusiva para Android.",
+    "pending_actions": []
+  }
+}
