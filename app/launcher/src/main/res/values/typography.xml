@@ -1,0 +1,37 @@
+<resources>
+    <style name="TextAppearance.Ezivia.Display" parent="TextAppearance.MaterialComponents.HeadlineLarge">
+        <item name="android:textSize">28sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:lineHeight">36sp</item>
+    </style>
+
+    <style name="TextAppearance.Ezivia.BodyLarge" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:lineHeight">28sp</item>
+    </style>
+
+    <style name="TextAppearance.Ezivia.Button" parent="TextAppearance.MaterialComponents.TitleLarge">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:lineHeight">30sp</item>
+    </style>
+
+    <style name="Widget.Ezivia.HomeButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">72dp</item>
+        <item name="android:insetTop">16dp</item>
+        <item name="android:insetBottom">16dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/ezivia_on_primary</item>
+        <item name="backgroundTint">@color/ezivia_primary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:paddingStart">32dp</item>
+        <item name="android:paddingEnd">32dp</item>
+    </style>
+</resources>
