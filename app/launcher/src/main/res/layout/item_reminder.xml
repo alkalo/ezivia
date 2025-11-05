@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/ezivia_primary"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/reminderTitle"
+            style="@style/TextAppearance.Ezivia.Display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ezivia_on_surface"
+            tools:text="Tomar medicación" />
+
+        <TextView
+            android:id="@+id/reminderSubtitle"
+            style="@style/TextAppearance.Ezivia.BodyLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/ezivia_on_surface_variant"
+            tools:text="Lunes 09:00" />
+
+        <TextView
+            android:id="@+id/reminderStatus"
+            style="@style/TextAppearance.Ezivia.BodyLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/ezivia_primary"
+            tools:text="Pendiente" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reminderAction"
+            style="@style/Widget.Ezivia.HomeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/reminders_mark_done"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

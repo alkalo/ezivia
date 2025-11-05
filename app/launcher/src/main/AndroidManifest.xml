@@ -47,6 +47,24 @@
             android:label="@string/default_launcher_title"
             android:theme="@style/Theme.Ezivia" />
 
+        <activity
+            android:name=".ContactsActivity"
+            android:exported="false"
+            android:label="@string/contacts_title"
+            android:theme="@style/Theme.Ezivia" />
+
+        <activity
+            android:name=".RemindersOverviewActivity"
+            android:exported="false"
+            android:label="@string/reminders_title"
+            android:theme="@style/Theme.Ezivia" />
+
+        <activity
+            android:name=".SosActivity"
+            android:exported="false"
+            android:label="@string/quick_action_sos_title"
+            android:theme="@style/Theme.Ezivia" />
+
         <receiver
             android:name=".BootReceiver"
             android:enabled="true"

@@ -11,6 +11,7 @@ import com.ezivia.launcher.databinding.ItemFavoriteContactBinding
 class FavoriteContactsAdapter(
     private val onCallClick: (FavoriteContact) -> Unit,
     private val onMessageClick: (FavoriteContact) -> Unit,
+    private val onVideoCallClick: (FavoriteContact) -> Unit,
 ) : ListAdapter<FavoriteContact, FavoriteContactsAdapter.ContactViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -33,6 +34,7 @@ class FavoriteContactsAdapter(
 
             binding.callButton.setOnClickListener { onCallClick(contact) }
             binding.messageButton.setOnClickListener { onMessageClick(contact) }
+            binding.videoButton.setOnClickListener { onVideoCallClick(contact) }
         }
     }
 
