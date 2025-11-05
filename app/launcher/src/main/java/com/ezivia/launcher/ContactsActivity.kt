@@ -19,6 +19,7 @@ import com.ezivia.communication.telephony.NativeTelephonyController
 import com.ezivia.communication.whatsapp.WhatsAppLauncher
 import com.ezivia.launcher.R
 import com.ezivia.launcher.databinding.ActivityContactsBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -116,7 +117,7 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun startContactsSync() {
         contactsJob?.cancel()
-        contactsJob = lifecycleScope.launch {
+        contactsJob = lifecycleScope.launch(Dispatchers.Main) {
             favoriteContactsSynchronizer.favoriteContacts().collectLatest { contacts ->
                 showContacts(contacts)
             }
