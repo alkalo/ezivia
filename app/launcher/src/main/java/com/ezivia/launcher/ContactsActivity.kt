@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
-import android.provider.ContactsContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -83,7 +82,11 @@ class ContactsActivity : AppCompatActivity() {
         }
 
         binding.manageFavoritesButton.setOnClickListener {
-            runCatching { startActivity(Intent(ContactsContract.Intents.UI.LIST_STARRED_ACTION)) }
+            runCatching { startActivity(Intent(CONTACTS_FAVORITES_ACTION)) }
+                .recoverCatching {
+                    Intent(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_APP_CONTACTS) }
+                }
+                .onSuccess(::startActivity)
                 .onFailure {
                     Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
                 }
@@ -175,5 +178,9 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun showTelephonyUnavailableToast() {
         Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        private const val CONTACTS_FAVORITES_ACTION = "com.android.contacts.action.LIST_STARRED"
     }
 }

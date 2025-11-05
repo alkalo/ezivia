@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Replace the removed `ContactsContract.Intents.UI` favorite intent with a resilient fallback action so the launcher builds again.
 - Refresh the Ezivia launcher visual theme with un nuevo esquema cálido coral/dorado y un panel interactivo para el gesto de seguridad.
 - Añadir el gesto de mantener presionado el botón lateral virtual para autorizar la salida y ajustes, junto con un tutorial guiado la primera vez.
 - Rebuild the Ezivia launcher home to surface large quick actions for calls, WhatsApp video calls, messages, photos, reminders, and SOS assistance, including refreshed favourite contact cards.
