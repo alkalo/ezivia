@@ -86,7 +86,9 @@ class ContactsActivity : AppCompatActivity() {
                 .recoverCatching {
                     Intent(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_APP_CONTACTS) }
                 }
-                .onSuccess(::startActivity)
+                .onSuccess { intent ->
+                    startActivity(intent)
+                }
                 .onFailure {
                     Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
                 }
