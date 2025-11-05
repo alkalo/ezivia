@@ -75,6 +75,7 @@
     <string name="reminders_dialog_cancel">Cancelar</string>
     <string name="reminders_saved">Recordatorio guardado.</string>
     <string name="reminders_status_updated">Estado actualizado.</string>
+    <string name="protection_pin_hint">Introduce tu PIN</string>
     <string name="sos_title">Emergencia</string>
     <string name="sos_description">Mantén la calma. Puedes llamar a emergencias o avisar a tus contactos de confianza.</string>
     <string name="sos_call_button">Llamar al 112</string>
