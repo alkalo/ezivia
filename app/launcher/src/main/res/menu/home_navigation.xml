@@ -13,6 +13,10 @@
         android:icon="@drawable/ic_action_reminders"
         android:title="@string/navigation_health" />
     <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_action_settings"
+        android:title="@string/navigation_settings" />
+    <item
         android:id="@+id/navigation_sos"
         android:icon="@drawable/ic_action_sos"
         android:title="@string/navigation_sos" />

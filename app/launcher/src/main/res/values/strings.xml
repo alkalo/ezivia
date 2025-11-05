@@ -1,101 +1,285 @@
+<?xml version="1.0" ?>
 <resources>
+    
+    
     <string name="app_name">Ezivia</string>
+    
+    
     <string name="home_title">Hola, bienvenido a Ezivia</string>
+    
+    
     <string name="home_subtitle">Elige qué deseas hacer hoy. Todo está simplificado para ti.</string>
+    
+    
     <string name="home_quick_actions_title">Acciones rápidas</string>
+    
+    
     <string name="home_favorites_title">Tus contactos favoritos</string>
+    
+    
     <string name="home_contacts_empty">Aún no has marcado contactos como favoritos. Ve a tu agenda y selecciona la estrella en las personas que quieres tener siempre a mano.</string>
+    
+    
     <string name="home_contacts_permission_needed">Para ver tus favoritos, permite que Ezivia acceda a tus contactos.</string>
-    <string name="home_settings">Abrir ajustes sencillos</string>
-    <string name="home_exit">Salir del modo Ezivia</string>
+    
+    
     <string name="home_lock_hold_title">Para acciones especiales, mantén presionado el botón de subir volumen</string>
+    
+    
     <string name="home_lock_hold_status_idle">Mantén presionado el botón de subir volumen y luego toca la opción.</string>
+    
+    
     <string name="home_lock_hold_status_holding">Sigue presionando el botón de subir volumen y elige la opción.</string>
-    <string name="home_lock_hold_status_ready">Listo: toca "Salir" o "Ajustes" en los próximos segundos.</string>
+    
+    
+    <string name="home_lock_hold_status_ready">Listo: toca &quot;Ajustes&quot; en los próximos segundos.</string>
+    
+    
     <string name="home_lock_hold_required">Mantén presionado el botón de subir volumen primero.</string>
+    
+    
     <string name="home_lock_hold_icon_description">Ilustración del botón de subir volumen del teléfono</string>
+    
+    
     <string name="home_lock_tutorial_title">Nuevo gesto de seguridad</string>
-    <string name="home_lock_tutorial_message">Para salir del modo Ezivia o abrir ajustes, mantén presionado el botón de subir volumen del teléfono y luego toca la opción.
-Así evitamos cambios accidentales.</string>
+    
+    
+    <string name="home_lock_tutorial_message">Mantén presionado el botón de subir volumen y toca &quot;Ajustes&quot; para administrar Ezivia o salir del modo simplificado desde allí. Así evitamos cambios accidentales.</string>
+    
+    
     <string name="home_lock_tutorial_button">Entendido</string>
+    
+    
     <string name="action_call">Llamar</string>
+    
+    
     <string name="action_message">Mensaje</string>
+    
+    
     <string name="action_video_call">Videollamada</string>
+    
+    
     <string name="telephony_not_available">No se pudo abrir la aplicación del teléfono en este dispositivo.</string>
+    
+    
     <string name="quick_action_call_title">Llamadas</string>
+    
+    
     <string name="quick_action_call_description">Marca a cualquier persona en segundos.</string>
+    
+    
     <string name="quick_action_video_title">Videollamadas</string>
+    
+    
     <string name="quick_action_video_description">Reúnete por WhatsApp con tus seres queridos.</string>
+    
+    
     <string name="quick_action_message_title">Mensajes simples</string>
+    
+    
     <string name="quick_action_message_description">Envía frases preparadas sin complicaciones.</string>
+    
+    
     <string name="quick_action_photos_title">Fotos y recuerdos</string>
+    
+    
     <string name="quick_action_photos_description">Haz una foto nueva o mira tu galería.</string>
+    
+    
     <string name="quick_action_take_photo">Tomar una foto</string>
+    
+    
     <string name="quick_action_open_gallery">Ver mis fotos</string>
+    
+    
     <string name="quick_action_reminders_title">Recordatorios</string>
+    
+    
     <string name="quick_action_reminders_description">Revisa tus medicamentos y citas de hoy.</string>
+    
+    
     <string name="quick_action_sos_title">SOS emergencia</string>
+    
+    
     <string name="quick_action_sos_description">Pide ayuda inmediata con un toque seguro.</string>
+    
+    
     <string name="quick_action_message_choose_contact">¿A quién quieres enviar el mensaje?</string>
+    
+    
     <string name="quick_action_video_choose_contact">¿Con quién quieres videollamar?</string>
+    
+    
     <string name="quick_action_message_choose_template">Elige el mensaje que quieres enviar.</string>
+    
+    
     <string name="quick_action_no_contacts">Configura contactos favoritos para usar esta opción.</string>
+    
+    
     <string name="quick_action_no_whatsapp">Necesitas WhatsApp instalado para hacer videollamadas.</string>
+    
+    
     <string name="quick_action_camera_error">No se pudo preparar la cámara. Inténtalo de nuevo.</string>
+    
+    
     <string name="quick_action_camera_saved">Tu foto se ha guardado en la galería.</string>
+    
+    
     <string name="quick_action_gallery_unavailable">No se pudo abrir la galería del dispositivo.</string>
+    
+    
     <string name="quick_action_reminders_empty">No tienes recordatorios pendientes por ahora.</string>
+    
+    
     <string name="quick_action_reminders_summary_title">Próximos recordatorios</string>
+    
+    
     <string name="quick_action_reminders_summary_more">Y hay más recordatorios guardados.</string>
+    
+    
     <string name="quick_action_sos_confirmation">¿Quieres avisar a emergencias y a tu cuidador?</string>
+    
+    
     <string name="quick_action_sos_call_failed">No se pudo iniciar la llamada. Se abrió el marcador.</string>
+    
+    
     <string name="quick_action_sos_sms_sent">Se abrió tu app de mensajes para avisar al cuidador.</string>
+    
+    
     <string name="quick_action_sos_no_caregiver">Configura un cuidador en ajustes para avisarle con SMS.</string>
+    
+    
     <string name="quick_action_sos_call_number">Llamar al 112</string>
+    
+    
     <string name="default_launcher_title">Establecer como pantalla de inicio</string>
+    
+    
     <string name="default_launcher_description">Para activar el modo Ezivia y simplificar tu teléfono, elige Ezivia como aplicación de inicio predeterminada.</string>
+    
+    
     <string name="default_launcher_primary_action">Establecer ahora</string>
+    
+    
     <string name="default_launcher_secondary_action">Configurar más tarde</string>
+    
+    
     <string name="default_launcher_status">Selecciona Ezivia en la pantalla que se mostrará para continuar.</string>
+    
+    
     <string name="navigation_home">Inicio</string>
+    
+    
     <string name="navigation_contacts">Contactos</string>
+    
+    
     <string name="navigation_health">Salud</string>
+    
+    
     <string name="navigation_sos">SOS</string>
+    
+    
     <string name="contacts_title">Contactos favoritos</string>
+    
+    
     <string name="contacts_permission_needed">Ezivia necesita acceso a tus contactos para mostrarlos.</string>
+    
+    
     <string name="contacts_empty_state">Aún no hay contactos favoritos configurados.</string>
+    
+    
     <string name="contacts_open_settings">Gestionar favoritos</string>
+    
+    
     <string name="reminders_title">Recordatorios</string>
+    
+    
     <string name="reminders_add">Añadir recordatorio</string>
+    
+    
     <string name="reminders_empty">No tienes recordatorios guardados.</string>
+    
+    
     <string name="reminders_due_format">%1$s • %2$s</string>
+    
+    
     <string name="reminders_completed">Hecho</string>
+    
+    
     <string name="reminders_pending">Pendiente</string>
+    
+    
     <string name="reminders_mark_done">Marcar como hecho</string>
+    
+    
     <string name="reminders_mark_pending">Recordar más tarde</string>
+    
+    
     <string name="reminders_type_medication">Medicación</string>
+    
+    
     <string name="reminders_type_appointment">Cita</string>
+    
+    
     <string name="reminders_dialog_title">Nuevo recordatorio</string>
+    
+    
     <string name="reminders_dialog_message">Introduce el nombre, tipo y hora para hoy.</string>
+    
+    
     <string name="reminders_dialog_name_hint">¿Qué debes recordar?</string>
+    
+    
     <string name="reminders_dialog_notes_hint">Notas (opcional)</string>
+    
+    
     <string name="reminders_dialog_type">Tipo de recordatorio</string>
+    
+    
     <string name="reminders_dialog_error_name">Escribe un nombre para el recordatorio.</string>
+    
+    
     <string name="reminders_dialog_save">Guardar</string>
+    
+    
     <string name="reminders_dialog_cancel">Cancelar</string>
+    
+    
     <string name="reminders_saved">Recordatorio guardado.</string>
+    
+    
     <string name="reminders_status_updated">Estado actualizado.</string>
-    <string name="protection_enter_pin_title">Introduce tu PIN de protección</string>
-    <string name="protection_confirm_button">Confirmar</string>
-    <string name="protection_invalid_pin">El PIN no es correcto. Inténtalo de nuevo.</string>
-    <string name="protection_pin_hint">Introduce tu PIN</string>
+    
+    
     <string name="sos_title">Emergencia</string>
+    
+    
     <string name="sos_description">Mantén la calma. Puedes llamar a emergencias o avisar a tus contactos de confianza.</string>
+    
+    
     <string name="sos_call_button">Llamar al 112</string>
+    
+    
     <string name="sos_message_button">Avisar a mi cuidador</string>
+    
+    
     <string name="sos_message_body">Necesito ayuda. Estoy usando Ezivia y he activado SOS.</string>
+    
+    
     <string name="sos_no_caregiver">Configura un cuidador en ajustes para enviar avisos.</string>
+    
+    
     <string name="sos_call_failed">No se pudo completar la llamada. Se abrió el marcador.</string>
+    
+    
     <string name="sos_message_sent">Se abrió tu app de mensajes para avisar.</string>
+    
+    
     <string name="sos_close">Volver al inicio</string>
+    
+
+    <string name="navigation_settings">Ajustes</string>
+    <string name="default_launcher_reconfigure_description">Si deseas volver al inicio tradicional de Android, elige otra aplicación de inicio predeterminada.</string>
+    <string name="default_launcher_reconfigure_action">Cambiar inicio predeterminado</string>
+    <string name="default_launcher_force_hint">Cuando hayas seleccionado otra app de inicio, volverás automáticamente.</string>
 </resources>

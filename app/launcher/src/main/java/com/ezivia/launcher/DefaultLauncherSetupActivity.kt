@@ -11,8 +11,13 @@ private const val REQUEST_CODE_DEFAULT_LAUNCHER = 1001
 
 class DefaultLauncherSetupActivity : AppCompatActivity() {
 
+    companion object {
+        const val EXTRA_FORCE_RECONFIGURE = "com.ezivia.launcher.extra.FORCE_RECONFIGURE"
+    }
+
     private lateinit var binding: ActivityDefaultLauncherSetupBinding
     private lateinit var onboardingPreferences: LauncherOnboardingPreferences
+    private var forceReconfigure: Boolean = false
 
     private val roleRequestLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -23,8 +28,10 @@ class DefaultLauncherSetupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         onboardingPreferences = LauncherOnboardingPreferences(this)
+        forceReconfigure = intent.getBooleanExtra(EXTRA_FORCE_RECONFIGURE, false)
 
-        if (DefaultLauncherHelper.isDefaultLauncher(this)) {
+        val alreadyDefault = DefaultLauncherHelper.isDefaultLauncher(this)
+        if (!forceReconfigure && alreadyDefault) {
             onboardingPreferences.setDefaultLauncherCompleted(true)
             openHomeAndFinish()
             return
@@ -32,6 +39,15 @@ class DefaultLauncherSetupActivity : AppCompatActivity() {
 
         binding = ActivityDefaultLauncherSetupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (forceReconfigure) {
+            binding.description.setText(R.string.default_launcher_reconfigure_description)
+            binding.configureButton.setText(R.string.default_launcher_reconfigure_action)
+            binding.statusMessage.apply {
+                isVisible = true
+                setText(R.string.default_launcher_force_hint)
+            }
+        }
 
         binding.configureButton.setOnClickListener {
             onboardingPreferences.setDefaultLauncherCompleted(false)
@@ -53,11 +69,26 @@ class DefaultLauncherSetupActivity : AppCompatActivity() {
     private fun handleLauncherStateChange() {
         val isDefault = DefaultLauncherHelper.isDefaultLauncher(this)
         if (isDefault) {
-            onboardingPreferences.setDefaultLauncherCompleted(true)
-            openHomeAndFinish()
+            if (forceReconfigure) {
+                onboardingPreferences.setDefaultLauncherCompleted(false)
+                if (::binding.isInitialized) {
+                    binding.statusMessage.isVisible = true
+                    binding.statusMessage.setText(R.string.default_launcher_force_hint)
+                }
+            } else {
+                onboardingPreferences.setDefaultLauncherCompleted(true)
+                openHomeAndFinish()
+            }
         } else {
             onboardingPreferences.setDefaultLauncherCompleted(false)
-            if (::binding.isInitialized) {
+            if (forceReconfigure) {
+                val homeIntent = Intent(Intent.ACTION_MAIN).apply {
+                    addCategory(Intent.CATEGORY_HOME)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
+                startActivity(homeIntent)
+                finishAffinity()
+            } else if (::binding.isInitialized) {
                 binding.statusMessage.isVisible = true
             }
         }

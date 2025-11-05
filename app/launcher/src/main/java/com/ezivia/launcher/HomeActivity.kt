@@ -49,7 +49,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var contactsAdapter: FavoriteContactsAdapter
     private lateinit var quickActionsAdapter: HomeQuickActionsAdapter
     private lateinit var telephonyController: NativeTelephonyController
-    private lateinit var protectionManager: ProtectionManager
     private lateinit var onboardingPreferences: LauncherOnboardingPreferences
     private lateinit var whatsAppLauncher: WhatsAppLauncher
     private lateinit var cameraCoordinator: SimpleCameraCoordinator
@@ -105,6 +104,18 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
+    private val settingsLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode != Activity.RESULT_OK) {
+                return@registerForActivityResult
+            }
+            val shouldExit =
+                result.data?.getBooleanExtra(RestrictedSettingsActivity.EXTRA_REQUEST_EXIT, false) == true
+            if (shouldExit) {
+                startExitFlow()
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -132,7 +143,6 @@ class HomeActivity : AppCompatActivity() {
             onVideoCallClick = ::onVideoCallClicked,
         )
         quickActionsAdapter = HomeQuickActionsAdapter(::handleQuickAction)
-        protectionManager = ProtectionManager(this)
         whatsAppLauncher = WhatsAppLauncher(this)
         cameraCoordinator = SimpleCameraCoordinator(this)
         reminderRepository = ReminderRepository(this)
@@ -145,9 +155,12 @@ class HomeActivity : AppCompatActivity() {
 
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                protectionManager.requireUnlocked {
-                    finish()
+                if (!lockGestureCoordinator.canTriggerProtectedAction()) {
+                    Toast.makeText(this@HomeActivity, R.string.home_lock_hold_required, Toast.LENGTH_SHORT).show()
+                    return
                 }
+                lockGestureCoordinator.consumeGesture()
+                finish()
             }
         }
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
@@ -163,28 +176,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         quickActionsAdapter.submitList(HomeQuickActions.defaultActions())
-
-        binding.settingsButton.setOnClickListener {
-            if (!lockGestureCoordinator.canTriggerProtectedAction()) {
-                Toast.makeText(this, R.string.home_lock_hold_required, Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            protectionManager.requireUnlocked {
-                lockGestureCoordinator.consumeGesture()
-                startActivity(Intent(this, RestrictedSettingsActivity::class.java))
-            }
-        }
-
-        binding.exitButton.setOnClickListener {
-            if (!lockGestureCoordinator.canTriggerProtectedAction()) {
-                Toast.makeText(this, R.string.home_lock_hold_required, Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            protectionManager.requireUnlocked {
-                lockGestureCoordinator.consumeGesture()
-                finishAffinity()
-            }
-        }
 
         binding.bottomNavigation.selectedItemId = R.id.navigation_home
         binding.bottomNavigation.setOnItemSelectedListener { item ->
@@ -203,6 +194,10 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navigation_sos -> {
                     startActivity(Intent(this, SosActivity::class.java))
                     binding.bottomNavigation.selectedItemId = R.id.navigation_home
+                    true
+                }
+                R.id.navigation_settings -> {
+                    openProtectedSettings()
                     true
                 }
                 else -> false
@@ -517,6 +512,25 @@ class HomeActivity : AppCompatActivity() {
 
     private fun showTelephonyUnavailableToast() {
         Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun openProtectedSettings() {
+        if (!lockGestureCoordinator.canTriggerProtectedAction()) {
+            Toast.makeText(this, R.string.home_lock_hold_required, Toast.LENGTH_SHORT).show()
+            binding.bottomNavigation.selectedItemId = R.id.navigation_home
+            return
+        }
+        lockGestureCoordinator.consumeGesture()
+        settingsLauncher.launch(Intent(this, RestrictedSettingsActivity::class.java))
+        binding.bottomNavigation.selectedItemId = R.id.navigation_home
+    }
+
+    private fun startExitFlow() {
+        val intent = Intent(this, DefaultLauncherSetupActivity::class.java).apply {
+            putExtra(DefaultLauncherSetupActivity.EXTRA_FORCE_RECONFIGURE, true)
+        }
+        startActivity(intent)
+        finish()
     }
 
     private fun maybeShowLockGestureTutorial() {
