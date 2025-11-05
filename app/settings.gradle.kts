@@ -25,5 +25,6 @@ include(
     ":launcher",
     ":communication",
     ":utilities",
-    ":onboarding"
+    ":onboarding",
+    ":settings"
 )

@@ -1,6 +1,7 @@
 package com.ezivia.launcher
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
@@ -14,6 +15,7 @@ import com.ezivia.communication.contacts.FavoriteContact
 import com.ezivia.communication.contacts.FavoriteContactsSynchronizer
 import com.ezivia.communication.telephony.NativeTelephonyController
 import com.ezivia.launcher.databinding.ActivityHomeBinding
+import com.ezivia.settings.RestrictedSettingsActivity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,6 +29,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var contactsAdapter: FavoriteContactsAdapter
     private lateinit var telephonyController: NativeTelephonyController
+    private lateinit var protectionManager: ProtectionManager
     private val favoriteContactsSynchronizer by lazy { FavoriteContactsSynchronizer(contentResolver) }
     private var contactsJob: Job? = null
     private var pendingCallNumber: String? = null
@@ -69,6 +72,7 @@ class HomeActivity : AppCompatActivity() {
             onCallClick = ::onCallClicked,
             onMessageClick = ::onMessageClicked,
         )
+        protectionManager = ProtectionManager(this)
 
         binding.favoriteContactsList.apply {
             adapter = contactsAdapter
@@ -76,7 +80,15 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.settingsButton.setOnClickListener {
-            // Placeholder for future settings experience.
+            protectionManager.requireUnlocked {
+                startActivity(Intent(this, RestrictedSettingsActivity::class.java))
+            }
+        }
+
+        binding.exitButton.setOnClickListener {
+            protectionManager.requireUnlocked {
+                finishAffinity()
+            }
         }
 
         ensureContactsPermission()
@@ -98,6 +110,12 @@ class HomeActivity : AppCompatActivity() {
         super.onDestroy()
         contactsJob?.cancel()
         contactsJob = null
+    }
+
+    override fun onBackPressed() {
+        protectionManager.requireUnlocked {
+            super.onBackPressed()
+        }
     }
 
     private fun ensureContactsPermission() {

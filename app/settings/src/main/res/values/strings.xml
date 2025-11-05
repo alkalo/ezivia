@@ -1,0 +1,20 @@
+<resources>
+    <string name="settings_title">Ajustes de Ezivia</string>
+    <string name="settings_description">Solo los cuidadores pueden ajustar estas opciones. Usa el PIN configurado durante el inicio.</string>
+    <string name="settings_caregiver_section">Cuidadores registrados</string>
+    <string name="settings_caregiver_empty">Todavía no se han añadido cuidadores.</string>
+    <string name="settings_accessibility_section">Preferencias de accesibilidad</string>
+    <string name="settings_option_big_text">Texto extra grande en el launcher</string>
+    <string name="settings_option_voice_assistance">Activar guía por voz</string>
+    <string name="settings_option_reminders">Recordatorios proactivos</string>
+    <string name="settings_change_pin">Cambiar PIN de seguridad</string>
+    <string name="settings_change_pin_title">Actualizar PIN</string>
+    <string name="settings_current_pin_label">PIN actual</string>
+    <string name="settings_new_pin_label">Nuevo PIN</string>
+    <string name="settings_confirm_pin_label">Confirma el nuevo PIN</string>
+    <string name="settings_save_pin">Guardar PIN</string>
+    <string name="settings_pin_updated">PIN actualizado correctamente</string>
+    <string name="settings_pin_error_incorrect">El PIN actual no coincide</string>
+    <string name="settings_pin_error_match">Los nuevos PIN no coinciden</string>
+    <string name="settings_pin_error_length">El PIN debe tener al menos 4 dígitos</string>
+</resources>

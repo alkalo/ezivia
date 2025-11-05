@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ezivia.onboarding"
+    namespace = "com.ezivia.settings"
     compileSdk = 34
 
     defaultConfig {
