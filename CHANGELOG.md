@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Resolve the Contacts favorites launcher intent fallback to avoid Kotlin callable reference ambiguity during builds.
 - Replace the removed `ContactsContract.Intents.UI` favorite intent with a resilient fallback action so the launcher builds again.
 - Refresh the Ezivia launcher visual theme with un nuevo esquema cálido coral/dorado y un panel interactivo para el gesto de seguridad.
 - Añadir el gesto de mantener presionado el botón lateral virtual para autorizar la salida y ajustes, junto con un tutorial guiado la primera vez.
