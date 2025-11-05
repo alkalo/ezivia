@@ -1,12 +1,14 @@
 <resources>
-    <color name="ezivia_primary">#0B3D91</color>
+    <!-- Diseño: Tema cálido inspirado en atardecer con primarios coral y dorado para transmitir calma y energía. -->
+    <color name="ezivia_primary">#FF6F61</color>
     <color name="ezivia_on_primary">#FFFFFFFF</color>
-    <color name="ezivia_secondary">#00796B</color>
-    <color name="ezivia_on_secondary">#FFFFFFFF</color>
-    <color name="ezivia_background">#F5F7FA</color>
-    <color name="ezivia_on_background">#121212</color>
+    <color name="ezivia_secondary">#FFC857</color>
+    <color name="ezivia_on_secondary">#3F2E00</color>
+    <color name="ezivia_background">#FFF6EA</color>
+    <color name="ezivia_on_background">#3A1C0A</color>
     <color name="ezivia_surface">#FFFFFFFF</color>
-    <color name="ezivia_on_surface">#121212</color>
-    <color name="ezivia_on_surface_variant">#4A4A4A</color>
-    <color name="ezivia_outline">#5F6368</color>
+    <color name="ezivia_on_surface">#3A1C0A</color>
+    <color name="ezivia_on_surface_variant">#704C2A</color>
+    <color name="ezivia_outline">#C47D50</color>
+    <color name="ezivia_highlight">#FFE5C2</color>
 </resources>

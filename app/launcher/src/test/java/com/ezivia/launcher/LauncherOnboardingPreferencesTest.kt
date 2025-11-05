@@ -33,4 +33,20 @@ class LauncherOnboardingPreferencesTest {
         preferences.setDefaultLauncherCompleted(false)
         assertThat(preferences.shouldShowDefaultLauncherPrompt()).isTrue()
     }
+
+    @Test
+    fun shouldShowLockGestureTutorial_defaultsToTrue() {
+        val preferences = LauncherOnboardingPreferences(context)
+
+        assertThat(preferences.shouldShowLockGestureTutorial()).isTrue()
+    }
+
+    @Test
+    fun markLockGestureTutorialShown_updatesFlag() {
+        val preferences = LauncherOnboardingPreferences(context)
+
+        preferences.markLockGestureTutorialShown()
+
+        assertThat(preferences.shouldShowLockGestureTutorial()).isFalse()
+    }
 }

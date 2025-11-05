@@ -54,6 +54,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var caregiverPreferences: CaregiverPreferences
     private lateinit var conversationCoordinator: ConversationCoordinator
     private lateinit var onBackPressedCallback: OnBackPressedCallback
+    private lateinit var lockGestureCoordinator: LockGestureCoordinator
     private val favoriteContactsSynchronizer by lazy { FavoriteContactsSynchronizer(contentResolver) }
     private var contactsJob: Job? = null
     private var pendingCallNumber: String? = null
@@ -133,6 +134,11 @@ class HomeActivity : AppCompatActivity() {
         cameraCoordinator = SimpleCameraCoordinator(this)
         reminderRepository = ReminderRepository(this)
         caregiverPreferences = CaregiverPreferences(this)
+        lockGestureCoordinator = LockGestureCoordinator(
+            context = this,
+            holdView = binding.lockGestureHoldView,
+            statusTextView = binding.lockGestureStatus
+        )
 
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -156,13 +162,23 @@ class HomeActivity : AppCompatActivity() {
         quickActionsAdapter.submitList(HomeQuickActions.defaultActions())
 
         binding.settingsButton.setOnClickListener {
+            if (!lockGestureCoordinator.canTriggerProtectedAction()) {
+                Toast.makeText(this, R.string.home_lock_hold_required, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             protectionManager.requireUnlocked {
+                lockGestureCoordinator.consumeGesture()
                 startActivity(Intent(this, RestrictedSettingsActivity::class.java))
             }
         }
 
         binding.exitButton.setOnClickListener {
+            if (!lockGestureCoordinator.canTriggerProtectedAction()) {
+                Toast.makeText(this, R.string.home_lock_hold_required, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             protectionManager.requireUnlocked {
+                lockGestureCoordinator.consumeGesture()
                 finishAffinity()
             }
         }
@@ -191,6 +207,8 @@ class HomeActivity : AppCompatActivity() {
         }
 
         ensureContactsPermission()
+
+        maybeShowLockGestureTutorial()
     }
 
     override fun onResume() {
@@ -478,5 +496,20 @@ class HomeActivity : AppCompatActivity() {
 
     private fun showTelephonyUnavailableToast() {
         Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun maybeShowLockGestureTutorial() {
+        if (!onboardingPreferences.shouldShowLockGestureTutorial()) {
+            return
+        }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.home_lock_tutorial_title)
+            .setMessage(R.string.home_lock_tutorial_message)
+            .setPositiveButton(R.string.home_lock_tutorial_button) { dialog, _ ->
+                onboardingPreferences.markLockGestureTutorialShown()
+                dialog.dismiss()
+            }
+            .setCancelable(false)
+            .show()
     }
 }
