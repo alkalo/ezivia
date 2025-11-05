@@ -1,12 +1,13 @@
 <resources>
-    <color name="ezivia_primary">#0B3D91</color>
+    <!-- Diseño: Colores oceánicos equilibrados con altos contrastes para una lectura más clara en pantallas de ajustes. -->
+    <color name="ezivia_primary">#2563EB</color>
     <color name="ezivia_on_primary">#FFFFFFFF</color>
-    <color name="ezivia_secondary">#00796B</color>
-    <color name="ezivia_on_secondary">#FFFFFFFF</color>
-    <color name="ezivia_background">#F5F7FA</color>
-    <color name="ezivia_on_background">#121212</color>
+    <color name="ezivia_secondary">#F59E0B</color>
+    <color name="ezivia_on_secondary">#1E293B</color>
+    <color name="ezivia_background">#F8FAFC</color>
+    <color name="ezivia_on_background">#0F172A</color>
     <color name="ezivia_surface">#FFFFFFFF</color>
-    <color name="ezivia_on_surface">#121212</color>
-    <color name="ezivia_on_surface_variant">#4A4A4A</color>
-    <color name="ezivia_outline">#5F6368</color>
+    <color name="ezivia_on_surface">#0F172A</color>
+    <color name="ezivia_on_surface_variant">#475569</color>
+    <color name="ezivia_outline">#94A3B8</color>
 </resources>
