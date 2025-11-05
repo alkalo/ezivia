@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import content from "../content/home.json";
 import { CTAButton, CTAButtons } from "./components/CTAButtons";
 
@@ -74,6 +75,10 @@ export default function HomePage() {
               ...(hero.secondaryCta ? [hero.secondaryCta] : []),
             ]}
           />
+          <p className="hero__support">
+            ¿Tienes dudas? Visita nuestras {" "}
+            <Link href="/faq">Preguntas frecuentes</Link>.
+          </p>
         </div>
         <div className="hero__media">
           <Image
@@ -133,6 +138,10 @@ export default function HomePage() {
             {howItWorks.note}
           </p>
         ) : null}
+        <p className="section__support">
+          Para guías adicionales consulta las {" "}
+          <Link href="/faq">Preguntas frecuentes</Link>.
+        </p>
       </section>
 
       <section
