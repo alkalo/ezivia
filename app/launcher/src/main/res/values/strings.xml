@@ -7,6 +7,11 @@
     <string name="action_call">Llamar</string>
     <string name="action_message">Mensaje</string>
     <string name="home_settings">Abrir ajustes sencillos</string>
+    <string name="home_exit">Salir del modo Ezivia</string>
     <string name="home_contacts_permission_needed">Para ver tus favoritos, permite que Ezivia acceda a tus contactos.</string>
     <string name="telephony_not_available">No se pudo abrir la aplicación del teléfono en este dispositivo.</string>
+    <string name="protection_enter_pin_title">Introduce el PIN de cuidador</string>
+    <string name="protection_confirm_button">Desbloquear</string>
+    <string name="protection_invalid_pin">El PIN no es correcto</string>
+    <string name="protection_pin_hint">PIN de seguridad</string>
 </resources>
