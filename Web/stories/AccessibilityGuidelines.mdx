@@ -1,0 +1,39 @@
+import { Meta, Description, Subtitle, Primary, Stories } from "@storybook/blocks";
+
+<Meta title="Documentación/Pautas de Accesibilidad" />
+
+# Pautas de accesibilidad para Ezivia
+
+<Subtitle>Decisiones clave para garantizar que Ezivia sea segura para personas mayores.</Subtitle>
+
+<Description>
+Estas pautas resumen cómo diseñamos los componentes de Ezivia para que sean fáciles de usar en móviles Android
+por personas mayores o con necesidades de apoyo. Úsalas como referencia al crear nuevas vistas.
+</Description>
+
+## Principios generales
+
+- **Contraste suficiente:** asegúrate de que texto y elementos interactivos cumplan con al menos AA según WCAG 2.2.
+- **Objetivos táctiles grandes:** botones y enlaces deben medir mínimo 48px de alto.
+- **Lenguaje claro:** evita tecnicismos y prioriza frases cortas y directas en español.
+- **Soporte para lector de pantalla:** proporciona descripciones mediante `aria-label`, `aria-describedby` o texto visible.
+
+## Gestión del foco
+
+- La componente `CTA` dispone de la prop `autoFocusFirstButton` para dirigir el foco a la acción primaria en contextos
+  donde se solicita confirmación inmediata.
+- Mantén siempre un orden lógico de tabulación y usa `role="group"` para agrupar acciones relacionadas.
+
+## Roles y landmarks
+
+- `Footer` usa el landmark `contentinfo` para facilitar la navegación por regiones.
+- `FeatureList` utiliza listas semánticas (`ul` y `li`) y encabezados para describir cada beneficio.
+- `Card` vincula los encabezados con `aria-labelledby` y `aria-describedby` para exponer un nombre accesible único.
+
+## Pruebas
+
+- Ejecuta `npm test` para validar roles ARIA y control del foco con React Testing Library.
+- En Storybook habilita el addon de accesibilidad y ejecuta el panel **A11y** antes de aprobar cambios.
+
+<Primary />
+<Stories />
