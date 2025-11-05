@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Fix favourite contacts synchronisation flow emissions and caregiver preference parsing so Android builds compile cleanly again.
 - Ensure the Web production start script checks IPv4 and IPv6 bindings so it can reliably fall back to an open port when 3000 is already in use.
 - Remove legacy `MainActivity` from the launcher module after eliminating its layout binding.
 - Replace the Web app's `next.config.ts` with an equivalent `next.config.js` for compatibility with tooling expecting JavaScript configs.

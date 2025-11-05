@@ -28,11 +28,16 @@ class FavoriteContactsSynchronizer(
     fun favoriteContacts(): Flow<List<FavoriteContact>> = callbackFlow {
         fun emitFavorites() {
             launch(dispatcher) {
-                try {
-                    trySend(queryFavoriteContacts())
+                val favorites = try {
+                    queryFavoriteContacts()
                 } catch (securityException: SecurityException) {
                     Log.w(TAG, "Missing permission to read contacts", securityException)
-                    trySend(emptyList())
+                    emptyList<FavoriteContact>()
+                }
+
+                val result = trySend(favorites)
+                if (result.isFailure) {
+                    Log.w(TAG, "Unable to emit favourite contacts update", result.exceptionOrNull())
                 }
             }
         }
