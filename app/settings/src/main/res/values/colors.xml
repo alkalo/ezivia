@@ -1,0 +1,12 @@
+<resources>
+    <color name="ezivia_primary">#0B3D91</color>
+    <color name="ezivia_on_primary">#FFFFFFFF</color>
+    <color name="ezivia_secondary">#00796B</color>
+    <color name="ezivia_on_secondary">#FFFFFFFF</color>
+    <color name="ezivia_background">#F5F7FA</color>
+    <color name="ezivia_on_background">#121212</color>
+    <color name="ezivia_surface">#FFFFFFFF</color>
+    <color name="ezivia_on_surface">#121212</color>
+    <color name="ezivia_on_surface_variant">#4A4A4A</color>
+    <color name="ezivia_outline">#5F6368</color>
+</resources>
