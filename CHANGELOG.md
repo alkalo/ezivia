@@ -1,7 +1,7 @@
 # Changelog
 
 ## [Unreleased]
-- Improve Web production start script to automatically fall back to an open port when 3000 is already in use.
+- Ensure the Web production start script checks IPv4 and IPv6 bindings so it can reliably fall back to an open port when 3000 is already in use.
 - Remove legacy `MainActivity` from the launcher module after eliminating its layout binding.
 - Replace the Web app's `next.config.ts` with an equivalent `next.config.js` for compatibility with tooling expecting JavaScript configs.
 - Inline the Web project's TypeScript defaults to remove the missing `next/core-web-vitals` preset dependency.

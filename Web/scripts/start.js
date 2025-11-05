@@ -39,24 +39,42 @@ function detectExplicitPortFromArgs(args) {
   return { explicitPort, passthroughArgs };
 }
 
-function isPortAvailable(port, host = '0.0.0.0') {
+function canListenOnHost(port, host) {
   return new Promise((resolve) => {
     const server = net.createServer();
 
     server.once('error', (error) => {
       if (error.code === 'EADDRINUSE' || error.code === 'EACCES') {
         resolve(false);
-      } else {
-        resolve(false);
+        return;
       }
+
+      // Some environments may not support IPv6, so we treat those errors as
+      // "not applicable" instead of immediately failing the entire check.
+      if (host === '::') {
+        resolve(true);
+        return;
+      }
+
+      resolve(false);
     });
 
     server.once('listening', () => {
       server.close(() => resolve(true));
     });
 
-    server.listen(port, host);
+    server.listen({ port, host, exclusive: true });
   });
+}
+
+async function isPortAvailable(port) {
+  const ipv6Available = await canListenOnHost(port, '::');
+  if (!ipv6Available) {
+    return false;
+  }
+
+  const ipv4Available = await canListenOnHost(port, '0.0.0.0');
+  return ipv4Available;
 }
 
 async function findAvailablePort(startPort, attempts = 20) {
