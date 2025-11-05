@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Switch the launcher security gesture to the hardware volume up key, refresh the guidance copy and artwork, and cover the new
+  flow with Robolectric tests.
 - Update the launcher and settings color palettes to a high-contrast oceanic scheme for clearer, more pleasant readability.
 - Fix the contacts favorites management fallback chain so Kotlin infers the correct Unit type and launcher builds succeed.
 - Resolve the Contacts favorites launcher intent fallback to avoid Kotlin callable reference ambiguity during builds.

@@ -12,7 +12,7 @@ import androidx.annotation.StringRes
 private const val LOCK_GESTURE_GRACE_PERIOD_MS = 1500L
 
 /**
- * Detects when the user mantiene presionado el botón lateral virtual
+ * Detecta cuando el usuario mantiene presionado el gesto de hardware dedicado
  * para autorizar acciones protegidas como salir del modo o abrir ajustes.
  */
 class LockGestureCoordinator(
@@ -30,10 +30,10 @@ class LockGestureCoordinator(
     init {
         holdView.setOnTouchListener { _, event ->
             when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> onHoldStart()
-                MotionEvent.ACTION_POINTER_DOWN -> onHoldStart()
+                MotionEvent.ACTION_DOWN -> startHold()
+                MotionEvent.ACTION_POINTER_DOWN -> startHold()
                 MotionEvent.ACTION_UP,
-                MotionEvent.ACTION_CANCEL -> onHoldEnd()
+                MotionEvent.ACTION_CANCEL -> endHold()
             }
             true
         }
@@ -53,13 +53,13 @@ class LockGestureCoordinator(
         setState(State.Idle)
     }
 
-    private fun onHoldStart() {
+    fun startHold() {
         handler.removeCallbacks(releaseRunnable)
         activeUntil = Long.MAX_VALUE
         setState(State.Holding)
     }
 
-    private fun onHoldEnd() {
+    fun endHold() {
         if (currentState == State.Holding) {
             activeUntil = SystemClock.elapsedRealtime() + LOCK_GESTURE_GRACE_PERIOD_MS
             setState(State.Ready)

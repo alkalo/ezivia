@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.KeyEvent
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
@@ -233,6 +234,24 @@ class HomeActivity : AppCompatActivity() {
         if (hasPermission && contactsJob == null) {
             startContactsSync()
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            if (event?.repeatCount == 0) {
+                lockGestureCoordinator.startHold()
+            }
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            lockGestureCoordinator.endHold()
+            return true
+        }
+        return super.onKeyUp(keyCode, event)
     }
 
     override fun onDestroy() {
