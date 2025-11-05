@@ -9,7 +9,7 @@ En el directorio `Web` puedes ejecutar:
 - `npm run dev`: inicia el servidor de desarrollo de Next.js con recarga en caliente.
 - `npm run build`: genera la compilación de producción optimizada.
 - `npm run lint`: ejecuta las reglas de ESLint definidas para mantener un estilo consistente y accesible.
-- `npm run start`: levanta la aplicación compilada en modo producción.
+- `npm run start`: levanta la aplicación compilada en modo producción, detectando automáticamente un puerto libre si el 3000 ya está ocupado.
 
 Cada script utiliza los binarios incluidos en las dependencias del proyecto, por lo que se recomienda instalar primero las dependencias con `npm install`.
 
