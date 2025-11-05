@@ -14,4 +14,9 @@
     <string name="protection_confirm_button">Desbloquear</string>
     <string name="protection_invalid_pin">El PIN no es correcto</string>
     <string name="protection_pin_hint">PIN de seguridad</string>
+    <string name="default_launcher_title">Establecer como pantalla de inicio</string>
+    <string name="default_launcher_description">Para activar el modo Ezivia y simplificar tu teléfono, elige Ezivia como aplicación de inicio predeterminada.</string>
+    <string name="default_launcher_primary_action">Establecer ahora</string>
+    <string name="default_launcher_secondary_action">Configurar más tarde</string>
+    <string name="default_launcher_status">Selecciona Ezivia en la pantalla que se mostrará para continuar.</string>
 </resources>

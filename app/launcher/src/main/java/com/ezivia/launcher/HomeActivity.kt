@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -30,6 +31,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var contactsAdapter: FavoriteContactsAdapter
     private lateinit var telephonyController: NativeTelephonyController
     private lateinit var protectionManager: ProtectionManager
+    private lateinit var onboardingPreferences: LauncherOnboardingPreferences
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
     private val favoriteContactsSynchronizer by lazy { FavoriteContactsSynchronizer(contentResolver) }
     private var contactsJob: Job? = null
     private var pendingCallNumber: String? = null
@@ -62,6 +65,17 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        onboardingPreferences = LauncherOnboardingPreferences(this)
+
+        if (!DefaultLauncherHelper.isDefaultLauncher(this)) {
+            onboardingPreferences.setDefaultLauncherCompleted(false)
+            startActivity(Intent(this, DefaultLauncherSetupActivity::class.java))
+            finish()
+            return
+        }
+
+        onboardingPreferences.setDefaultLauncherCompleted(true)
+
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -73,6 +87,15 @@ class HomeActivity : AppCompatActivity() {
             onMessageClick = ::onMessageClicked,
         )
         protectionManager = ProtectionManager(this)
+
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                protectionManager.requireUnlocked {
+                    finish()
+                }
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
         binding.favoriteContactsList.apply {
             adapter = contactsAdapter
@@ -96,6 +119,16 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        if (!DefaultLauncherHelper.isDefaultLauncher(this)) {
+            onboardingPreferences.setDefaultLauncherCompleted(false)
+            startActivity(Intent(this, DefaultLauncherSetupActivity::class.java))
+            finish()
+            return
+        } else {
+            onboardingPreferences.setDefaultLauncherCompleted(true)
+        }
+
         val hasPermission = ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.READ_CONTACTS
@@ -110,11 +143,8 @@ class HomeActivity : AppCompatActivity() {
         super.onDestroy()
         contactsJob?.cancel()
         contactsJob = null
-    }
-
-    override fun onBackPressed() {
-        protectionManager.requireUnlocked {
-            super.onBackPressed()
+        if (::onBackPressedCallback.isInitialized) {
+            onBackPressedCallback.remove()
         }
     }
 
