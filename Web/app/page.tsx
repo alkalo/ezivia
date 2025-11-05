@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import content from "../content/home.json";
 import { CTAButton, CTAButtons } from "./components/CTAButtons";
+import WaitlistForm from "./components/WaitlistForm";
 
 type HomeContent = {
   hero: {
@@ -41,6 +42,11 @@ type HomeContent = {
       role: string;
     }>;
   };
+  waitlist: {
+    title: string;
+    description: string;
+    privacyNote: string;
+  };
   ctaDownload: {
     title: string;
     description: string;
@@ -52,7 +58,8 @@ type HomeContent = {
 const homeContent = content as HomeContent;
 
 export default function HomePage() {
-  const { hero, benefits, howItWorks, testimonials, ctaDownload } = homeContent;
+  const { hero, benefits, howItWorks, testimonials, waitlist, ctaDownload } =
+    homeContent;
 
   return (
     <main className="home-page">
@@ -170,6 +177,12 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      <WaitlistForm
+        title={waitlist.title}
+        description={waitlist.description}
+        privacyNote={waitlist.privacyNote}
+      />
 
       <section
         id="descarga"
