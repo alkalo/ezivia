@@ -1,14 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
-
 import content from "../content/home.json";
-
-type CTAButton = {
-  label: string;
-  href: string;
-  ariaLabel?: string;
-  variant?: "primary" | "secondary";
-};
+import { CTAButton, CTAButtons } from "./components/CTAButtons";
 
 type HomeContent = {
   hero: {
@@ -75,24 +67,13 @@ export default function HomePage() {
           <p id="hero-description" className="section__description">
             {hero.description}
           </p>
-          <div className="hero__actions">
-            <Link
-              className="cta-button cta-button--primary"
-              href={hero.primaryCta.href}
-              aria-label={hero.primaryCta.ariaLabel ?? hero.primaryCta.label}
-            >
-              {hero.primaryCta.label}
-            </Link>
-            {hero.secondaryCta ? (
-              <Link
-                className="cta-button cta-button--secondary"
-                href={hero.secondaryCta.href}
-                aria-label={hero.secondaryCta.ariaLabel ?? hero.secondaryCta.label}
-              >
-                {hero.secondaryCta.label}
-              </Link>
-            ) : null}
-          </div>
+          <CTAButtons
+            className="hero__actions"
+            buttons={[
+              hero.primaryCta,
+              ...(hero.secondaryCta ? [hero.secondaryCta] : []),
+            ]}
+          />
         </div>
         <div className="hero__media">
           <Image
@@ -192,22 +173,7 @@ export default function HomePage() {
           <p id="cta-description" className="section__description">
             {ctaDownload.description}
           </p>
-          <div className="cta__actions">
-            {ctaDownload.buttons.map((button) => (
-              <Link
-                key={button.label}
-                className={`cta-button ${
-                  button.variant === "secondary"
-                    ? "cta-button--secondary"
-                    : "cta-button--primary"
-                }`}
-                href={button.href}
-                aria-label={button.ariaLabel ?? button.label}
-              >
-                {button.label}
-              </Link>
-            ))}
-          </div>
+          <CTAButtons buttons={ctaDownload.buttons} />
           {ctaDownload.footnote ? (
             <p className="cta__footnote">{ctaDownload.footnote}</p>
           ) : null}
