@@ -1,6 +1,7 @@
 package com.ezivia.launcher
 
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.widget.TimePicker
 import android.widget.Toast
@@ -65,6 +66,7 @@ class RemindersOverviewActivity : AppCompatActivity() {
 
     private fun showAddReminderDialog() {
         val dialogBinding = DialogAddReminderBinding.inflate(LayoutInflater.from(this))
+        dialogBinding.reminderTimePicker.setIs24HourView(DateFormat.is24HourFormat(this))
         val dialog = AlertDialog.Builder(this)
             .setTitle(R.string.reminders_dialog_title)
             .setView(dialogBinding.root)

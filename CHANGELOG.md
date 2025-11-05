@@ -14,3 +14,4 @@
 - Update the launcher module to Material Components 1.12 and adjust theme backgrounds so assemble tasks succeed without resource errors.
 - Migrate the launcher theme and typography styles to Material 3 so TextAppearance lookups compile under AAPT.
 - Align the restricted settings screen with a dedicated Material 3 theme to keep colors and typography consistent.
+- Fix reminders layouts by using the correct text color attribute, configuring the time picker in code, and adding the missing PIN hint string so Android resource linking succeeds again.

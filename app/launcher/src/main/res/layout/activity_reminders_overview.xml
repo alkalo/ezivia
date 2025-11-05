@@ -61,6 +61,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="@color/ezivia_primary"
         app:backgroundTint="@color/ezivia_primary"
-        app:textColor="@color/ezivia_on_primary" />
+        android:textColor="@color/ezivia_on_primary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
