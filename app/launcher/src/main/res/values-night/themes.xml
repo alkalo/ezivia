@@ -6,7 +6,7 @@
         <item name="colorOnSecondary">@color/ezivia_on_secondary</item>
         <item name="colorSurface">#1E1F24</item>
         <item name="colorOnSurface">#FFFFFFFF</item>
-        <item name="colorBackground">#121212</item>
+        <item name="android:colorBackground">#121212</item>
         <item name="colorOnBackground">#FFFFFFFF</item>
         <item name="android:statusBarColor">#121212</item>
         <item name="android:navigationBarColor">#121212</item>

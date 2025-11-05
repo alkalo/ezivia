@@ -8,3 +8,4 @@
 - Inline the Web project's TypeScript defaults to remove the missing `next/core-web-vitals` preset dependency.
 - Resolve CTA button prop typing to keep Next.js builds passing under strict union checks.
 - Replace analytics fallback logging with an in-browser debug event buffer to satisfy linting.
+- Update the launcher module to Material Components 1.12 and adjust theme backgrounds so assemble tasks succeed without resource errors.
