@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Fix the contacts favorites management fallback chain so Kotlin infers the correct Unit type and launcher builds succeed.
 - Resolve the Contacts favorites launcher intent fallback to avoid Kotlin callable reference ambiguity during builds.
 - Replace the removed `ContactsContract.Intents.UI` favorite intent with a resilient fallback action so the launcher builds again.
 - Refresh the Ezivia launcher visual theme with un nuevo esquema cálido coral/dorado y un panel interactivo para el gesto de seguridad.

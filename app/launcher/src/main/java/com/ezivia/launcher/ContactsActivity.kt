@@ -82,16 +82,13 @@ class ContactsActivity : AppCompatActivity() {
         }
 
         binding.manageFavoritesButton.setOnClickListener {
-            runCatching { startActivity(Intent(CONTACTS_FAVORITES_ACTION)) }
-                .recoverCatching {
-                    Intent(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_APP_CONTACTS) }
-                }
-                .onSuccess { intent ->
-                    startActivity(intent)
-                }
-                .onFailure {
-                    Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
-                }
+            runCatching {
+                startActivity(Intent(CONTACTS_FAVORITES_ACTION))
+            }.recoverCatching {
+                startActivity(Intent(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_APP_CONTACTS) })
+            }.onFailure {
+                Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
+            }
         }
 
         ensureContactsPermission()
