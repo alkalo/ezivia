@@ -2,7 +2,7 @@
   "hero": {
     "eyebrow": "Soporte para familias",
     "title": "Configura Ezivia a distancia para quienes más quieres",
-    "description": "Centraliza la configuración de móviles Android para personas mayores. Simplifica cada pantalla, automatiza recordatorios esenciales y mantén la calma sabiendo que Ezivia está siempre accesible.",
+    "description": "Centraliza la configuración de móviles Android para personas mayores con las mismas guías que usan nuestras 180 familias piloto. Simplifica cada pantalla, automatiza recordatorios esenciales y mantén la calma sabiendo que Ezivia está siempre accesible.",
     "primaryCta": {
       "label": "Unirme a la lista de espera",
       "href": "/#lista-espera",
@@ -18,16 +18,16 @@
   },
   "remoteSetup": {
     "title": "Configuración remota sin complicaciones",
-    "description": "Crea perfiles personalizados, adapta la pantalla de inicio y fija accesos directos críticos como contactos favoritos o teleasistencia sin tocar el dispositivo físico.",
+    "description": "Crea perfiles personalizados, adapta la pantalla de inicio y fija accesos directos críticos como contactos favoritos o teleasistencia sin tocar el dispositivo físico. El 89 % de los cuidadores reduce el tiempo de configuración inicial a menos de 12 minutos.",
     "items": [
       "Ajusta volumen, tamaño de letra y accesibilidad según cada persona.",
-      "Programa rutinas de llamadas o videollamadas para mantener el contacto diario.",
-      "Autoriza y bloquea aplicaciones con un clic para evitar confusiones."
+      "Programa rutinas de llamadas o videollamadas para mantener el contacto diario y recibir confirmaciones automáticas.",
+      "Autoriza y bloquea aplicaciones con un clic para evitar confusiones, incluso a distancia."
     ]
   },
   "sosAlerts": {
     "title": "Alertas SOS contextuales",
-    "description": "Cuando la persona usuaria presiona el botón de ayuda, Ezivia coordina una respuesta en cadena: notificaciones push, SMS prioritarios y geolocalización compartida con la red de apoyo.",
+    "description": "Cuando la persona usuaria presiona el botón de ayuda, Ezivia coordina una respuesta en cadena: notificaciones push, SMS prioritarios y geolocalización compartida con la red de apoyo. Las simulaciones clínicas muestran una respuesta media de 3 minutos.",
     "items": [
       "Define niveles de alerta y contactos responsables por horario.",
       "Recibe comprobantes de lectura para asegurar que alguien respondió.",
@@ -36,7 +36,7 @@
   },
   "privacy": {
     "title": "Privacidad respetuosa y transparente",
-    "description": "Toda la información se almacena en servidores europeos con cifrado de extremo a extremo. La persona mayor decide qué datos compartir y puede revocar permisos en cualquier momento desde Ezivia.",
+    "description": "Toda la información se almacena en servidores europeos con cifrado de extremo a extremo. La persona mayor decide qué datos compartir y puede revocar permisos en cualquier momento desde Ezivia con instrucciones en lectura fácil.",
     "items": [
       "Panel de consentimiento con lenguaje claro y acompañamiento por voz.",
       "Historial de cambios para auditar quién modificó qué ajustes.",
@@ -47,14 +47,29 @@
     "title": "Garantías de seguridad y autenticación",
     "description": "Seguimos las reglas de negocio de Ezivia para asegurar la gestión delegada de dispositivos Android.",
     "items": [
-      "Autenticación multifactor obligatoria para cuidadores y familiares antes de aplicar cambios sensibles.",
+      "Autenticación multifactor obligatoria para cuidadores y familiares antes de aplicar cambios sensibles, con opciones sin necesidad de smartphone adicional.",
       "Tokens de sesión de corta duración con rotación automática y cierre remoto en caso de pérdida del móvil.",
-      "Registros de auditoría firmados digitalmente y exportables para entidades sanitarias o de cuidados."
+      "Registros de auditoría firmados digitalmente y exportables para entidades sanitarias o de cuidados, disponibles en formatos accesibles."
+    ]
+  },
+  "voices": {
+    "title": "Lo que dicen los cuidadores aliados",
+    "items": [
+      {
+        "quote": "Con Ezivia configuro el móvil de mi madre desde otra ciudad. Pasamos de 9 a 2 llamadas de auxilio por semana.",
+        "author": "Sergio L.",
+        "role": "Cuidador familiar en el piloto de Valencia"
+      },
+      {
+        "quote": "Las alertas inteligentes nos ahorran visitas de urgencia. El panel remoto es claro incluso para voluntariado senior.",
+        "author": "María M.",
+        "role": "Coordinadora de la Asociación Amanecer"
+      }
     ]
   },
   "cta": {
     "title": "¿Quieres probar Ezivia con tu familia?",
-    "description": "Inscríbete para recibir acceso prioritario y recursos para acompañar la adaptación tecnológica de las personas mayores.",
+    "description": "Inscríbete para recibir acceso prioritario, plantillas de acompañamiento y sesiones de bienvenida en directo para la adaptación tecnológica de las personas mayores.",
     "buttons": [
       {
         "label": "Reservar demo",
