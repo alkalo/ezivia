@@ -75,6 +75,9 @@
     <string name="reminders_dialog_cancel">Cancelar</string>
     <string name="reminders_saved">Recordatorio guardado.</string>
     <string name="reminders_status_updated">Estado actualizado.</string>
+    <string name="protection_enter_pin_title">Introduce tu PIN de protección</string>
+    <string name="protection_confirm_button">Confirmar</string>
+    <string name="protection_invalid_pin">El PIN no es correcto. Inténtalo de nuevo.</string>
     <string name="protection_pin_hint">Introduce tu PIN</string>
     <string name="sos_title">Emergencia</string>
     <string name="sos_description">Mantén la calma. Puedes llamar a emergencias o avisar a tus contactos de confianza.</string>

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.ezivia.launcher.R
 import com.ezivia.launcher.databinding.ItemReminderBinding
 import com.ezivia.utilities.reminders.Reminder
 import java.time.format.DateTimeFormatter

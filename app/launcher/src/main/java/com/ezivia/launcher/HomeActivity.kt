@@ -23,6 +23,7 @@ import com.ezivia.communication.contacts.FavoriteContact
 import com.ezivia.communication.contacts.FavoriteContactsSynchronizer
 import com.ezivia.communication.telephony.NativeTelephonyController
 import com.ezivia.communication.whatsapp.WhatsAppLauncher
+import com.ezivia.launcher.R
 import com.ezivia.launcher.databinding.ActivityHomeBinding
 import com.ezivia.settings.RestrictedSettingsActivity
 import com.ezivia.utilities.caregiver.CaregiverPreferences

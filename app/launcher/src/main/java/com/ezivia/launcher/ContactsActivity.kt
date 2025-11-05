@@ -17,6 +17,7 @@ import com.ezivia.communication.contacts.FavoriteContact
 import com.ezivia.communication.contacts.FavoriteContactsSynchronizer
 import com.ezivia.communication.telephony.NativeTelephonyController
 import com.ezivia.communication.whatsapp.WhatsAppLauncher
+import com.ezivia.launcher.R
 import com.ezivia.launcher.databinding.ActivityContactsBinding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest

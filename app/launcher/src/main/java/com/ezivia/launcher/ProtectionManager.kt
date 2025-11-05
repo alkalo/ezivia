@@ -3,6 +3,7 @@ package com.ezivia.launcher
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.ezivia.launcher.R
 import com.ezivia.launcher.databinding.DialogPinPromptBinding
 import com.ezivia.utilities.security.PinStorage
 

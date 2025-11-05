@@ -15,3 +15,4 @@
 - Migrate the launcher theme and typography styles to Material 3 so TextAppearance lookups compile under AAPT.
 - Align the restricted settings screen with a dedicated Material 3 theme to keep colors and typography consistent.
 - Fix reminders layouts by using the correct text color attribute, configuring the time picker in code, and adding the missing PIN hint string so Android resource linking succeeds again.
+- Restore the protection PIN copy, require explicit launcher R imports, and double-check Material 3 usage so the launcher assembles cleanly with the updated theme stack.
