@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Normalize WhatsApp favorite contact numbers before launching video calls so installed users no longer see the install prompt.
 - Switch the launcher security gesture to the hardware volume up key, refresh the guidance copy and artwork, and cover the new
   flow with Robolectric tests.
 - Update the launcher and settings color palettes to a high-contrast oceanic scheme for clearer, more pleasant readability.
