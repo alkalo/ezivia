@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Update the launcher and settings color palettes to a high-contrast oceanic scheme for clearer, more pleasant readability.
 - Fix the contacts favorites management fallback chain so Kotlin infers the correct Unit type and launcher builds succeed.
 - Resolve the Contacts favorites launcher intent fallback to avoid Kotlin callable reference ambiguity during builds.
 - Replace the removed `ContactsContract.Intents.UI` favorite intent with a resilient fallback action so the launcher builds again.
