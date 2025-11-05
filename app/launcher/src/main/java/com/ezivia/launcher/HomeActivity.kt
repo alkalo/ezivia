@@ -30,6 +30,7 @@ import com.ezivia.utilities.caregiver.CaregiverPreferences
 import com.ezivia.utilities.camera.CameraCaptureRequest
 import com.ezivia.utilities.camera.SimpleCameraCoordinator
 import com.ezivia.utilities.reminders.ReminderRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -258,7 +259,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun startContactsSync() {
         contactsJob?.cancel()
-        contactsJob = lifecycleScope.launch {
+        contactsJob = lifecycleScope.launch(Dispatchers.Main) {
             favoriteContactsSynchronizer.favoriteContacts().collectLatest { contacts ->
                 showContacts(contacts)
             }
