@@ -149,39 +149,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
-            android:id="@+id/bottomActions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:showDividers="middle"
-            android:dividerPadding="16dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/settingsButton"
-                style="@style/Widget.Ezivia.HomeButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:text="@string/home_settings"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                app:iconGravity="textStart" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/exitButton"
-                style="@style/Widget.Ezivia.HomeButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:text="@string/home_exit"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                app:iconGravity="textStart" />
-        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

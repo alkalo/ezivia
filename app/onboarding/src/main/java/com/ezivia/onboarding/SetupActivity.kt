@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ezivia.onboarding.databinding.ActivitySetupBinding
 import com.ezivia.utilities.caregiver.CaregiverInfo
 import com.ezivia.utilities.caregiver.CaregiverPreferences
-import com.ezivia.utilities.security.PinStorage
 
 private const val STATE_STEP = "setup_step"
 private const val STATE_CAREGIVERS = "setup_caregivers"
@@ -21,7 +20,6 @@ class SetupActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySetupBinding
     private lateinit var caregiverPreferences: CaregiverPreferences
-    private lateinit var pinStorage: PinStorage
 
     private val caregivers = mutableListOf<CaregiverInfo>()
     private val caregiverSummaries = mutableListOf<String>()
@@ -34,7 +32,6 @@ class SetupActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         caregiverPreferences = CaregiverPreferences(this)
-        pinStorage = PinStorage(this)
 
         caregiverAdapter = ArrayAdapter(
             this,
@@ -90,8 +87,7 @@ class SetupActivity : AppCompatActivity() {
     private fun onNextClicked() {
         when (currentStep) {
             0 -> moveToStep(currentStep + 1)
-            1 -> if (validateCaregivers()) moveToStep(currentStep + 1)
-            else -> completeSetup()
+            1 -> if (validateCaregivers()) completeSetup()
         }
     }
 
@@ -155,25 +151,7 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun completeSetup() {
-        val pin = binding.pinInput.editText?.text?.toString()?.trim().orEmpty()
-        val confirmation = binding.pinConfirmationInput.editText?.text?.toString()?.trim().orEmpty()
-
-        if (pin.length < 4) {
-            binding.pinInput.error = getString(R.string.setup_pin_length_error)
-            return
-        } else {
-            binding.pinInput.error = null
-        }
-
-        if (pin != confirmation) {
-            binding.pinConfirmationInput.error = getString(R.string.setup_pin_match_error)
-            return
-        } else {
-            binding.pinConfirmationInput.error = null
-        }
-
         caregiverPreferences.saveCaregivers(caregivers)
-        pinStorage.setPin(pin)
 
         Toast.makeText(this, R.string.setup_completed_message, Toast.LENGTH_LONG).show()
         setResult(RESULT_OK)

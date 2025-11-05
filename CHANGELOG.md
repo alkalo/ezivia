@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Simplificar el flujo seguro del launcher eliminando el PIN, moviendo los ajustes a la barra inferior con acceso mediante volumen, reabriendo la configuración de inicio al salir del modo Ezivia y mejorando la legibilidad de las tarjetas de acciones rápidas.
 - Switch the launcher security gesture to the hardware volume up key, refresh the guidance copy and artwork, and cover the new
   flow with Robolectric tests.
 - Update the launcher and settings color palettes to a high-contrast oceanic scheme for clearer, more pleasant readability.

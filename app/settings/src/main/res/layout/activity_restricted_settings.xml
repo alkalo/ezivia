@@ -114,12 +114,12 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/changePinButton"
+            android:id="@+id/exitModeButton"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/settings_change_pin"
+            android:text="@string/settings_exit_mode"
             android:textAllCaps="false" />
 
     </LinearLayout>

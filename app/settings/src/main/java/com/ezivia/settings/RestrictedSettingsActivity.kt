@@ -1,15 +1,12 @@
 package com.ezivia.settings
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.ezivia.settings.databinding.ActivityRestrictedSettingsBinding
-import com.ezivia.settings.databinding.DialogChangePinBinding
 import com.ezivia.utilities.caregiver.CaregiverPreferences
-import com.ezivia.utilities.security.PinStorage
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textview.MaterialTextView
 
 private const val SETTINGS_PREFS = "ezivia_settings_preferences"
@@ -23,9 +20,12 @@ private const val KEY_REMINDERS = "reminders"
  */
 class RestrictedSettingsActivity : AppCompatActivity() {
 
+    companion object {
+        const val EXTRA_REQUEST_EXIT = "com.ezivia.settings.extra.REQUEST_EXIT"
+    }
+
     private lateinit var binding: ActivityRestrictedSettingsBinding
     private lateinit var caregiverPreferences: CaregiverPreferences
-    private lateinit var pinStorage: PinStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +33,12 @@ class RestrictedSettingsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         caregiverPreferences = CaregiverPreferences(this)
-        pinStorage = PinStorage(this)
 
         populateCaregivers()
         configureSwitches()
 
-        binding.changePinButton.setOnClickListener {
-            showChangePinDialog()
+        binding.exitModeButton.setOnClickListener {
+            exitEziviaMode()
         }
     }
 
@@ -84,47 +83,9 @@ class RestrictedSettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun showChangePinDialog() {
-        val dialogBinding = DialogChangePinBinding.inflate(layoutInflater)
-        val dialog = MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.settings_change_pin_title)
-            .setView(dialogBinding.root)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(R.string.settings_save_pin, null)
-            .create()
-
-        dialog.setOnShowListener {
-            val positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            positive.setOnClickListener {
-                val currentPin = dialogBinding.currentPinInput.editText?.text?.toString()?.trim().orEmpty()
-                val newPin = dialogBinding.newPinInput.editText?.text?.toString()?.trim().orEmpty()
-                val confirmPin = dialogBinding.confirmPinInput.editText?.text?.toString()?.trim().orEmpty()
-
-                dialogBinding.currentPinInput.error = null
-                dialogBinding.newPinInput.error = null
-                dialogBinding.confirmPinInput.error = null
-
-                if (pinStorage.isPinConfigured() && !pinStorage.verifyPin(currentPin)) {
-                    dialogBinding.currentPinInput.error = getString(R.string.settings_pin_error_incorrect)
-                    return@setOnClickListener
-                }
-
-                if (newPin.length < 4) {
-                    dialogBinding.newPinInput.error = getString(R.string.settings_pin_error_length)
-                    return@setOnClickListener
-                }
-
-                if (newPin != confirmPin) {
-                    dialogBinding.confirmPinInput.error = getString(R.string.settings_pin_error_match)
-                    return@setOnClickListener
-                }
-
-                pinStorage.setPin(newPin)
-                Toast.makeText(this, R.string.settings_pin_updated, Toast.LENGTH_SHORT).show()
-                dialog.dismiss()
-            }
-        }
-
-        dialog.show()
+    private fun exitEziviaMode() {
+        val resultData = Intent().putExtra(EXTRA_REQUEST_EXIT, true)
+        setResult(Activity.RESULT_OK, resultData)
+        finish()
     }
 }
