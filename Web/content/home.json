@@ -1,0 +1,110 @@
+{
+  "hero": {
+    "eyebrow": "Ezivia para Android",
+    "title": "Convierte tu móvil en un compañero sencillo",
+    "description": "Ezivia transforma tu smartphone Android en una experiencia clara, segura y cálida para las personas mayores, manteniendo solo lo esencial para comunicarse y cuidarse.",
+    "primaryCta": {
+      "label": "Descargar Ezivia para Android",
+      "href": "#descarga",
+      "ariaLabel": "Ir a la sección de descarga de Ezivia para Android"
+    },
+    "secondaryCta": {
+      "label": "Solicitar asistencia por correo",
+      "href": "mailto:hola@ezivia.com?subject=Ayuda%20con%20Ezivia",
+      "ariaLabel": "Solicitar asistencia para instalar Ezivia"
+    },
+    "image": {
+      "src": "/illustration-care.svg",
+      "alt": "Mujer mayor sosteniendo un teléfono Android con la interfaz simplificada de Ezivia"
+    }
+  },
+  "benefits": {
+    "title": "Beneficios que dan tranquilidad",
+    "description": "Cada detalle de Ezivia se diseña junto a familias y cuidadores para que las personas mayores disfruten de su Android sin estrés.",
+    "items": [
+      {
+        "title": "Pantallas limpias y legibles",
+        "description": "Iconos extragrandes, textos con alto contraste y botones claros que guían cada acción importante."
+      },
+      {
+        "title": "Comunicación sin complicaciones",
+        "description": "Llamadas, videollamadas y mensajes rápidos con familiares favoritos en un solo toque."
+      },
+      {
+        "title": "Recordatorios humanos",
+        "description": "Alertas suaves para medicación, hidratación y citas médicas personalizadas para su rutina."
+      },
+      {
+        "title": "Asistencia siempre a mano",
+        "description": "Botón de ayuda que conecta con cuidadores y comparte ubicación de manera segura."
+      },
+      {
+        "title": "Configuración guiada",
+        "description": "Un asistente paso a paso que adapta cualquier Android compatible en minutos."
+      },
+      {
+        "title": "Privacidad protegida",
+        "description": "Control total de lo que se comparte y respaldo cifrado para mantener la información a salvo."
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "Cómo funciona Ezivia",
+    "description": "Sigue estos pasos para transformar un teléfono Android en una experiencia amable.",
+    "steps": [
+      {
+        "title": "Descarga la app segura",
+        "description": "Obtén Ezivia desde nuestra descarga oficial para Android e instálala en el dispositivo que acompañará a la persona mayor."
+      },
+      {
+        "title": "Configura con la guía",
+        "description": "El asistente visual muestra textos grandes y voz clara para elegir contactos de emergencia, recordatorios y accesos directos."
+      },
+      {
+        "title": "Acompaña a distancia",
+        "description": "Desde tu propio móvil puedes revisar notificaciones importantes y apoyar a la persona mayor cuando lo necesite."
+      }
+    ],
+    "note": "Solo disponible para teléfonos con Android 9 o superior."
+  },
+  "testimonials": {
+    "title": "Historias que inspiran",
+    "description": "Familias y profesionales de la salud confían en Ezivia para acompañar a quienes más quieren.",
+    "items": [
+      {
+        "quote": "Mi abuela ahora responde videollamadas sola. Los botones grandes y los recordatorios de medicación han sido un alivio para toda la familia.",
+        "author": "Carolina M.",
+        "role": "Nieta y cuidadora principal"
+      },
+      {
+        "quote": "Como terapeuta ocupacional recomiendo Ezivia porque se adapta al ritmo de cada persona mayor sin quitarles autonomía.",
+        "author": "Luis A.",
+        "role": "Terapeuta ocupacional"
+      },
+      {
+        "quote": "El modo de emergencia nos permite actuar rápido. Ezivia es la herramienta que necesitábamos para nuestros pacientes con demencia leve.",
+        "author": "Dra. Elena R.",
+        "role": "Geriatra comunitaria"
+      }
+    ]
+  },
+  "ctaDownload": {
+    "title": "Prepara tu Android con Ezivia",
+    "description": "Descarga la app y recibe materiales de apoyo para acompañar cada momento digital de tus seres queridos.",
+    "buttons": [
+      {
+        "label": "Descargar Ezivia (APK)",
+        "href": "https://ezivia.com/android",
+        "ariaLabel": "Descargar el archivo APK oficial de Ezivia para Android",
+        "variant": "primary"
+      },
+      {
+        "label": "Guía para familiares",
+        "href": "https://ezivia.com/guia-familias",
+        "ariaLabel": "Abrir la guía de Ezivia para familiares y cuidadores",
+        "variant": "secondary"
+      }
+    ],
+    "footnote": "Si necesitas apoyo personalizado, escríbenos a hola@ezivia.com y te acompañaremos paso a paso."
+  }
+}
