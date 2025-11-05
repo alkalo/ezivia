@@ -9,3 +9,4 @@
 - Resolve CTA button prop typing to keep Next.js builds passing under strict union checks.
 - Replace analytics fallback logging with an in-browser debug event buffer to satisfy linting.
 - Update the launcher module to Material Components 1.12 and adjust theme backgrounds so assemble tasks succeed without resource errors.
+- Create the TapTop Web 2 Vite project configured for `/WEB2` deployments, including router basename, environment template, Vitest suite and deployment playbook for the VPS.
