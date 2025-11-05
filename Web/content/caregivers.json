@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "eyebrow": "Soporte para familias",
+    "title": "Configura Ezivia a distancia para quienes más quieres",
+    "description": "Centraliza la configuración de móviles Android para personas mayores. Simplifica cada pantalla, automatiza recordatorios esenciales y mantén la calma sabiendo que Ezivia está siempre accesible.",
+    "primaryCta": {
+      "label": "Unirme a la lista de espera",
+      "href": "/#lista-espera",
+      "ariaLabel": "Solicitar acceso anticipado a Ezivia",
+      "variant": "primary"
+    },
+    "secondaryCta": {
+      "label": "Hablar con el equipo",
+      "href": "mailto:hola@ezivia.com",
+      "ariaLabel": "Enviar correo al equipo de Ezivia",
+      "variant": "secondary"
+    }
+  },
+  "remoteSetup": {
+    "title": "Configuración remota sin complicaciones",
+    "description": "Crea perfiles personalizados, adapta la pantalla de inicio y fija accesos directos críticos como contactos favoritos o teleasistencia sin tocar el dispositivo físico.",
+    "items": [
+      "Ajusta volumen, tamaño de letra y accesibilidad según cada persona.",
+      "Programa rutinas de llamadas o videollamadas para mantener el contacto diario.",
+      "Autoriza y bloquea aplicaciones con un clic para evitar confusiones."
+    ]
+  },
+  "sosAlerts": {
+    "title": "Alertas SOS contextuales",
+    "description": "Cuando la persona usuaria presiona el botón de ayuda, Ezivia coordina una respuesta en cadena: notificaciones push, SMS prioritarios y geolocalización compartida con la red de apoyo.",
+    "items": [
+      "Define niveles de alerta y contactos responsables por horario.",
+      "Recibe comprobantes de lectura para asegurar que alguien respondió.",
+      "Activa llamadas automáticas con guías de conversación para tranquilizar a la persona mayor."
+    ]
+  },
+  "privacy": {
+    "title": "Privacidad respetuosa y transparente",
+    "description": "Toda la información se almacena en servidores europeos con cifrado de extremo a extremo. La persona mayor decide qué datos compartir y puede revocar permisos en cualquier momento desde Ezivia.",
+    "items": [
+      "Panel de consentimiento con lenguaje claro y acompañamiento por voz.",
+      "Historial de cambios para auditar quién modificó qué ajustes.",
+      "Modo acompañante que expira automáticamente para proteger su intimidad."
+    ]
+  },
+  "security": {
+    "title": "Garantías de seguridad y autenticación",
+    "description": "Seguimos las reglas de negocio de Ezivia para asegurar la gestión delegada de dispositivos Android.",
+    "items": [
+      "Autenticación multifactor obligatoria para cuidadores y familiares antes de aplicar cambios sensibles.",
+      "Tokens de sesión de corta duración con rotación automática y cierre remoto en caso de pérdida del móvil.",
+      "Registros de auditoría firmados digitalmente y exportables para entidades sanitarias o de cuidados."
+    ]
+  },
+  "cta": {
+    "title": "¿Quieres probar Ezivia con tu familia?",
+    "description": "Inscríbete para recibir acceso prioritario y recursos para acompañar la adaptación tecnológica de las personas mayores.",
+    "buttons": [
+      {
+        "label": "Reservar demo",
+        "href": "https://cal.com/ezivia/demo",
+        "ariaLabel": "Reservar una demostración de Ezivia",
+        "variant": "primary"
+      },
+      {
+        "label": "Sumarme a la lista de espera",
+        "href": "/#lista-espera",
+        "ariaLabel": "Apuntarme a la lista de espera de Ezivia",
+        "variant": "secondary"
+      }
+    ],
+    "footnote": "Ezivia convierte móviles Android en experiencias accesibles para mayores, sin vender sus datos ni activar publicidad."
+  }
+}

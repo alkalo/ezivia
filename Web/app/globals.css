@@ -87,11 +87,17 @@ h3 {
   outline-offset: 4px;
 }
 
-.home-page {
+.home-page,
+.caregivers-page {
   display: flex;
   flex-direction: column;
   gap: 4rem;
   padding: 4rem 5vw 6rem;
+}
+
+.caregivers-page {
+  background: radial-gradient(circle at top right, rgba(255, 140, 66, 0.08), transparent 55%),
+    radial-gradient(circle at bottom left, rgba(47, 42, 31, 0.08), transparent 60%);
 }
 
 .section {
@@ -144,6 +150,10 @@ h3 {
   display: grid;
   gap: 2.5rem;
   align-items: center;
+}
+
+.hero--caregivers {
+  background: linear-gradient(135deg, #ffffff 0%, #fff4e5 100%);
 }
 
 .hero__content {
@@ -289,6 +299,22 @@ h3 {
 .testimonial__role {
   font-size: 0.95rem;
   color: rgba(47, 42, 31, 0.75);
+}
+
+.feature-list {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+}
+
+.feature-list__item {
+  background: #fff4e5;
+  border-radius: 20px;
+  padding: 1.25rem 1.5rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  box-shadow: 0 12px 24px rgba(47, 42, 31, 0.06);
 }
 
 .cta {
