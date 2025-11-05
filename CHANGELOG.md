@@ -9,3 +9,4 @@
 - Resolve CTA button prop typing to keep Next.js builds passing under strict union checks.
 - Replace analytics fallback logging with an in-browser debug event buffer to satisfy linting.
 - Update the launcher module to Material Components 1.12 and adjust theme backgrounds so assemble tasks succeed without resource errors.
+- Migrate the launcher theme and typography styles to Material 3 so TextAppearance lookups compile under AAPT.
