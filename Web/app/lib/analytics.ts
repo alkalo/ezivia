@@ -4,6 +4,10 @@ declare global {
   interface Window {
     dataLayer?: Array<Record<string, unknown>>;
     gtag?: (...args: Array<string | Record<string, unknown>>) => void;
+    __EZIVIA_DEBUG_ANALYTICS__?: Array<{
+      event: string;
+      payload?: AnalyticsPayload;
+    }>;
   }
 }
 
@@ -25,6 +29,13 @@ export const trackEvent = (eventName: string, payload?: AnalyticsPayload) => {
   }
 
   if (process.env.NODE_ENV !== "production") {
-    console.info("[analytics]", eventName, eventPayload);
+    if (!Array.isArray(window.__EZIVIA_DEBUG_ANALYTICS__)) {
+      window.__EZIVIA_DEBUG_ANALYTICS__ = [];
+    }
+
+    window.__EZIVIA_DEBUG_ANALYTICS__.push({
+      event: eventName,
+      payload: eventPayload,
+    });
   }
 };

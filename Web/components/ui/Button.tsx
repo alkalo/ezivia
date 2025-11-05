@@ -8,7 +8,7 @@ import {
   type AnchorHTMLAttributes,
 } from "react";
 
-type ButtonElement = HTMLButtonElement | HTMLAnchorElement;
+export type ButtonElement = HTMLButtonElement | HTMLAnchorElement;
 
 export type ButtonVariant = "primary" | "secondary" | "ghost";
 
