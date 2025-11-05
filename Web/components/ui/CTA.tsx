@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useId, type HTMLAttributes } from "react";
-import { Button, type ButtonProps } from "./Button";
+import { Button, type ButtonElement, type ButtonProps } from "./Button";
 
 export interface CTAAction extends Omit<ButtonProps, "children"> {
   label: string;
@@ -16,6 +16,11 @@ export interface CTAProps extends HTMLAttributes<HTMLElement> {
   footnote?: string;
   autoFocusFirstButton?: boolean;
 }
+
+const extractButtonProps = (action: CTAAction): ButtonProps => {
+  const { label: _label, description: _description, ...rest } = action;
+  return rest as ButtonProps;
+};
 
 export function CTA({
   heading,
@@ -32,7 +37,7 @@ export function CTA({
   const footnoteId = useId();
   const primaryDescriptionId = useId();
   const secondaryDescriptionId = useId();
-  const primaryButtonRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
+  const primaryButtonRef = useRef<ButtonElement | null>(null);
 
   useEffect(() => {
     if (autoFocusFirstButton && primaryButtonRef.current) {
@@ -47,12 +52,14 @@ export function CTA({
     .filter(Boolean)
     .join(" ");
 
-  const { label: primaryLabel, description: primaryDescription, ...primaryRest } = primaryAction;
-  const {
-    label: secondaryLabel,
-    description: secondaryDescription,
-    ...secondaryRest
-  } = secondaryAction ?? { label: undefined, description: undefined };
+  const primaryLabel = primaryAction.label;
+  const primaryDescription = primaryAction.description;
+  const primaryButtonProps = extractButtonProps(primaryAction);
+
+  const secondaryLabel = secondaryAction?.label;
+  const secondaryDescription = secondaryAction?.description;
+  const secondaryButtonProps =
+    secondaryAction !== undefined ? extractButtonProps(secondaryAction) : undefined;
 
   return (
     <section
@@ -72,7 +79,7 @@ export function CTA({
           <Button
             ref={primaryButtonRef}
             aria-describedby={primaryDescription ? primaryDescriptionId : undefined}
-            {...primaryRest}
+            {...primaryButtonProps}
           >
             {primaryLabel}
           </Button>
@@ -81,14 +88,14 @@ export function CTA({
               {primaryDescription}
             </span>
           ) : null}
-          {secondaryAction ? (
+          {secondaryAction && secondaryButtonProps ? (
             <Button
               variant="secondary"
               emphasis="medium"
               aria-describedby={
                 secondaryDescription ? secondaryDescriptionId : undefined
               }
-              {...secondaryRest}
+              {...secondaryButtonProps}
             >
               {secondaryLabel}
             </Button>
