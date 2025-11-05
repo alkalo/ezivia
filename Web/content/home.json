@@ -88,6 +88,11 @@
       }
     ]
   },
+  "waitlist": {
+    "title": "Resérvate Ezivia para tu familiar o paciente",
+    "description": "Déjanos tus datos y te avisaremos en cuanto la versión estable de Ezivia para Android esté lista, además de acompañarte en la configuración inicial.",
+    "privacyNote": "Guardamos tus datos de forma segura y solo los utilizaremos para enviarte novedades sobre Ezivia y ayudarte en el proceso de instalación."
+  },
   "ctaDownload": {
     "title": "Prepara tu Android con Ezivia",
     "description": "Descarga la app y recibe materiales de apoyo para acompañar cada momento digital de tus seres queridos.",
