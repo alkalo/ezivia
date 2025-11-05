@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ezivia.launcher.R
 import com.ezivia.launcher.databinding.ActivityRemindersOverviewBinding
 import com.ezivia.launcher.databinding.DialogAddReminderBinding
 import com.ezivia.utilities.reminders.Reminder

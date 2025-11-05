@@ -3,6 +3,8 @@ package com.ezivia.launcher
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
+import com.ezivia.launcher.R
+
 /**
  * Describes the quick actions highlighted on the Ezivia home screen so they can be
  * rendered consistently in adapters and tested in isolation.
