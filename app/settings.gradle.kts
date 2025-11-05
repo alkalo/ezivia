@@ -26,5 +26,10 @@ include(
     ":communication",
     ":utilities",
     ":onboarding",
-    ":settings"
+    ":settings",
+    ":analytics",
+    ":logging"
 )
+
+project(":analytics").projectDir = File(rootDir, "../analytics")
+project(":logging").projectDir = File(rootDir, "../logging")
