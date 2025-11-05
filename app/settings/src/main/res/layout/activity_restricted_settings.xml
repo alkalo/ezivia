@@ -13,14 +13,14 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/TextAppearance.MaterialComponents.Headline6"
+            style="@style/TextAppearance.Material3.TitleLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/settings_title"
             android:textColor="?attr/colorOnBackground" />
 
         <TextView
-            style="@style/TextAppearance.MaterialComponents.Body2"
+            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -42,7 +42,7 @@
                 android:padding="16dp">
 
                 <TextView
-                    style="@style/TextAppearance.MaterialComponents.Body1"
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_caregiver_section"
@@ -57,7 +57,7 @@
                     tools:targetApi="o">
 
                     <TextView
-                        style="@style/TextAppearance.MaterialComponents.Body2"
+                        style="@style/TextAppearance.Material3.BodyMedium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_caregiver_empty"
@@ -81,7 +81,7 @@
                 android:padding="16dp">
 
                 <TextView
-                    style="@style/TextAppearance.MaterialComponents.Body1"
+                    style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_accessibility_section"
@@ -115,7 +115,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/changePinButton"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"

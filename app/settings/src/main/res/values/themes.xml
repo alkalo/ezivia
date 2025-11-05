@@ -1,0 +1,24 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Ezivia.Settings" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/ezivia_primary</item>
+        <item name="colorOnPrimary">@color/ezivia_on_primary</item>
+        <item name="colorSecondary">@color/ezivia_secondary</item>
+        <item name="colorOnSecondary">@color/ezivia_on_secondary</item>
+        <item name="colorSurface">@color/ezivia_surface</item>
+        <item name="colorOnSurface">@color/ezivia_on_surface</item>
+        <item name="android:colorBackground">@color/ezivia_background</item>
+        <item name="colorOnBackground">@color/ezivia_on_background</item>
+        <item name="colorOutline">@color/ezivia_outline</item>
+        <item name="android:statusBarColor">@color/ezivia_primary</item>
+        <item name="android:navigationBarColor">@color/ezivia_primary</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="materialButtonStyle">@style/Widget.Material3.Button.Ezivia</item>
+    </style>
+
+    <style name="Widget.Material3.Button.Ezivia" parent="Widget.Material3.Button">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+</resources>
