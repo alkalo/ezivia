@@ -22,8 +22,8 @@ class WhatsAppLauncher(private val activity: Activity) {
      * la acción (confirmación o tienda) y `false` si no se pudo continuar.
      */
     fun startFavoriteVideoCall(contact: FavoriteContact): Boolean {
-        val sanitizedNumber = contact.phoneNumber.trim()
-        if (sanitizedNumber.isEmpty()) {
+        val sanitizedNumber = sanitizePhoneNumber(contact.phoneNumber)
+        if (sanitizedNumber.isEmpty() || sanitizedNumber == "+") {
             showToast("El contacto no tiene un número válido.")
             return false
         }
@@ -121,5 +121,26 @@ class WhatsAppLauncher(private val activity: Activity) {
 
     companion object {
         private const val WHATSAPP_PACKAGE = "com.whatsapp"
+
+        internal fun sanitizePhoneNumber(raw: String): String {
+            val trimmed = raw.trim()
+            if (trimmed.isEmpty()) {
+                return ""
+            }
+
+            val builder = StringBuilder(trimmed.length)
+            trimmed.forEach { character ->
+                when {
+                    character.isDigit() -> builder.append(character)
+                    character == '+' && builder.isEmpty() -> builder.append(character)
+                }
+            }
+
+            if (builder.length == 1 && builder[0] == '+') {
+                return ""
+            }
+
+            return builder.toString()
+        }
     }
 }
