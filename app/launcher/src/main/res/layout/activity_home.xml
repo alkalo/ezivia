@@ -5,85 +5,105 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
-    android:padding="32dp"
     tools:context=".HomeActivity">
 
-    <TextView
-        android:id="@+id/homeTitle"
-        style="@style/TextAppearance.Ezivia.Display"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/home_title"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/homeSubtitle"
-        style="@style/TextAppearance.Ezivia.BodyLarge"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/home_subtitle"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/homeTitle" />
-
-    <TextView
-        android:id="@+id/favoritesTitle"
-        style="@style/TextAppearance.Ezivia.BodyLarge"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/home_favorites_title"
-        android:textAlignment="viewStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/homeSubtitle" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favoriteContactsList"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/homeScroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="16dp"
         android:clipToPadding="false"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@id/actionsContainer"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/favoritesTitle"
-        tools:listitem="@layout/item_favorite_contact" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomActions"
+        tools:fillViewport="true">
 
-    <TextView
-        android:id="@+id/emptyContactsView"
-        style="@style/TextAppearance.Ezivia.BodyLarge"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="@string/home_contacts_empty"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/favoriteContactsList"
-        app:layout_constraintEnd_toEndOf="@id/favoriteContactsList"
-        app:layout_constraintStart_toStartOf="@id/favoriteContactsList"
-        app:layout_constraintTop_toTopOf="@id/favoriteContactsList" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/homeTitle"
+                style="@style/TextAppearance.Ezivia.Display"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/home_title"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/homeSubtitle"
+                style="@style/TextAppearance.Ezivia.BodyLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/home_subtitle"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/quickActionsTitle"
+                style="@style/TextAppearance.Ezivia.BodyLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/home_quick_actions_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/quickActionsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_home_quick_action" />
+
+            <TextView
+                android:id="@+id/favoritesTitle"
+                style="@style/TextAppearance.Ezivia.BodyLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/home_favorites_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favoriteContactsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="8dp"
+                tools:listitem="@layout/item_favorite_contact" />
+
+            <TextView
+                android:id="@+id/emptyContactsView"
+                style="@style/TextAppearance.Ezivia.BodyLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/home_contacts_empty"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
-        android:id="@+id/actionsContainer"
+        android:id="@+id/bottomActions"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:showDividers="middle"
         android:dividerPadding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/favoriteContactsList">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/settingsButton"
@@ -109,5 +129,19 @@
             android:textAllCaps="false"
             app:iconGravity="textStart" />
     </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/ezivia_surface"
+        android:elevation="8dp"
+        app:itemIconTint="@color/selector_bottom_nav"
+        app:itemTextColor="@color/selector_bottom_nav"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/home_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

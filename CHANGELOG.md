@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Rebuild the Ezivia launcher home to surface large quick actions for calls, WhatsApp video calls, messages, photos, reminders, and SOS assistance, including refreshed favourite contact cards.
+- Add dedicated Contacts, Reminders, and SOS screens with reminder creation, completion toggles, and caregiver notifications to keep the experience useful beyond settings and exit.
 - Make Ezivia declare and behave as the default HOME launcher with a guided setup flow, boot handling, and tests covering launcher helper fallbacks.
 - Fix favourite contacts synchronisation flow emissions and caregiver preference parsing so Android builds compile cleanly again.
 - Ensure the Web production start script checks IPv4 and IPv6 bindings so it can reliably fall back to an open port when 3000 is already in use.
