@@ -1,26 +1,26 @@
 <resources>
-    <style name="TextAppearance.Ezivia.Display" parent="TextAppearance.MaterialComponents.HeadlineLarge">
+    <style name="TextAppearance.Ezivia.Display" parent="TextAppearance.Material3.HeadlineLarge">
         <item name="android:textSize">28sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="fontFamily">sans-serif-medium</item>
         <item name="android:lineHeight">36sp</item>
     </style>
 
-    <style name="TextAppearance.Ezivia.BodyLarge" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="TextAppearance.Ezivia.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="fontFamily">sans-serif</item>
         <item name="android:lineHeight">28sp</item>
     </style>
 
-    <style name="TextAppearance.Ezivia.Button" parent="TextAppearance.MaterialComponents.TitleLarge">
+    <style name="TextAppearance.Ezivia.Button" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textSize">24sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="fontFamily">sans-serif-medium</item>
         <item name="android:lineHeight">30sp</item>
     </style>
 
-    <style name="Widget.Ezivia.HomeButton" parent="Widget.MaterialComponents.Button">
+    <style name="Widget.Ezivia.HomeButton" parent="Widget.Material3.Button">
         <item name="android:minHeight">72dp</item>
         <item name="android:insetTop">16dp</item>
         <item name="android:insetBottom">16dp</item>
