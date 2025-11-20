@@ -5,7 +5,10 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class LauncherOnboardingPreferencesTest {
 
     private lateinit var context: Context
@@ -13,40 +16,33 @@ class LauncherOnboardingPreferencesTest {
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
-        context.getSharedPreferences("launcher_onboarding_prefs", Context.MODE_PRIVATE).edit().clear().commit()
+        context.getSharedPreferences("launcher_onboarding_prefs", Context.MODE_PRIVATE)
+            .edit().clear().commit()
     }
 
     @Test
-    fun shouldShowPrompt_returnsTrueByDefault() {
-        val preferences = LauncherOnboardingPreferences(context)
+    fun defaultLauncherPrompt_isTrueAndPersistsCompletionFlag() {
+        val first = LauncherOnboardingPreferences(context)
 
-        assertThat(preferences.shouldShowDefaultLauncherPrompt()).isTrue()
+        assertThat(first.shouldShowDefaultLauncherPrompt()).isTrue()
+
+        first.setDefaultLauncherCompleted(true)
+        assertThat(first.shouldShowDefaultLauncherPrompt()).isFalse()
+
+        val second = LauncherOnboardingPreferences(context)
+        assertThat(second.shouldShowDefaultLauncherPrompt()).isFalse()
     }
 
     @Test
-    fun shouldShowPrompt_reflectsCompletionFlag() {
-        val preferences = LauncherOnboardingPreferences(context)
+    fun lockGestureTutorial_isTrueAndPersistsShownFlag() {
+        val first = LauncherOnboardingPreferences(context)
 
-        preferences.setDefaultLauncherCompleted(true)
-        assertThat(preferences.shouldShowDefaultLauncherPrompt()).isFalse()
+        assertThat(first.shouldShowLockGestureTutorial()).isTrue()
 
-        preferences.setDefaultLauncherCompleted(false)
-        assertThat(preferences.shouldShowDefaultLauncherPrompt()).isTrue()
-    }
+        first.markLockGestureTutorialShown()
+        assertThat(first.shouldShowLockGestureTutorial()).isFalse()
 
-    @Test
-    fun shouldShowLockGestureTutorial_defaultsToTrue() {
-        val preferences = LauncherOnboardingPreferences(context)
-
-        assertThat(preferences.shouldShowLockGestureTutorial()).isTrue()
-    }
-
-    @Test
-    fun markLockGestureTutorialShown_updatesFlag() {
-        val preferences = LauncherOnboardingPreferences(context)
-
-        preferences.markLockGestureTutorialShown()
-
-        assertThat(preferences.shouldShowLockGestureTutorial()).isFalse()
+        val second = LauncherOnboardingPreferences(context)
+        assertThat(second.shouldShowLockGestureTutorial()).isFalse()
     }
 }
