@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Cover the launcher lock gesture coordinator with Robolectric tests using mocked views to verify state changes and expiry grace periods.
 - Añadir pruebas de Robolectric con Mockito para comprobar el rol de launcher predeterminado y las rutas de solicitud y ajustes.
 - Add Robolectric coverage for launcher onboarding preferences to confirm tutorial flags persist across instances.
 - Simplificar el flujo seguro del launcher eliminando el PIN, moviendo los ajustes a la barra inferior con acceso mediante volumen, reabriendo la configuración de inicio al salir del modo Ezivia y mejorando la legibilidad de las tarjetas de acciones rápidas.
