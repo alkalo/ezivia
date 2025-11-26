@@ -111,13 +111,12 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/lockGestureCard"
+            style="@style/Widget.Ezivia.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             app:cardBackgroundColor="@color/ezivia_highlight"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
             app:strokeWidth="0dp">
 
             <LinearLayout
@@ -126,9 +125,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_lock_gesture_touch"
                 android:gravity="center_vertical"
-                android:minHeight="64dp"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp">
+                android:minHeight="@dimen/ezivia_primary_button_height"
+                android:paddingHorizontal="@dimen/ezivia_component_padding_horizontal"
+                android:paddingVertical="@dimen/ezivia_component_padding_vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/lockGestureIcon"
