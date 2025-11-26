@@ -1,14 +1,18 @@
 <resources>
-    <!-- Diseño: Paleta oceánica con azul intenso y acentos ámbar suaves para maximizar contraste y claridad accesible. -->
-    <color name="ezivia_primary">#2563EB</color>
+    <!-- Diseño: Paleta crema/coral/azul profundo para un contraste cálido y accesible en todo el tema global. -->
+    <color name="ezivia_primary">#12355B</color>
     <color name="ezivia_on_primary">#FFFFFFFF</color>
-    <color name="ezivia_secondary">#F59E0B</color>
-    <color name="ezivia_on_secondary">#1E293B</color>
-    <color name="ezivia_background">#F8FAFC</color>
-    <color name="ezivia_on_background">#0F172A</color>
-    <color name="ezivia_surface">#FFFFFFFF</color>
-    <color name="ezivia_on_surface">#0F172A</color>
-    <color name="ezivia_on_surface_variant">#475569</color>
-    <color name="ezivia_outline">#94A3B8</color>
-    <color name="ezivia_highlight">#DBEAFE</color>
+    <color name="ezivia_secondary">#FF7A6A</color>
+    <color name="ezivia_on_secondary">#0F2337</color>
+    <color name="ezivia_background">#FFF6EC</color>
+    <color name="ezivia_on_background">#142741</color>
+    <color name="ezivia_surface">#FFFBF5</color>
+    <color name="ezivia_on_surface">#142741</color>
+    <color name="ezivia_on_surface_variant">#4B6075</color>
+    <color name="ezivia_outline">#C8D2E1</color>
+    <color name="ezivia_highlight">#FFE3D8</color>
+    <color name="ezivia_critical">#D7263D</color>
+    <color name="ezivia_on_critical">#FFFFFFFF</color>
+    <color name="ezivia_critical_container">#FFD9DE</color>
+    <color name="ezivia_on_critical_container">#470F18</color>
 </resources>

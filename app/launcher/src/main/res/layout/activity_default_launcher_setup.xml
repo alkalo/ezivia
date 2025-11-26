@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/title"
-        style="@style/TextAppearance.Material3.HeadlineMedium"
+        style="@style/TextAppearance.Ezivia.Display"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/default_launcher_title"
@@ -30,7 +30,7 @@
 
     <TextView
         android:id="@+id/description"
-        style="@style/TextAppearance.Material3.BodyLarge"
+        style="@style/TextAppearance.Ezivia.BodyLarge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@+id/status_message"
-        style="@style/TextAppearance.Material3.BodyMedium"
+        style="@style/TextAppearance.Ezivia.BodyLarge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -64,7 +64,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/skip_button"
-        style="@style/Widget.Material3.Button.TextButton"
+        style="@style/Widget.Ezivia.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

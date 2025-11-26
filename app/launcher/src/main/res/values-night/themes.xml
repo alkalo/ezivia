@@ -4,19 +4,31 @@
         <item name="colorOnPrimary">@color/ezivia_on_primary</item>
         <item name="colorSecondary">@color/ezivia_secondary</item>
         <item name="colorOnSecondary">@color/ezivia_on_secondary</item>
-        <item name="colorSurface">#1E1F24</item>
-        <item name="colorOnSurface">#FFFFFFFF</item>
-        <item name="colorSurfaceVariant">#34363F</item>
-        <item name="colorSecondaryContainer">#34363F</item>
-        <item name="colorOnSecondaryContainer">#F1F1F1</item>
-        <item name="android:colorBackground">#121212</item>
-        <item name="colorOnBackground">#FFFFFFFF</item>
-        <item name="android:windowBackground">#121212</item>
-        <item name="android:statusBarColor">#121212</item>
-        <item name="android:navigationBarColor">#121212</item>
+        <item name="colorSurface">@color/ezivia_surface</item>
+        <item name="colorOnSurface">@color/ezivia_on_surface</item>
+        <item name="colorOnSurfaceVariant">@color/ezivia_on_surface_variant</item>
+        <item name="colorSurfaceVariant">@color/ezivia_highlight</item>
+        <item name="colorSecondaryContainer">@color/ezivia_highlight</item>
+        <item name="colorOnSecondaryContainer">@color/ezivia_on_surface</item>
+        <item name="colorOutline">@color/ezivia_outline</item>
+        <item name="colorError">@color/ezivia_critical</item>
+        <item name="colorOnError">@color/ezivia_on_critical</item>
+        <item name="colorErrorContainer">@color/ezivia_critical_container</item>
+        <item name="colorOnErrorContainer">@color/ezivia_on_critical_container</item>
+        <item name="android:colorBackground">@color/ezivia_background</item>
+        <item name="colorOnBackground">@color/ezivia_on_background</item>
+        <item name="android:windowBackground">@color/ezivia_background</item>
+        <item name="android:statusBarColor">@color/ezivia_background</item>
+        <item name="android:navigationBarColor">@color/ezivia_background</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="fontFamily">@font/inter_regular</item>
         <item name="textAppearanceButton">@style/TextAppearance.Ezivia.Button</item>
+        <item name="materialButtonStyle">@style/Widget.Ezivia.PrimaryButton</item>
+        <item name="materialCardViewStyle">@style/Widget.Ezivia.Card</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Ezivia.Rounded</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Ezivia.Rounded</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Ezivia.Rounded</item>
+        <item name="android:listPreferredItemHeight">@dimen/ezivia_min_touch_target</item>
     </style>
 </resources>

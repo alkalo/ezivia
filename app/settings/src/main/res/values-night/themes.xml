@@ -9,7 +9,7 @@
         <item name="colorOnSurfaceVariant">@color/ezivia_on_surface_variant</item>
         <item name="colorSurfaceVariant">@color/ezivia_highlight</item>
         <item name="colorSecondaryContainer">@color/ezivia_highlight</item>
-        <item name="colorOnSecondaryContainer">@color/ezivia_on_background</item>
+        <item name="colorOnSecondaryContainer">@color/ezivia_on_surface</item>
         <item name="colorOutline">@color/ezivia_outline</item>
         <item name="colorError">@color/ezivia_critical</item>
         <item name="colorOnError">@color/ezivia_on_critical</item>
@@ -18,9 +18,9 @@
         <item name="android:colorBackground">@color/ezivia_background</item>
         <item name="colorOnBackground">@color/ezivia_on_background</item>
         <item name="android:windowBackground">@color/ezivia_background</item>
-        <item name="android:statusBarColor">@color/ezivia_primary</item>
+        <item name="android:statusBarColor">@color/ezivia_background</item>
         <item name="android:navigationBarColor">@color/ezivia_background</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="fontFamily">@font/inter_regular</item>
         <item name="textAppearanceButton">@style/TextAppearance.Ezivia.Button</item>

@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Refresh launcher and settings theming with a cream/coral/deep blue palette, Roboto/Inter typography, rounded elevated cards,
+  and enlarged touch targets.
 - Add a comprehensive Spanish-language accessibility and calling UI style guide covering home, favorites, call flows, animations, ajustes, iconografía y pruebas con personas mayores.
 - Cover the launcher lock gesture coordinator with Robolectric tests using mocked views to verify state changes and expiry grace periods.
 - Añadir pruebas de Robolectric con Mockito para comprobar el rol de launcher predeterminado y las rutas de solicitud y ajustes.

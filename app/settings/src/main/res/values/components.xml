@@ -1,0 +1,49 @@
+<resources>
+    <style name="ShapeAppearance.Ezivia.Rounded" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerSize">@dimen/ezivia_component_corner</item>
+    </style>
+
+    <style name="Widget.Ezivia.PrimaryButton" parent="Widget.Material3.Button">
+        <item name="android:minHeight">@dimen/ezivia_primary_button_height</item>
+        <item name="android:minWidth">@dimen/ezivia_min_touch_target</item>
+        <item name="android:paddingStart">@dimen/ezivia_component_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/ezivia_component_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/ezivia_component_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/ezivia_component_padding_vertical</item>
+        <item name="cornerRadius">@dimen/ezivia_component_corner</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="rippleColor">@color/ezivia_highlight</item>
+    </style>
+
+    <style name="Widget.Ezivia.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="android:minHeight">@dimen/ezivia_min_touch_target</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardElevation">@dimen/ezivia_card_elevation</item>
+        <item name="cardBackgroundColor">@color/ezivia_surface</item>
+        <item name="strokeColor">@color/ezivia_outline</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Ezivia.Rounded</item>
+        <item name="rippleColor">@color/ezivia_highlight</item>
+    </style>
+
+    <style name="Widget.Ezivia.Card.Highlight" parent="@style/Widget.Ezivia.Card">
+        <item name="cardBackgroundColor">@color/ezivia_primary</item>
+        <item name="strokeColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.Ezivia.TextButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:minHeight">@dimen/ezivia_min_touch_target</item>
+        <item name="android:minWidth">@dimen/ezivia_min_touch_target</item>
+        <item name="android:paddingStart">@dimen/ezivia_component_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/ezivia_component_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/ezivia_component_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/ezivia_component_padding_vertical</item>
+        <item name="cornerRadius">@dimen/ezivia_component_corner</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="rippleColor">@color/ezivia_highlight</item>
+    </style>
+</resources>
