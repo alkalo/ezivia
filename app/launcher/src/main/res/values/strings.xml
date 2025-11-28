@@ -438,4 +438,15 @@
     <string name="contact_wizard_result_toast">%1$s listo para guardar</string>
 
     <string name="contact_wizard_result_generic">Datos de contacto listos</string>
+
+    <string name="diagnostics_title">Panel de diagnóstico</string>
+    <string name="diagnostics_description">Revisa los pasos y errores más recientes para compartirlos con soporte.</string>
+    <string name="diagnostics_refresh">Actualizar registro</string>
+    <string name="diagnostics_share">Enviar por correo</string>
+    <string name="diagnostics_close">Cerrar panel</string>
+    <string name="diagnostics_empty_state">Aún no hay eventos registrados.</string>
+    <string name="diagnostics_email_subject">Registro temporal de Ezivia</string>
+    <string name="diagnostics_email_chooser_title">Compartir registro por correo</string>
+    <string name="diagnostics_email_unavailable">No encontramos una app de correo para enviar el registro.</string>
+    <string name="home_settings_open_diagnostics">Ver registro temporal</string>
 </resources>
