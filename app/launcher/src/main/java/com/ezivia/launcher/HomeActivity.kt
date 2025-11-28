@@ -9,12 +9,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.KeyEvent
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -43,7 +41,7 @@ import java.util.Locale
  * Home screen for Ezivia that exposes the key actions older adults need in a
  * simplified layout.
  */
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var contactsAdapter: FavoriteContactsAdapter
@@ -94,7 +92,7 @@ class HomeActivity : AppCompatActivity() {
             val saved = cameraCoordinator.recordCameraResult(result.resultCode == Activity.RESULT_OK, request)
             pendingCameraRequest = null
             if (saved != null) {
-                Toast.makeText(this, R.string.quick_action_camera_saved, Toast.LENGTH_SHORT).show()
+                showSuccessFeedback(R.string.quick_action_camera_saved)
             }
         }
 
@@ -157,7 +155,7 @@ class HomeActivity : AppCompatActivity() {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (!lockGestureCoordinator.canTriggerProtectedAction()) {
-                    Toast.makeText(this@HomeActivity, R.string.home_lock_hold_required, Toast.LENGTH_SHORT).show()
+                    showErrorFeedback(R.string.home_lock_hold_required)
                     return
                 }
                 lockGestureCoordinator.consumeGesture()
@@ -170,6 +168,7 @@ class HomeActivity : AppCompatActivity() {
             adapter = contactsAdapter
             layoutManager = GridLayoutManager(this@HomeActivity, 2)
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fade_scale_in)
+            itemAnimator = ScaleInItemAnimator()
             setHasFixedSize(true)
         }
 
@@ -177,14 +176,24 @@ class HomeActivity : AppCompatActivity() {
             adapter = quickActionsAdapter
             layoutManager = GridLayoutManager(this@HomeActivity, 2)
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fade_scale_in)
+            itemAnimator = ScaleInItemAnimator()
             setHasFixedSize(true)
         }
 
         quickActionsAdapter.submitList(HomeQuickActions.defaultActions())
 
-        binding.primaryCallButton.setOnClickListener { startDialer() }
-        binding.primaryVideoButton.setOnClickListener { startVideoQuickAction() }
-        binding.sosFab.setOnClickListener { startSosQuickAction() }
+        binding.primaryCallButton.apply {
+            applyPressScaleEffect()
+            setOnClickListener { startDialer() }
+        }
+        binding.primaryVideoButton.apply {
+            applyPressScaleEffect()
+            setOnClickListener { startVideoQuickAction() }
+        }
+        binding.sosFab.apply {
+            applyPressScaleEffect()
+            setOnClickListener { startSosQuickAction() }
+        }
 
         binding.bottomNavigation.selectedItemId = R.id.navigation_home
         binding.bottomNavigation.setOnItemSelectedListener { item ->
@@ -319,13 +328,13 @@ class HomeActivity : AppCompatActivity() {
     private fun startVideoQuickAction() {
         val favorites = contactsAdapter.currentList
         if (favorites.isEmpty()) {
-            Toast.makeText(this, R.string.quick_action_no_contacts, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.quick_action_no_contacts)
             return
         }
         showContactPicker(R.string.quick_action_video_choose_contact, favorites) { contact ->
             val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
             if (!handled) {
-                Toast.makeText(this, R.string.quick_action_no_whatsapp, Toast.LENGTH_SHORT).show()
+                showErrorFeedback(R.string.quick_action_no_whatsapp)
             }
         }
     }
@@ -333,7 +342,7 @@ class HomeActivity : AppCompatActivity() {
     private fun startMessageQuickAction() {
         val favorites = contactsAdapter.currentList
         if (favorites.isEmpty()) {
-            Toast.makeText(this, R.string.quick_action_no_contacts, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.quick_action_no_contacts)
             return
         }
         showContactPicker(R.string.quick_action_message_choose_contact, favorites) { contact ->
@@ -363,7 +372,7 @@ class HomeActivity : AppCompatActivity() {
     private fun launchCameraCapture() {
         val request = cameraCoordinator.createCameraCaptureRequest()
         if (request == null) {
-            Toast.makeText(this, R.string.quick_action_camera_error, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.quick_action_camera_error)
             return
         }
         pendingCameraRequest = request
@@ -375,7 +384,7 @@ class HomeActivity : AppCompatActivity() {
         try {
             galleryLauncher.launch(intent)
         } catch (_: ActivityNotFoundException) {
-            Toast.makeText(this, R.string.quick_action_gallery_unavailable, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.quick_action_gallery_unavailable)
         }
     }
 
@@ -383,7 +392,7 @@ class HomeActivity : AppCompatActivity() {
         val now = LocalDateTime.now()
         val upcoming = reminderRepository.getUpcomingReminders(now)
         if (upcoming.isEmpty()) {
-            Toast.makeText(this, R.string.quick_action_reminders_empty, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.quick_action_reminders_empty)
             return
         }
         val formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM HH:mm", Locale.getDefault())
@@ -480,7 +489,7 @@ class HomeActivity : AppCompatActivity() {
     private fun onVideoCallClicked(contact: FavoriteContact) {
         val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
         if (!handled) {
-            Toast.makeText(this, R.string.quick_action_no_whatsapp, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.quick_action_no_whatsapp)
         }
     }
 
@@ -496,30 +505,30 @@ class HomeActivity : AppCompatActivity() {
             telephonyController.startDial(emergencyNumber)
         }
         if (!handled) {
-            Toast.makeText(this, R.string.quick_action_sos_call_failed, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.quick_action_sos_call_failed)
         }
     }
 
     private fun notifyCaregiver() {
         val caregiver = caregiverPreferences.loadCaregivers().firstOrNull()
         if (caregiver == null) {
-            Toast.makeText(this, R.string.quick_action_sos_no_caregiver, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.quick_action_sos_no_caregiver)
             return
         }
         if (telephonyController.startSms(caregiver.phoneNumber, getString(R.string.sos_message_body))) {
-            Toast.makeText(this, R.string.quick_action_sos_sms_sent, Toast.LENGTH_SHORT).show()
+            showSuccessFeedback(R.string.quick_action_sos_sms_sent)
         } else {
             showTelephonyUnavailableToast()
         }
     }
 
     private fun showTelephonyUnavailableToast() {
-        Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
+        showErrorFeedback(R.string.telephony_not_available)
     }
 
     private fun openProtectedSettings() {
         if (!lockGestureCoordinator.canTriggerProtectedAction()) {
-            Toast.makeText(this, R.string.home_lock_hold_required, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.home_lock_hold_required)
             binding.bottomNavigation.selectedItemId = R.id.navigation_home
             return
         }

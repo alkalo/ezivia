@@ -39,7 +39,10 @@ class HomeQuickActionsAdapter(
             binding.quickActionIcon.setImageResource(action.iconRes)
             binding.quickActionTitle.setText(action.titleRes)
             binding.quickActionDescription.setText(action.descriptionRes)
-            binding.root.setOnClickListener { onActionClick(action) }
+            binding.root.apply {
+                applyPressScaleEffect()
+                setOnClickListener { onActionClick(action) }
+            }
 
             val animation = AnimationUtils.loadAnimation(binding.root.context, R.anim.fade_scale_in)
             binding.root.startAnimation(animation)

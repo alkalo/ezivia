@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.widget.TimePicker
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezivia.launcher.R
@@ -18,7 +16,7 @@ import com.ezivia.utilities.reminders.ReminderType
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-class RemindersOverviewActivity : AppCompatActivity() {
+class RemindersOverviewActivity : BaseActivity() {
 
     private lateinit var binding: ActivityRemindersOverviewBinding
     private lateinit var reminderRepository: ReminderRepository
@@ -39,10 +37,12 @@ class RemindersOverviewActivity : AppCompatActivity() {
         binding.remindersList.apply {
             adapter = remindersAdapter
             layoutManager = LinearLayoutManager(this@RemindersOverviewActivity)
+            itemAnimator = ScaleInItemAnimator()
         }
 
-        binding.addReminderFab.setOnClickListener {
-            showAddReminderDialog()
+        binding.addReminderFab.apply {
+            applyPressScaleEffect()
+            setOnClickListener { showAddReminderDialog() }
         }
 
         loadReminders()
@@ -61,7 +61,7 @@ class RemindersOverviewActivity : AppCompatActivity() {
 
     private fun onReminderToggle(reminder: Reminder, completed: Boolean) {
         reminderRepository.updateCompletion(reminder.id, completed)
-        Toast.makeText(this, R.string.reminders_status_updated, Toast.LENGTH_SHORT).show()
+        showSuccessFeedback(R.string.reminders_status_updated)
         loadReminders()
     }
 
@@ -77,6 +77,7 @@ class RemindersOverviewActivity : AppCompatActivity() {
 
         dialog.setOnShowListener {
             val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            positiveButton.applyPressScaleEffect()
             positiveButton.setOnClickListener {
                 val name = dialogBinding.reminderTitleInput.editText?.text?.toString()?.trim().orEmpty()
                 val notes = dialogBinding.reminderNotesInput.editText?.text?.toString()?.trim().orEmpty()
@@ -100,7 +101,7 @@ class RemindersOverviewActivity : AppCompatActivity() {
                     dateTime = time,
                     type = type
                 )
-                Toast.makeText(this, R.string.reminders_saved, Toast.LENGTH_SHORT).show()
+                showSuccessFeedback(R.string.reminders_saved)
                 dialog.dismiss()
                 loadReminders()
             }

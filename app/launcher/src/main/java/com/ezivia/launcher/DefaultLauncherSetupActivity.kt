@@ -3,13 +3,12 @@ package com.ezivia.launcher
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.ezivia.launcher.databinding.ActivityDefaultLauncherSetupBinding
 
 private const val REQUEST_CODE_DEFAULT_LAUNCHER = 1001
 
-class DefaultLauncherSetupActivity : AppCompatActivity() {
+class DefaultLauncherSetupActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_FORCE_RECONFIGURE = "com.ezivia.launcher.extra.FORCE_RECONFIGURE"

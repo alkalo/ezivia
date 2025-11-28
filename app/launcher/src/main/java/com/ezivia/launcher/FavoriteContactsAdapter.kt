@@ -37,10 +37,22 @@ class FavoriteContactsAdapter(
             binding.contactNumber.text = contact.phoneNumber
             binding.contactInitial.text = contact.displayName.firstOrNull()?.toString()?.uppercase(Locale.getDefault())
 
-            binding.callButton.setOnClickListener { onCallClick(contact) }
-            binding.messageButton.setOnClickListener { onMessageClick(contact) }
-            binding.videoButton.setOnClickListener { onVideoCallClick(contact) }
-            binding.root.setOnClickListener { onEditClick(contact) }
+            binding.callButton.apply {
+                applyPressScaleEffect()
+                setOnClickListener { onCallClick(contact) }
+            }
+            binding.messageButton.apply {
+                applyPressScaleEffect()
+                setOnClickListener { onMessageClick(contact) }
+            }
+            binding.videoButton.apply {
+                applyPressScaleEffect()
+                setOnClickListener { onVideoCallClick(contact) }
+            }
+            binding.root.apply {
+                applyPressScaleEffect()
+                setOnClickListener { onEditClick(contact) }
+            }
 
             val animation = AnimationUtils.loadAnimation(binding.root.context, R.anim.fade_scale_in)
             binding.root.startAnimation(animation)
