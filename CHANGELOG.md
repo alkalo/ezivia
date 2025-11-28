@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Simplificamos los ajustes restringidos eliminando la lista de cuidadores, sumando guías por voz y sonidos de confirmación, y reorganizando la tarjeta de lectura y sonido con copias más claras.
 - Permitimos que el botón "Cambiar inicio predeterminado" al salir de Ezivia abra los ajustes de inicio cuando ya somos la app por defecto.
 - Quitamos el panel del gesto de bloqueo en inicio, compactando el layout y usando confirmaciones para abrir Ajustes o salir sin depender del volumen.
 - Reorganizamos la pantalla de inicio del launcher en una sola columna con botones principales apilados, acciones rápidas y favoritos a ancho completo para mejorar la legibilidad.
