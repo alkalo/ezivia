@@ -35,6 +35,8 @@
 
     <string name="home_settings_confirmation_confirm">Abrir Ajustes</string>
 
+    <string name="home_settings_volume_required">Para abrir Ajustes pulsa el botón de subir volumen y toca el ícono de Ajustes.</string>
+
 
     <string name="home_exit_confirmation_title">Salir de Ezivia</string>
 

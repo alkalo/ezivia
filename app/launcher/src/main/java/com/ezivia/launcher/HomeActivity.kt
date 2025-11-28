@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.KeyEvent
 import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
@@ -59,6 +60,7 @@ class HomeActivity : BaseActivity() {
     private var pendingCallNumber: String? = null
     private var pendingCameraRequest: CameraCaptureRequest? = null
     private val fadeScaleIn by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_scale_in) }
+    private var isVolumeUpPressed: Boolean = false
 
     private val contactsPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -202,7 +204,7 @@ class HomeActivity : BaseActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> true
                 R.id.navigation_settings -> {
-                    openProtectedSettings()
+                    handleProtectedSettingsAccess()
                     binding.bottomNavigation.selectedItemId = R.id.navigation_home
                     true
                 }
@@ -236,6 +238,20 @@ class HomeActivity : BaseActivity() {
         if (hasPermission && contactsJob == null) {
             startContactsSync()
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            isVolumeUpPressed = true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            isVolumeUpPressed = false
+        }
+        return super.onKeyUp(keyCode, event)
     }
 
     override fun onDestroy() {
@@ -514,7 +530,15 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun showTelephonyUnavailableToast() {
-        showErrorFeedback(R.string.telephony_not_available)
+            showErrorFeedback(R.string.telephony_not_available)
+    }
+
+    private fun handleProtectedSettingsAccess() {
+        if (isVolumeUpPressed) {
+            openProtectedSettings()
+        } else {
+            showErrorFeedback(R.string.home_settings_volume_required)
+        }
     }
 
     private fun openProtectedSettings() {
