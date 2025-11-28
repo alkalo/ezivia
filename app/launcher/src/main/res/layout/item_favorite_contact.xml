@@ -69,52 +69,68 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:layout_marginTop="12dp">
+
+            <!-- Botonera flexible para alinear las acciones en una o dos filas sin cortar los textos -->
+            <androidx.constraintlayout.widget.Flow
+                android:id="@+id/contactActionsFlow"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:flow_horizontalGap="12dp"
+                app:flow_horizontalStyle="packed"
+                app:flow_maxElementsWrap="2"
+                app:flow_verticalAlign="center"
+                app:flow_verticalGap="12dp"
+                app:flow_wrapMode="aligned"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:constraint_referenced_ids="callButton,messageButton,videoButton" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/callButton"
                 style="@style/Widget.Ezivia.PrimaryButton"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@string/action_call"
                 android:textAllCaps="false"
                 app:backgroundTint="@color/ezivia_secondary"
                 app:icon="@drawable/ic_action_call"
+                app:iconPadding="8dp"
                 app:iconTint="@color/ezivia_on_secondary" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/messageButton"
                 style="@style/Widget.Ezivia.PrimaryButton"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_weight="1"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@string/action_message"
                 android:textAllCaps="false"
                 app:backgroundTint="@color/ezivia_highlight"
                 app:icon="@drawable/ic_action_message"
+                app:iconPadding="8dp"
                 app:iconTint="@color/ezivia_on_surface" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/videoButton"
                 style="@style/Widget.Ezivia.PrimaryButton"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@string/action_video_call"
                 android:textAllCaps="false"
                 app:backgroundTint="@color/ezivia_primary"
                 app:icon="@drawable/ic_action_video_call"
+                app:iconPadding="8dp"
                 app:iconTint="@color/ezivia_on_primary" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
