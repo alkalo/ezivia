@@ -18,6 +18,7 @@ import com.ezivia.communication.telephony.NativeTelephonyController
 import com.ezivia.communication.whatsapp.WhatsAppLauncher
 import com.ezivia.launcher.R
 import com.ezivia.launcher.databinding.ActivityContactsBinding
+import com.ezivia.launcher.ContactWizardActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -33,6 +34,17 @@ class ContactsActivity : AppCompatActivity() {
     private val favoriteContactsSynchronizer by lazy { FavoriteContactsSynchronizer(contentResolver) }
     private var contactsJob: Job? = null
     private var pendingCallNumber: String? = null
+
+    private val contactWizardLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val name = result.data?.getStringExtra(ContactWizardActivity.EXTRA_CONTACT_NAME)
+                val toastText = name?.let {
+                    getString(R.string.contact_wizard_result_toast, it)
+                } ?: getString(R.string.contact_wizard_result_generic)
+                Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+            }
+        }
 
     private val contactsPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -74,11 +86,16 @@ class ContactsActivity : AppCompatActivity() {
             onCallClick = ::onCallClicked,
             onMessageClick = ::onMessageClicked,
             onVideoCallClick = ::onVideoCallClicked,
+            onEditClick = ::onEditClicked,
         )
 
         binding.contactsList.apply {
             adapter = contactsAdapter
             layoutManager = LinearLayoutManager(this@ContactsActivity)
+        }
+
+        binding.addContactButton.setOnClickListener {
+            contactWizardLauncher.launch(Intent(this, ContactWizardActivity::class.java))
         }
 
         binding.manageFavoritesButton.setOnClickListener {
@@ -173,6 +190,16 @@ class ContactsActivity : AppCompatActivity() {
         if (!handled) {
             Toast.makeText(this, R.string.quick_action_no_whatsapp, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun onEditClicked(contact: FavoriteContact) {
+        val intent = Intent(this, ContactWizardActivity::class.java).apply {
+            putExtra(ContactWizardActivity.EXTRA_CONTACT_ID, contact.id)
+            putExtra(ContactWizardActivity.EXTRA_CONTACT_NAME, contact.displayName)
+            putExtra(ContactWizardActivity.EXTRA_CONTACT_PHONE, contact.phoneNumber)
+            putExtra(ContactWizardActivity.EXTRA_USE_WHATSAPP, true)
+        }
+        contactWizardLauncher.launch(intent)
     }
 
     private fun showTelephonyUnavailableToast() {

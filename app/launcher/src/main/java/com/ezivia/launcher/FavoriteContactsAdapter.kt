@@ -15,6 +15,7 @@ class FavoriteContactsAdapter(
     private val onCallClick: (FavoriteContact) -> Unit,
     private val onMessageClick: (FavoriteContact) -> Unit,
     private val onVideoCallClick: (FavoriteContact) -> Unit,
+    private val onEditClick: (FavoriteContact) -> Unit,
 ) : ListAdapter<FavoriteContact, FavoriteContactsAdapter.ContactViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -39,6 +40,7 @@ class FavoriteContactsAdapter(
             binding.callButton.setOnClickListener { onCallClick(contact) }
             binding.messageButton.setOnClickListener { onMessageClick(contact) }
             binding.videoButton.setOnClickListener { onVideoCallClick(contact) }
+            binding.root.setOnClickListener { onEditClick(contact) }
 
             val animation = AnimationUtils.loadAnimation(binding.root.context, R.anim.fade_scale_in)
             binding.root.startAnimation(animation)

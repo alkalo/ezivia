@@ -61,6 +61,17 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/addContactButton"
+            style="@style/Widget.Ezivia.HomeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/contacts_add_contact"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_action_person"
+            app:iconTint="@color/ezivia_on_surface" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/manageFavoritesButton"
             style="@style/Widget.Ezivia.HomeButton"
             android:layout_width="match_parent"
