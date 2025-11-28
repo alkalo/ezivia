@@ -28,30 +28,31 @@ class WhatsAppLauncher(private val activity: Activity) {
             return false
         }
 
-        if (!isWhatsAppInstalled()) {
+        val installedPackage = resolveInstalledWhatsAppPackage()
+        if (installedPackage == null) {
             showInstallFallback()
             return false
         }
 
-        showConfirmationDialog(contact, sanitizedNumber)
+        showConfirmationDialog(contact, sanitizedNumber, installedPackage)
         return true
     }
 
-    private fun showConfirmationDialog(contact: FavoriteContact, phoneNumber: String) {
+    private fun showConfirmationDialog(contact: FavoriteContact, phoneNumber: String, packageName: String) {
         AlertDialog.Builder(activity)
             .setTitle("Videollamada por WhatsApp")
             .setMessage("¿Deseas iniciar una videollamada con ${contact.displayName}?")
             .setPositiveButton("Videollamar") { _, _ ->
-                launchVideoCall(phoneNumber)
+                launchVideoCall(phoneNumber, packageName)
             }
             .setNegativeButton("Cancelar", null)
             .show()
     }
 
-    private fun launchVideoCall(phoneNumber: String) {
+    private fun launchVideoCall(phoneNumber: String, packageName: String) {
         val videoCallUri = Uri.parse("whatsapp://call?phone=" + Uri.encode(phoneNumber) + "&call_type=video")
         val intent = Intent(Intent.ACTION_VIEW, videoCallUri).apply {
-            setPackage(WHATSAPP_PACKAGE)
+            setPackage(packageName)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 
@@ -63,16 +64,21 @@ class WhatsAppLauncher(private val activity: Activity) {
         }
     }
 
-    private fun isWhatsAppInstalled(): Boolean {
+    private fun resolveInstalledWhatsAppPackage(): String? {
+        val installedPackages = WHATSAPP_PACKAGES.filter { isWhatsAppInstalled(it) }.toSet()
+        return selectPreferredPackage(installedPackages)
+    }
+
+    private fun isWhatsAppInstalled(packageName: String): Boolean {
         return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 activity.packageManager.getPackageInfo(
-                    WHATSAPP_PACKAGE,
+                    packageName,
                     PackageManager.PackageInfoFlags.of(0)
                 )
             } else {
                 @Suppress("DEPRECATION")
-                activity.packageManager.getPackageInfo(WHATSAPP_PACKAGE, 0)
+                activity.packageManager.getPackageInfo(packageName, 0)
             }
             true
         } catch (_: PackageManager.NameNotFoundException) {
@@ -92,12 +98,12 @@ class WhatsAppLauncher(private val activity: Activity) {
     }
 
     private fun openStoreListing() {
-        val primaryIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$WHATSAPP_PACKAGE")).apply {
+        val primaryIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$PRIMARY_WHATSAPP_PACKAGE")).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
 
         if (!tryStart(primaryIntent)) {
-            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$WHATSAPP_PACKAGE")).apply {
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$PRIMARY_WHATSAPP_PACKAGE")).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             if (!tryStart(webIntent)) {
@@ -120,7 +126,12 @@ class WhatsAppLauncher(private val activity: Activity) {
     }
 
     companion object {
-        private const val WHATSAPP_PACKAGE = "com.whatsapp"
+        private const val PRIMARY_WHATSAPP_PACKAGE = "com.whatsapp"
+        private val WHATSAPP_PACKAGES = listOf(PRIMARY_WHATSAPP_PACKAGE, "com.whatsapp.w4b")
+
+        internal fun selectPreferredPackage(installedPackages: Set<String>): String? {
+            return WHATSAPP_PACKAGES.firstOrNull { installedPackages.contains(it) }
+        }
 
         internal fun sanitizePhoneNumber(raw: String): String {
             val trimmed = raw.trim()

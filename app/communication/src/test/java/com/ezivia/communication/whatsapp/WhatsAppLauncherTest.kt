@@ -32,4 +32,29 @@ class WhatsAppLauncherTest {
 
         assertThat(sanitized).isEmpty()
     }
+
+    @Test
+    fun selectPreferredPackage_prioritizesConsumerVariantWhenBothInstalled() {
+        val installed = setOf("com.whatsapp", "com.whatsapp.w4b")
+
+        val resolved = WhatsAppLauncher.selectPreferredPackage(installed)
+
+        assertThat(resolved).isEqualTo("com.whatsapp")
+    }
+
+    @Test
+    fun selectPreferredPackage_returnsBusinessWhenOnlyBusinessIsPresent() {
+        val installed = setOf("com.whatsapp.w4b")
+
+        val resolved = WhatsAppLauncher.selectPreferredPackage(installed)
+
+        assertThat(resolved).isEqualTo("com.whatsapp.w4b")
+    }
+
+    @Test
+    fun selectPreferredPackage_returnsNullWhenNoOptionsInstalled() {
+        val resolved = WhatsAppLauncher.selectPreferredPackage(emptySet())
+
+        assertThat(resolved).isNull()
+    }
 }
