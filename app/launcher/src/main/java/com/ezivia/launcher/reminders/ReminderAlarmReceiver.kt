@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
@@ -32,7 +31,19 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
         val notificationManager = NotificationManagerCompat.from(context)
         val channelId = ensureChannel(context, notificationManager)
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        val alarmAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ALARM)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
         val contentIntent = PendingIntent.getActivity(
+            context,
+            reminderId,
+            Intent(context, RemindersOverviewActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            },
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val fullScreenIntent = PendingIntent.getActivity(
             context,
             reminderId,
             Intent(context, RemindersOverviewActivity::class.java).apply {
@@ -55,10 +66,11 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setAutoCancel(true)
-            .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
-            .setSound(alarmSound)
+            .setVibrate(VIBRATION_PATTERN)
+            .setSound(alarmSound, alarmAttributes)
             .setContentIntent(contentIntent)
             .setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
+            .setFullScreenIntent(fullScreenIntent, true)
             .build()
 
         notificationManager.notify(reminderId, notification)
@@ -77,8 +89,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             ).apply {
                 description = context.getString(R.string.reminders_notification_channel_description)
                 enableVibration(true)
-                enableLights(true)
-                lightColor = Color.MAGENTA
+                vibrationPattern = VIBRATION_PATTERN
                 setSound(
                     alarmSound,
                     AudioAttributes.Builder()
@@ -97,7 +108,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
         const val EXTRA_REMINDER_ID = "extra_reminder_id"
         const val EXTRA_REMINDER_TITLE = "extra_reminder_title"
         const val EXTRA_REMINDER_TYPE = "extra_reminder_type"
-        private const val CHANNEL_ID = "ezivia_reminders"
+        private const val CHANNEL_ID = "reminders_notification_channel"
+        private val VIBRATION_PATTERN = longArrayOf(0, 1500, 1000, 1500, 1000)
         private const val DEFAULT_NOTIFICATION_ID = 7001
     }
 }
