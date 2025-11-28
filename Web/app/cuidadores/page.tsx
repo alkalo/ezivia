@@ -1,5 +1,6 @@
 import content from "../../content/caregivers.json";
 import { CTAButton, CTAButtons } from "../components/CTAButtons";
+import { ScreenGuide } from "../components/ScreenGuide";
 
 type CaregiversContent = {
   hero: {
@@ -34,6 +35,10 @@ export default function CaregiversPage() {
 
   return (
     <main className="caregivers-page">
+      <ScreenGuide
+        title="Ayuda para cuidadores"
+        message="Esta sección reúne la información clave para configurar Ezivia a distancia y responder a emergencias. Revisa cada bloque y usa los botones resaltados para actuar."
+      />
       <section
         className="section hero hero--caregivers"
         aria-labelledby="caregivers-hero-title"

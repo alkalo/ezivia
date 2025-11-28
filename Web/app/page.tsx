@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import content from "../content/home.json";
 import { CTAButton, CTAButtons } from "./components/CTAButtons";
+import { ScreenGuide } from "./components/ScreenGuide";
 import WaitlistForm from "./components/WaitlistForm";
 
 type HomeContent = {
@@ -63,6 +64,10 @@ export default function HomePage() {
 
   return (
     <main className="home-page">
+      <ScreenGuide
+        title="Bienvenida a Ezivia"
+        message="Estás en la página principal de Ezivia. Desplázate para conocer los beneficios, cómo funciona y únete a la lista de espera con los botones destacados."
+      />
       <section
         id="inicio"
         className="section hero"
