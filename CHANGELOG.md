@@ -43,3 +43,4 @@
 - Restore the protection PIN copy, require explicit launcher R imports, and double-check Material 3 usage so the launcher assembles cleanly with the updated theme stack.
 - Replace legacy coroutine UI dispatcher usage with Dispatchers.Main in the launcher module so assemble tasks compile without unresolved references.
 - Documentar los controles accesibles de llamada y videollamada con layouts centrados, botones de colores contrastados y video remoto a pantalla grande.
+- Añadir un desglose detallado de flujos (inicio, llamada, videollamada, favoritos y ajustes) con notas de accesibilidad, botones grandes y paleta cálida contrastada en la guía de estilo.
