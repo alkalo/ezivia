@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezivia.communication.ConversationCoordinator
 import com.ezivia.communication.contacts.FavoriteContact
@@ -167,8 +168,10 @@ class HomeActivity : BaseActivity() {
             adapter = contactsAdapter
             layoutManager = LinearLayoutManager(this@HomeActivity)
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fade_scale_in)
-            itemAnimator = ScaleInItemAnimator()
-            setHasFixedSize(true)
+            itemAnimator = ScaleInItemAnimator().apply {
+                supportsChangeAnimations = false
+            }
+            setHasFixedSize(false)
         }
 
         binding.quickActionsList.apply {
@@ -267,12 +270,11 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun showContacts(contacts: List<FavoriteContact>) {
-        val displayedContacts = contacts.take(6)
-        contactsAdapter.submitList(displayedContacts) {
+        contactsAdapter.submitList(contacts) {
             binding.favoriteContactsList.scheduleLayoutAnimation()
         }
-        binding.emptyContactsView.isVisible = displayedContacts.isEmpty()
-        if (displayedContacts.isEmpty()) {
+        binding.emptyContactsView.isVisible = contacts.isEmpty()
+        if (contacts.isEmpty()) {
             binding.emptyContactsView.text = getString(R.string.home_contacts_empty)
         }
     }
