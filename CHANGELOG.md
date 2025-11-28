@@ -7,6 +7,7 @@
 - Añadimos una sección en la web con iconos de trazo grueso para llamada, videollamada, ajustes y SOS,
   acompañados de una ilustración cálida alineada a la paleta crema/coral.
 - Abrimos la lista de contactos favoritos en el launcher a una columna única de tarjetas a ancho completo, con desplazamiento suave, animaciones visibles y estados vacíos o de permiso intactos para listas largas sin recortes.
+- Reorganizamos las acciones de contactos favoritos con un Flow que permite distribuir los botones en una o dos filas, evitando saltos de línea en los textos y manteniendo iconos y colores.
 - Fix contact wizard extras and favorite editing so the launcher build succeeds by correcting intent usage, starred flag
   handling, and home favorite edit actions.
 - Add the missing Body Medium text appearance so the contact wizard hint texts compile under AAPT again.
