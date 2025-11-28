@@ -78,6 +78,12 @@
             android:theme="@style/Theme.Ezivia" />
 
         <activity
+            android:name=".AddReminderActivity"
+            android:exported="false"
+            android:label="@string/reminders_dialog_title"
+            android:theme="@style/Theme.Ezivia" />
+
+        <activity
             android:name=".SosActivity"
             android:exported="false"
             android:label="@string/quick_action_sos_title"

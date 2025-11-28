@@ -220,36 +220,75 @@
     
     
     <string name="reminders_dialog_title">Nuevo recordatorio</string>
-    
-    
-    <string name="reminders_dialog_message">Introduce el nombre, notas, tipo, fecha y hora.</string>
-    
-    
-    <string name="reminders_dialog_name_hint">¿Qué debes recordar?</string>
-    
-    
-    <string name="reminders_dialog_notes_hint">Notas (opcional)</string>
-    
-    
+
+
+    <string name="reminders_dialog_message">Paso 1: elige si es medicación o cita. Paso 2: selecciona fecha y hora y guarda.</string>
+
+
+    <string name="reminders_dialog_name_hint">Ponle un nombre fácil de recordar</string>
+
+
+    <string name="reminders_dialog_notes_hint">Añade una nota si quieres</string>
+
+
     <string name="reminders_dialog_type">Tipo de recordatorio</string>
 
 
-    <string name="reminders_dialog_date_label">Fecha del recordatorio</string>
+    <string name="reminders_dialog_date_label">Elige el día</string>
 
 
-    <string name="reminders_dialog_time_label">Hora del recordatorio</string>
+    <string name="reminders_dialog_time_label">Elige la hora</string>
 
 
-    <string name="reminders_dialog_error_name">Escribe un nombre para el recordatorio.</string>
+    <string name="reminders_dialog_error_name">Escribe un nombre claro para el recordatorio.</string>
 
 
-    <string name="reminders_dialog_error_time">Selecciona una fecha y hora en el futuro.</string>
-    
-    
+    <string name="reminders_dialog_error_time">Selecciona una fecha y hora futura para que Ezivia te avise.</string>
+
+
     <string name="reminders_dialog_save">Guardar</string>
-    
-    
+
+
     <string name="reminders_dialog_cancel">Cancelar</string>
+
+
+    <string name="reminders_step_indicator">Paso %1$d de %2$d</string>
+
+
+    <string name="reminders_step_type_title">¿Qué necesitas recordar?</string>
+
+
+    <string name="reminders_step_type_description">Elige rápido si es medicación o una cita.</string>
+
+
+    <string name="reminders_step_schedule_title">Cuándo quieres que te avisemos</string>
+
+
+    <string name="reminders_step_schedule_description">Selecciona la fecha y la hora con los controles grandes. Las notas son opcionales.</string>
+
+
+    <string name="reminders_step_continue">Continuar</string>
+
+
+    <string name="reminders_step_back">Cambiar tipo</string>
+
+
+    <string name="reminders_type_medication_description">Pastillas, gotas, cremas o inhaladores.</string>
+
+
+    <string name="reminders_type_appointment_description">Visitas médicas, trámites o llamadas.</string>
+
+
+    <string name="reminders_selected_type_medication">Recordatorio de medicación</string>
+
+
+    <string name="reminders_selected_type_appointment">Recordatorio de cita</string>
+
+
+    <string name="reminders_notes_optional_toggle">Añadir nota (opcional)</string>
+
+
+    <string name="reminders_notes_optional_hide">Ocultar nota</string>
     
     
     <string name="reminders_saved">Recordatorio guardado.</string>
