@@ -16,7 +16,6 @@ class HomeQuickActionsTest {
             HomeQuickActionType.VIDEO_CALL,
             HomeQuickActionType.MESSAGE,
             HomeQuickActionType.PHOTOS,
-            HomeQuickActionType.REMINDERS,
             HomeQuickActionType.SOS,
         ).inOrder()
     }

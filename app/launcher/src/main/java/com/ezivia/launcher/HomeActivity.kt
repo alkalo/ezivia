@@ -5,8 +5,6 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.AudioManager
-import android.media.ToneGenerator
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.KeyEvent
@@ -31,15 +29,10 @@ import com.ezivia.settings.RestrictedSettingsActivity
 import com.ezivia.utilities.caregiver.CaregiverPreferences
 import com.ezivia.utilities.camera.CameraCaptureRequest
 import com.ezivia.utilities.camera.SimpleCameraCoordinator
-import com.ezivia.utilities.reminders.Reminder
-import com.ezivia.utilities.reminders.ReminderRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 /**
  * Home screen for Ezivia that exposes the key actions older adults need in a
@@ -54,7 +47,6 @@ class HomeActivity : BaseActivity() {
     private lateinit var onboardingPreferences: LauncherOnboardingPreferences
     private lateinit var whatsAppLauncher: WhatsAppLauncher
     private lateinit var cameraCoordinator: SimpleCameraCoordinator
-    private lateinit var reminderRepository: ReminderRepository
     private lateinit var caregiverPreferences: CaregiverPreferences
     private lateinit var conversationCoordinator: ConversationCoordinator
     private lateinit var onBackPressedCallback: OnBackPressedCallback
@@ -64,10 +56,6 @@ class HomeActivity : BaseActivity() {
     private var pendingCameraRequest: CameraCaptureRequest? = null
     private val fadeScaleIn by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_scale_in) }
     private var isVolumeUpPressed: Boolean = false
-    private var upcomingReminders: List<Reminder> = emptyList()
-    private val reminderDateFormatter by lazy {
-        DateTimeFormatter.ofPattern("EEEE d 'de' MMMM '•' HH:mm", Locale.getDefault())
-    }
 
     private val contactsPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -164,7 +152,6 @@ class HomeActivity : BaseActivity() {
         quickActionsAdapter = HomeQuickActionsAdapter(::handleQuickAction)
         whatsAppLauncher = WhatsAppLauncher(this)
         cameraCoordinator = SimpleCameraCoordinator(this)
-        reminderRepository = ReminderRepository(this)
         caregiverPreferences = CaregiverPreferences(this)
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -189,21 +176,6 @@ class HomeActivity : BaseActivity() {
             layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fade_scale_in)
             itemAnimator = ScaleInItemAnimator()
             setHasFixedSize(true)
-        }
-
-        binding.reminderTakeButton.apply {
-            applyPressScaleEffect()
-            setOnClickListener { updateReminderCompletion(completed = true) }
-        }
-
-        binding.reminderLaterButton.apply {
-            applyPressScaleEffect()
-            setOnClickListener { updateReminderCompletion(completed = false) }
-        }
-
-        binding.reminderSummaryCard.setOnClickListener {
-            binding.homeScroll.smoothScrollTo(0, binding.reminderSummaryCard.top)
-            announceReminders()
         }
 
         quickActionsAdapter.submitList(HomeQuickActions.defaultActions())
@@ -238,7 +210,6 @@ class HomeActivity : BaseActivity() {
         animateEntryViews()
 
         ensureContactsPermission()
-        refreshReminderSummary()
     }
 
     override fun onResume() {
@@ -261,8 +232,6 @@ class HomeActivity : BaseActivity() {
         if (hasPermission && contactsJob == null) {
             startContactsSync()
         }
-
-        refreshReminderSummary()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -301,69 +270,6 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    private fun refreshReminderSummary() {
-        val now = LocalDateTime.now()
-        val reminders = reminderRepository.getUpcomingReminders(now)
-        upcomingReminders = reminders.take(2)
-
-        val friendlySummary = reminderRepository.buildFriendlySummary(now)
-        binding.reminderSummaryText.text = friendlySummary
-
-        val detailText = if (upcomingReminders.isEmpty()) {
-            getString(R.string.home_reminders_empty)
-        } else {
-            upcomingReminders.joinToString(separator = "\n\n") { reminder ->
-                buildString {
-                    append(reminder.title)
-                    append('\n')
-                    append(reminderDateFormatter.format(reminder.dateTime))
-                }
-            }
-        }
-
-        binding.reminderDetailText.text = detailText
-        binding.reminderActions.isVisible = upcomingReminders.isNotEmpty()
-        if (upcomingReminders.isNotEmpty()) {
-            announceReminders()
-        }
-    }
-
-    private fun announceReminders() {
-        val summary = binding.reminderSummaryText.text
-        if (summary.isNullOrBlank()) return
-        binding.reminderSummaryCard.announceForAccessibility(summary)
-    }
-
-    private fun focusReminderCard() {
-        binding.homeScroll.post {
-            binding.homeScroll.smoothScrollTo(0, binding.reminderSummaryCard.top)
-            announceReminders()
-        }
-    }
-
-    private fun updateReminderCompletion(completed: Boolean) {
-        val reminder = upcomingReminders.firstOrNull() ?: run {
-            showErrorFeedback(R.string.quick_action_reminders_empty)
-            return
-        }
-        reminderRepository.updateCompletion(reminder.id, completed)
-        playConfirmationTone()
-        val feedback = if (completed) {
-            getString(R.string.home_reminders_taken_feedback, reminder.title)
-        } else {
-            getString(R.string.home_reminders_snoozed_feedback)
-        }
-        showSuccessFeedback(feedback)
-        refreshReminderSummary()
-    }
-
-    private fun playConfirmationTone() {
-        ToneGenerator(AudioManager.STREAM_NOTIFICATION, 80).apply {
-            startTone(ToneGenerator.TONE_PROP_ACK, 150)
-            release()
-        }
-    }
-
     private fun startContactsSync() {
         contactsJob?.cancel()
         contactsJob = lifecycleScope.launch(Dispatchers.Main) {
@@ -399,7 +305,6 @@ class HomeActivity : BaseActivity() {
             HomeQuickActionType.VIDEO_CALL -> startVideoQuickAction()
             HomeQuickActionType.MESSAGE -> startMessageQuickAction()
             HomeQuickActionType.PHOTOS -> startPhotosQuickAction()
-            HomeQuickActionType.REMINDERS -> focusReminderCard()
             HomeQuickActionType.SOS -> startSosQuickAction()
         }
     }
