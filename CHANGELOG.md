@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Quitamos el panel del gesto de bloqueo en inicio, compactando el layout y usando confirmaciones para abrir Ajustes o salir sin depender del volumen.
+- Reorganizamos la pantalla de inicio del launcher en una sola columna con botones principales apilados, acciones rápidas y favoritos a ancho completo para mejorar la legibilidad.
 - Mejoramos la accesibilidad web con anillos de foco visibles, contrastes reforzados en estados críticos y formularios que anuncian sus estados para lectores de pantalla.
 - Añadimos una sección en la web con iconos de trazo grueso para llamada, videollamada, ajustes y SOS,
   acompañados de una ilustración cálida alineada a la paleta crema/coral.

@@ -13,13 +13,13 @@
         android:layout_height="0dp"
         android:paddingHorizontal="24dp"
         android:paddingTop="24dp"
-        android:paddingBottom="140dp"
+        android:paddingBottom="112dp"
         android:clipToPadding="false"
         android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomSection"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         tools:fillViewport="true">
 
         <LinearLayout
@@ -50,17 +50,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="vertical">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/primaryCallButton"
                     style="@style/Widget.Ezivia.PrimaryButton"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
                     android:text="@string/home_primary_call"
                     android:textAppearance="@style/TextAppearance.Ezivia.Button"
                     android:textAllCaps="false"
@@ -74,10 +70,9 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/primaryVideoButton"
                     style="@style/Widget.Ezivia.PrimaryButton"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
+                    android:layout_marginTop="12dp"
                     android:text="@string/home_primary_video"
                     android:textAppearance="@style/TextAppearance.Ezivia.Button"
                     android:textAllCaps="false"
@@ -141,65 +136,6 @@
                 android:visibility="gone" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <LinearLayout
-        android:id="@+id/bottomSection"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/lockGestureTitle"
-            style="@style/TextAppearance.Ezivia.BodyLarge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/home_lock_hold_title" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/lockGestureCard"
-            style="@style/Widget.Ezivia.Card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="@color/ezivia_highlight"
-            app:strokeWidth="0dp">
-
-            <LinearLayout
-                android:id="@+id/lockGestureHoldView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_lock_gesture_touch"
-                android:gravity="center_vertical"
-                android:minHeight="@dimen/ezivia_primary_button_height"
-                android:paddingHorizontal="@dimen/ezivia_component_padding_horizontal"
-                android:paddingVertical="@dimen/ezivia_component_padding_vertical">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/lockGestureIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:contentDescription="@string/home_lock_hold_icon_description"
-                    app:srcCompat="@drawable/ic_volume_hold" />
-
-                <TextView
-                    android:id="@+id/lockGestureStatus"
-                    style="@style/TextAppearance.Ezivia.BodyLarge"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="1"
-                    android:text="@string/home_lock_hold_status_idle"
-                    android:textAlignment="viewStart" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/sosFab"
