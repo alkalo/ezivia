@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Add the missing Body Medium text appearance so the contact wizard hint texts compile under AAPT again.
 - Rediseñar los ajustes restringidos para mostrar solo tamaño de letra, volumen de tonos, contactos de emergencia y bloqueo de
   pantalla grande con tarjetas y controles grandes.
 - Añadimos guías contextuales con lectura en voz alta y un botón flotante de ayuda contrastado en la web para orientar al
