@@ -70,40 +70,40 @@ const essentialActions: EssentialAction[] = [
     title: "Llamadas claras",
     description:
       "Botón de llamada con trazo grueso y feedback inmediato para hablar con la familia favorita.",
-    accent: "#ffe7c4",
-    glow: "rgba(255, 140, 66, 0.3)",
+    accent: "#13213c",
+    glow: "rgba(15, 23, 42, 0.55)",
   },
   {
     id: "video",
     title: "Videollamadas cálidas",
     description:
       "Cámara enmarcada en color coral y contornos redondeados que invitan a conversar cara a cara.",
-    accent: "#fff4e5",
-    glow: "rgba(47, 42, 31, 0.12)",
+    accent: "#162944",
+    glow: "rgba(15, 23, 42, 0.45)",
   },
   {
     id: "settings",
     title: "Ajustes guiados",
     description:
       "Engrane grueso y amable que resume los accesos a tamaño de letra, brillo, sonido y favoritos.",
-    accent: "#fefbf6",
-    glow: "rgba(31, 26, 18, 0.12)",
+    accent: "#102035",
+    glow: "rgba(249, 115, 22, 0.22)",
   },
   {
     id: "sos",
     title: "SOS visible",
     description:
       "Escudo de seguridad en alto contraste con señal luminosa para pedir ayuda sin dudas.",
-    accent: "#ffe0bf",
-    glow: "rgba(255, 140, 66, 0.35)",
+    accent: "#1c2d44",
+    glow: "rgba(249, 115, 22, 0.3)",
   },
 ];
 
 const homeContent = content as HomeContent;
 
 function EssentialIcon({ id }: { id: EssentialAction["id"] }) {
-  const stroke = "#1f1a12";
-  const accent = "#ff8c42";
+  const stroke = "#f8fafc";
+  const accent = "#f97316";
 
   if (id === "call") {
     return (
