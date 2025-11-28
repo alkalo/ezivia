@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { MarkdownRenderer } from "../components/MarkdownRenderer";
+import { ScreenGuide } from "../components/ScreenGuide";
 import { readMarkdown } from "../lib/readMarkdown";
 
 export const metadata: Metadata = {
@@ -18,6 +19,10 @@ export default async function LegalPage() {
 
   return (
     <main className="content-page" aria-labelledby="legal-title">
+      <ScreenGuide
+        title="Ayuda sobre información legal"
+        message="En esta pantalla puedes revisar la política de privacidad y los términos de servicio de Ezivia. Usa el índice para saltar a cada sección y pulsa el signo de pregunta si quieres escuchar de nuevo la indicación."
+      />
       <header className="content-page__header">
         <h1 id="legal-title">Documentación legal de Ezivia</h1>
         <p>
