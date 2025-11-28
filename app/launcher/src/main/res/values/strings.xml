@@ -261,7 +261,7 @@
     <string name="reminders_notification_channel_name">Alarmas de recordatorios</string>
 
 
-    <string name="reminders_notification_channel_description">Avisos sonoros y vibración para tus recordatorios.</string>
+    <string name="reminders_notification_channel_description">Avisos sonoros y vibración prolongada para tus recordatorios.</string>
 
 
     <string name="reminders_notification_title_fallback">Recordatorio</string>
@@ -270,7 +270,7 @@
     <string name="reminders_notification_body">%1$s: %2$s</string>
 
 
-    <string name="reminders_notification_permission_denied">Activa las notificaciones para escuchar las alarmas de tus recordatorios.</string>
+    <string name="reminders_notification_permission_denied">Activa las notificaciones y las alarmas de Ezivia en Ajustes para que tus recordatorios suenen y vibren con fuerza.</string>
     
     
     <string name="sos_title">Emergencia</string>
