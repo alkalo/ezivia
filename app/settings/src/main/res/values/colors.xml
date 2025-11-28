@@ -1,9 +1,9 @@
 <resources>
-    <!-- Diseño: Paleta crema/coral/azul profundo para contraste cálido en ajustes y mensajes críticos. -->
+    <!-- Diseño: Paleta crema/coral/azul profundo con textos blancos en fondos intensos para contraste cálido en ajustes y mensajes críticos. -->
     <color name="ezivia_primary">#12355B</color>
     <color name="ezivia_on_primary">#FFFFFFFF</color>
     <color name="ezivia_secondary">#FF7A6A</color>
-    <color name="ezivia_on_secondary">#0F2337</color>
+    <color name="ezivia_on_secondary">#FFFFFFFF</color>
     <color name="ezivia_background">#FFF6EC</color>
     <color name="ezivia_on_background">#142741</color>
     <color name="ezivia_surface">#FFFBF5</color>

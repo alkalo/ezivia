@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Ajustamos las paletas móviles para que cualquier texto sobre fondos oscuros use blanco, incluyendo iconos y botones, mejorando el contraste en toda la app.
 - Cambiamos la web a una paleta nocturna con textos claros sobre fondos oscuros y tarjetas contrastadas para mejorar la
   legibilidad.
 - Simplificamos los ajustes restringidos eliminando la lista de cuidadores, sumando guías por voz y sonidos de confirmación, y reorganizando la tarjeta de lectura y sonido con copias más claras.
