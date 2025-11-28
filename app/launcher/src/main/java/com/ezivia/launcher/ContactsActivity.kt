@@ -96,7 +96,7 @@ class ContactsActivity : BaseActivity() {
         binding.addContactButton.apply {
             applyPressScaleEffect()
             setOnClickListener {
-            contactWizardLauncher.launch(Intent(this, ContactWizardActivity::class.java))
+                contactWizardLauncher.launch(Intent(this@ContactsActivity, ContactWizardActivity::class.java))
             }
         }
 

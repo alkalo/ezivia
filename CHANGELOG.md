@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Fix contact wizard extras and favorite editing so the launcher build succeeds by correcting intent usage, starred flag
+  handling, and home favorite edit actions.
 - Add the missing Body Medium text appearance so the contact wizard hint texts compile under AAPT again.
 - Rediseñar los ajustes restringidos para mostrar solo tamaño de letra, volumen de tonos, contactos de emergencia y bloqueo de
   pantalla grande con tarjetas y controles grandes.

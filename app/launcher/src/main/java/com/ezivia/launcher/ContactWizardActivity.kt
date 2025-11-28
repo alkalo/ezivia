@@ -159,7 +159,7 @@ class ContactWizardActivity : BaseActivity() {
 
         binding.nameInput.setText(extras.getStringExtra(EXTRA_CONTACT_NAME).orEmpty())
         binding.phoneInput.setText(extras.getStringExtra(EXTRA_CONTACT_PHONE).orEmpty())
-        binding.whatsappSwitch.isChecked = extras.getBoolean(EXTRA_USE_WHATSAPP, true)
+        binding.whatsappSwitch.isChecked = extras.getBooleanExtra(EXTRA_USE_WHATSAPP, true)
         extras.getStringExtra(EXTRA_CONTACT_PHOTO)?.let { uri ->
             contactPhotoUri = Uri.parse(uri)
             renderPhoto()
@@ -369,7 +369,7 @@ class ContactWizardActivity : BaseActivity() {
                     ContactsContract.Intents.Insert.PHONE_TYPE,
                     ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
                 )
-                putExtra(ContactsContract.Intents.Insert.STARRED, true)
+                putExtra(ContactsContract.Contacts.STARRED, 1)
                 if (note.isNotEmpty()) putExtra(ContactsContract.Intents.Insert.NOTES, note)
             }
         } else {
