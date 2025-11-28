@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Add the missing Body Medium text appearance so the contact wizard hint texts compile under AAPT again.
 - Rediseñar los ajustes restringidos para mostrar solo tamaño de letra, volumen de tonos, contactos de emergencia y bloqueo de
   pantalla grande con tarjetas y controles grandes.
 - Add tactile feedback and XL confirmation messaging across launcher screens, including press scale animations, success/error
