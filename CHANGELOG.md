@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Añadimos una sección en la web con iconos de trazo grueso para llamada, videollamada, ajustes y SOS,
+  acompañados de una ilustración cálida alineada a la paleta crema/coral.
 - Fix contact wizard extras and favorite editing so the launcher build succeeds by correcting intent usage, starred flag
   handling, and home favorite edit actions.
 - Add the missing Body Medium text appearance so the contact wizard hint texts compile under AAPT again.
