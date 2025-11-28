@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Añadimos una sección en la web con iconos de trazo grueso para llamada, videollamada, ajustes y SOS,
+  acompañados de una ilustración cálida alineada a la paleta crema/coral.
 - Rediseñar los ajustes restringidos para mostrar solo tamaño de letra, volumen de tonos, contactos de emergencia y bloqueo de
   pantalla grande con tarjetas y controles grandes.
 - Añadimos guías contextuales con lectura en voz alta y un botón flotante de ayuda contrastado en la web para orientar al
