@@ -50,11 +50,17 @@ class DefaultLauncherSetupActivity : BaseActivity() {
 
         binding.configureButton.setOnClickListener {
             onboardingPreferences.setDefaultLauncherCompleted(false)
-            DefaultLauncherHelper.requestDefaultLauncher(
-                this,
-                roleRequestLauncher,
-                REQUEST_CODE_DEFAULT_LAUNCHER
-            )
+            val alreadyDefault = DefaultLauncherHelper.isDefaultLauncher(this)
+            if (forceReconfigure && alreadyDefault) {
+                val settingsIntent = DefaultLauncherHelper.createSettingsIntent(this)
+                startActivity(settingsIntent)
+            } else {
+                DefaultLauncherHelper.requestDefaultLauncher(
+                    this,
+                    roleRequestLauncher,
+                    REQUEST_CODE_DEFAULT_LAUNCHER
+                )
+            }
         }
 
         binding.skipButton.isVisible = false

@@ -2,12 +2,15 @@
 
 ## [Unreleased]
 - Simplificamos los ajustes restringidos eliminando la lista de cuidadores, sumando guías por voz y sonidos de confirmación, y reorganizando la tarjeta de lectura y sonido con copias más claras.
+- Permitimos que el botón "Cambiar inicio predeterminado" al salir de Ezivia abra los ajustes de inicio cuando ya somos la app por defecto.
 - Quitamos el panel del gesto de bloqueo en inicio, compactando el layout y usando confirmaciones para abrir Ajustes o salir sin depender del volumen.
 - Reorganizamos la pantalla de inicio del launcher en una sola columna con botones principales apilados, acciones rápidas y favoritos a ancho completo para mejorar la legibilidad.
 - Mejoramos la accesibilidad web con anillos de foco visibles, contrastes reforzados en estados críticos y formularios que anuncian sus estados para lectores de pantalla.
+- Añadimos una indicación en la guía rápida impresa para recordar que Ajustes se abre manteniendo subir volumen y luego tocando la opción tras un intento fallido.
 - Añadimos una sección en la web con iconos de trazo grueso para llamada, videollamada, ajustes y SOS,
   acompañados de una ilustración cálida alineada a la paleta crema/coral.
 - Abrimos la lista de contactos favoritos en el launcher a una columna única de tarjetas a ancho completo, con desplazamiento suave, animaciones visibles y estados vacíos o de permiso intactos para listas largas sin recortes.
+- Reorganizamos las acciones de contactos favoritos con un Flow que permite distribuir los botones en una o dos filas, evitando saltos de línea en los textos y manteniendo iconos y colores.
 - Fix contact wizard extras and favorite editing so the launcher build succeeds by correcting intent usage, starred flag
   handling, and home favorite edit actions.
 - Add the missing Body Medium text appearance so the contact wizard hint texts compile under AAPT again.

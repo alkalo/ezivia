@@ -12,6 +12,7 @@ opcional** para familiares o cuidadores.
 | Volver a la pantalla principal | Pulsa el botón redondo "Inicio" que siempre se muestra en la parte inferior. |
 | Llamar a un contacto favorito | Desde la pantalla principal toca la foto o nombre. La llamada comenzará de inmediato. |
 | Enviar alerta SOS | Mantén pulsado el botón rojo durante 3 segundos; suelta si no deseas enviarla. |
+| Abrir Ajustes | Si tocas "Ajustes" sin mantener pulsado subir volumen, aparecerá un aviso único. Mantén presionado el botón de subir volumen hasta que vibre y luego toca "Ajustes" una sola vez para entrar. |
 | Ajustar el tamaño del texto | Pulsa "Ajustes" → "Tamaño de letra" y elige la opción que sea más cómoda. |
 | Silenciar llamadas | Pulsa el botón lateral de volumen y selecciona "Silencio". |
 
