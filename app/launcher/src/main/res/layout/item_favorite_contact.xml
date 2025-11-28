@@ -75,7 +75,7 @@
             android:layout_marginTop="12dp">
 
             <!-- Botonera flexible para alinear las acciones en una o dos filas sin cortar los textos -->
-            <androidx.constraintlayout.widget.Flow
+            <androidx.constraintlayout.helper.widget.Flow
                 android:id="@+id/contactActionsFlow"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
