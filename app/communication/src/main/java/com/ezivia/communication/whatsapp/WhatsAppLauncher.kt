@@ -187,12 +187,7 @@ class WhatsAppLauncher(private val activity: Activity) {
 
         private fun normalizeForCall(phoneNumber: String): Pair<String, String> {
             val digitsOnly = phoneNumber.filter(Char::isDigit)
-
-            if (phoneNumber.contains('+')) {
-                return "jid" to "$digitsOnly@s.whatsapp.net"
-            }
-
-            return "phone" to digitsOnly
+            return "jid" to "$digitsOnly@s.whatsapp.net"
         }
     }
 }
