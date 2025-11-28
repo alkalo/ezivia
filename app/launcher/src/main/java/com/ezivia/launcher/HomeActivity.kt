@@ -103,6 +103,17 @@ class HomeActivity : BaseActivity() {
             }
         }
 
+    private val contactWizardLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val name = result.data?.getStringExtra(ContactWizardActivity.EXTRA_CONTACT_NAME)
+                val toastText = name?.let {
+                    getString(R.string.contact_wizard_result_toast, it)
+                } ?: getString(R.string.contact_wizard_result_generic)
+                showSuccessFeedback(toastText)
+            }
+        }
+
     private val settingsLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode != Activity.RESULT_OK) {
@@ -140,6 +151,7 @@ class HomeActivity : BaseActivity() {
             onCallClick = ::onCallClicked,
             onMessageClick = ::onMessageClicked,
             onVideoCallClick = ::onVideoCallClicked,
+            onEditClick = ::onEditClicked,
         )
         quickActionsAdapter = HomeQuickActionsAdapter(::handleQuickAction)
         whatsAppLauncher = WhatsAppLauncher(this)
@@ -348,6 +360,16 @@ class HomeActivity : BaseActivity() {
         showContactPicker(R.string.quick_action_message_choose_contact, favorites) { contact ->
             showMessageTemplateDialog(contact)
         }
+    }
+
+    private fun onEditClicked(contact: FavoriteContact) {
+        val intent = Intent(this, ContactWizardActivity::class.java).apply {
+            putExtra(ContactWizardActivity.EXTRA_CONTACT_ID, contact.id)
+            putExtra(ContactWizardActivity.EXTRA_CONTACT_NAME, contact.displayName)
+            putExtra(ContactWizardActivity.EXTRA_CONTACT_PHONE, contact.phoneNumber)
+            putExtra(ContactWizardActivity.EXTRA_USE_WHATSAPP, true)
+        }
+        contactWizardLauncher.launch(intent)
     }
 
     private fun startPhotosQuickAction() {

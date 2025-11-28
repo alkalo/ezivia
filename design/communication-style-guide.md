@@ -56,3 +56,25 @@
 
 ## Prototipo navegable
 - Entregar prototipo de alta fidelidad (Figma u otra) con flujos: inicio, llamada, videollamada, gestionar favoritos y ajustes. Incluir etiquetas de accesibilidad y notas de diseño. Fondos claros con acentos cálidos y botones grandes.
+
+## Flujos detallados con notas de accesibilidad
+- **Inicio (dashboard cálido):**
+  - Encabezado con saludo y foto grande; `aria-label="Perfil y saludo"`, contraste coral/crema >4.5:1.
+  - Grid de favoritos (2 columnas) con tarjetas XL (72–88 px de foto) y botones primarios cálidos (`Llamar`, `Videollamar WhatsApp`, `SOS`).
+  - Notas: mantén botón SOS en ámbar/rojo fijo y advertencia audible; foco visible y targets de 64–72 px.
+- **Llamada:**
+  - Pantalla de confirmación con foto grande, nombre y número; botón coral "Llamar" y opción gris "Cancelar".
+  - Durante la llamada: controles centrados Colgar (rojo coral, `aria-label="Colgar llamada"`), Altavoz y Volumen +/- en azul profundo, Silenciar en gris. Separación 16–20 px.
+  - Notas: feedback háptico al tocar, texto alternativo para foto del contacto, contraste mínimo 7:1 en botones críticos.
+- **Videollamada:**
+  - Confirmación previa con miniatura del contacto y botones grandes "Videollamar" (azul) y "Cancelar" (gris claro alto contraste).
+  - En llamada: video remoto a pantalla completa, miniatura propia flotante; controles inferiores con Colgar en rojo coral, Cambiar cámara en azul, Altavoz/Volumen en azul y Silenciar en gris, todos con `aria-label` descriptivo.
+  - Notas: mantener fondo cálido neutro bajo los controles para legibilidad; resaltar estado de micrófono/cámara con texto y color.
+- **Gestión de favoritos:**
+  - Lista con tarjetas XL y accesos rápidos "Llamar"/"Videollamar"/"Editar" en colores cálidos contrastados; `aria-describedby` para notas de relación (familiar, doctor).
+  - Formulario de alta/edición paso a paso con campos Nombre, Teléfono y toggle "Usar WhatsApp"; validación en vivo con mensajes grandes verde/rojo.
+  - Notas: botones de guardar/cancelar de 64+ px, copia clara para permisos y opción de lectura en voz alta.
+- **Ajustes:**
+  - Secciones en tarjetas cálidas (crema con bordes suaves) para Tamaño de letra, Volumen de tonos, Contactos de emergencia y Bloqueo grande.
+  - Controles: sliders gruesos etiquetados, toggles grandes con texto, botones auxiliares en azul profundo; `aria-live` para avisos de cambio.
+  - Notas: indicaciones de contraste 7:1 en textos de ajustes críticos, ayuda contextual con icono "?" que lee indicaciones.
