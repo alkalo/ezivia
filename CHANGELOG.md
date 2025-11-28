@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Rediseñar los ajustes restringidos para mostrar solo tamaño de letra, volumen de tonos, contactos de emergencia y bloqueo de
+  pantalla grande con tarjetas y controles grandes.
 - Add tactile feedback and XL confirmation messaging across launcher screens, including press scale animations, success/error
   vibrations with tones, global fade transitions, and scale-in list/card motion for new items.
 - Add a guided contact wizard with per-step validation, WhatsApp preference, optional voice confirmation, photo preview, and launcher entry points for adding or editing.

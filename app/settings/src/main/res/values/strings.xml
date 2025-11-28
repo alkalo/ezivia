@@ -3,9 +3,13 @@
     <string name="settings_description">Solo los cuidadores pueden ajustar estas opciones. Mantén presionado el botón de subir volumen en la pantalla principal para entrar aquí.</string>
     <string name="settings_caregiver_section">Cuidadores registrados</string>
     <string name="settings_caregiver_empty">Todavía no se han añadido cuidadores.</string>
-    <string name="settings_accessibility_section">Preferencias de accesibilidad</string>
-    <string name="settings_option_big_text">Texto extra grande en el launcher</string>
-    <string name="settings_option_voice_assistance">Activar guía por voz</string>
-    <string name="settings_option_reminders">Recordatorios proactivos</string>
+    <string name="settings_accessibility_section">Lectura y sonido</string>
+    <string name="settings_option_font_size">Tamaño de letra en el launcher</string>
+    <string name="settings_option_font_size_value">Tamaño actual: %1$d pt</string>
+    <string name="settings_option_tone_volume">Volumen de tonos</string>
+    <string name="settings_option_tone_volume_value">Volumen actual: %1$d%%</string>
+    <string name="settings_safety_section">Seguridad y accesos</string>
+    <string name="settings_option_emergency_contacts">Contactos de emergencia visibles</string>
+    <string name="settings_option_large_lock_screen">Bloqueo de pantalla grande</string>
     <string name="settings_exit_mode">Salir del modo Ezivia</string>
 </resources>
