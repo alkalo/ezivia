@@ -118,12 +118,9 @@ class WhatsAppLauncher(private val activity: Activity) {
         }
 
         internal fun buildVideoCallUri(phoneNumber: String): Uri {
-            val normalizedNumber = phoneNumber.trimStart('+')
-            val jid = "$normalizedNumber@s.whatsapp.net"
-
             return Uri.parse("whatsapp://call")
                 .buildUpon()
-                .appendQueryParameter("jid", jid)
+                .appendQueryParameter("phone", phoneNumber)
                 .appendQueryParameter("video", "true")
                 .build()
         }
