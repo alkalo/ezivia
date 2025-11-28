@@ -2,6 +2,7 @@
 # Changelog
 
 ## [Unreleased]
+- Iniciamos las videollamadas de WhatsApp con el esquema nativo de llamada para entrar directamente a la videollamada sin pasar por el chat.
 - Corrigimos el enlace de videollamada de WhatsApp para usar wa.me y evitar avisos de enlace no válido.
 - Corrigimos el tag de Flow en la tarjeta de contacto favorito para compilar el launcher con ConstraintLayout.
 - Ajustamos las paletas móviles para que cualquier texto sobre fondos oscuros use blanco, incluyendo iconos y botones, mejorando el contraste en toda la app.

@@ -135,7 +135,11 @@ class WhatsAppLauncher(private val activity: Activity) {
 
         internal fun buildVideoCallUri(phoneNumber: String): Uri {
             val normalizedNumber = phoneNumber.trimStart('+')
-            return Uri.parse("https://wa.me/${Uri.encode(normalizedNumber)}?call_type=video")
+            return Uri.parse("whatsapp://call")
+                .buildUpon()
+                .appendQueryParameter("phone", normalizedNumber)
+                .appendQueryParameter("video", "true")
+                .build()
         }
 
         internal fun sanitizePhoneNumber(raw: String): String {
