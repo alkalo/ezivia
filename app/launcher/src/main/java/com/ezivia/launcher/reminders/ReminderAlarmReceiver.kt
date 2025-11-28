@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
+import android.media.AudioManager
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -31,10 +32,6 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
         val notificationManager = NotificationManagerCompat.from(context)
         val channelId = ensureChannel(context, notificationManager)
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-        val alarmAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ALARM)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
         val contentIntent = PendingIntent.getActivity(
             context,
             reminderId,
@@ -67,7 +64,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setAutoCancel(true)
             .setVibrate(VIBRATION_PATTERN)
-            .setSound(alarmSound, alarmAttributes)
+            .setSound(alarmSound, AudioManager.STREAM_ALARM)
             .setContentIntent(contentIntent)
             .setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
             .setFullScreenIntent(fullScreenIntent, true)
