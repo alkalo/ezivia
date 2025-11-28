@@ -60,10 +60,10 @@ class WhatsAppLauncherTest {
     }
 
     @Test
-    fun buildVideoCallUri_encodesPlusAndUsesPhoneParameter() {
+    fun buildVideoCallUri_convertsLeadingPlusToJidParameter() {
         val uri = WhatsAppLauncher.buildVideoCallUri("+34600123456")
 
-        assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=%2B34600123456&video=true")
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?jid=34600123456%40s.whatsapp.net&video=true")
     }
 
     @Test
@@ -71,6 +71,13 @@ class WhatsAppLauncherTest {
         val uri = WhatsAppLauncher.buildVideoCallUri("34600123456")
 
         assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=34600123456&video=true")
+    }
+
+    @Test
+    fun buildVideoCallUri_normalizesLeadingPlusAndKeepsCallValid() {
+        val uri = WhatsAppLauncher.buildVideoCallUri("+12 34 567")
+
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?jid=1234567%40s.whatsapp.net&video=true")
     }
 
     @Test
