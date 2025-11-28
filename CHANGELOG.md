@@ -59,3 +59,4 @@
 - Añadir un desglose detallado de flujos (inicio, llamada, videollamada, favoritos y ajustes) con notas de accesibilidad, botones grandes y paleta cálida contrastada en la guía de estilo.
 - Añadir guion y métricas para sesiones de usabilidad remotas moderadas con tareas de favoritos, videollamadas WhatsApp y SOS, incluyendo pausas y registro de SUS.
 - Soportar videollamadas tanto con WhatsApp estándar como Business para evitar falsos avisos de instalación.
+- Declarar la visibilidad de los paquetes y esquema de WhatsApp en el manifest del launcher para que Android 11+ detecte correctamente la app instalada y no muestre el aviso de instalación.
