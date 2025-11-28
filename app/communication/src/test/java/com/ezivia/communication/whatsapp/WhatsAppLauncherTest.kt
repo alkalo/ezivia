@@ -1,5 +1,6 @@
 package com.ezivia.communication.whatsapp
 
+import android.content.Intent
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -62,13 +63,23 @@ class WhatsAppLauncherTest {
     fun buildVideoCallUri_stripsLeadingPlusAndUsesJidParameter() {
         val uri = WhatsAppLauncher.buildVideoCallUri("+34600123456")
 
-        assertThat(uri.toString()).isEqualTo("https://wa.me/34600123456?call=true&video=true")
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?jid=34600123456@s.whatsapp.net&video=true")
     }
 
     @Test
     fun buildVideoCallUri_keepsPlainDigitsInJid() {
         val uri = WhatsAppLauncher.buildVideoCallUri("34600123456")
 
-        assertThat(uri.toString()).isEqualTo("https://wa.me/34600123456?call=true&video=true")
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?jid=34600123456@s.whatsapp.net&video=true")
+    }
+
+    @Test
+    fun buildVideoCallIntent_setsExplicitPackageAndViewAction() {
+        val intent = WhatsAppLauncher.buildVideoCallIntent("34600123456", "com.whatsapp")
+
+        assertThat(intent.action).isEqualTo(Intent.ACTION_VIEW)
+        assertThat(intent.data.toString()).isEqualTo("whatsapp://call?jid=34600123456@s.whatsapp.net&video=true")
+        assertThat(intent.`package`).isEqualTo("com.whatsapp")
+        assertThat(intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK).isNotEqualTo(0)
     }
 }

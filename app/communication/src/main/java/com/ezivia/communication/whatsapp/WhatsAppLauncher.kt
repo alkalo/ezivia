@@ -39,12 +39,7 @@ class WhatsAppLauncher(private val activity: Activity) {
     }
 
     private fun launchVideoCall(phoneNumber: String, packageName: String) {
-        val videoCallUri = buildVideoCallUri(phoneNumber)
-        val intent = Intent(Intent.ACTION_VIEW, videoCallUri).apply {
-            setPackage(packageName)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-
+        val intent = buildVideoCallIntent(phoneNumber, packageName)
         try {
             activity.startActivity(intent)
         } catch (error: ActivityNotFoundException) {
@@ -124,12 +119,20 @@ class WhatsAppLauncher(private val activity: Activity) {
 
         internal fun buildVideoCallUri(phoneNumber: String): Uri {
             val normalizedNumber = phoneNumber.trimStart('+')
+            val jid = "$normalizedNumber@s.whatsapp.net"
 
-            return Uri.parse("https://wa.me/$normalizedNumber")
+            return Uri.parse("whatsapp://call")
                 .buildUpon()
-                .appendQueryParameter("call", "true")
+                .appendQueryParameter("jid", jid)
                 .appendQueryParameter("video", "true")
                 .build()
+        }
+
+        internal fun buildVideoCallIntent(phoneNumber: String, packageName: String): Intent {
+            return Intent(Intent.ACTION_VIEW, buildVideoCallUri(phoneNumber)).apply {
+                setPackage(packageName)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
         }
 
         internal fun sanitizePhoneNumber(raw: String): String {
