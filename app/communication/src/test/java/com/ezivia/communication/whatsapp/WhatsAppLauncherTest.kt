@@ -57,4 +57,18 @@ class WhatsAppLauncherTest {
 
         assertThat(resolved).isNull()
     }
+
+    @Test
+    fun buildVideoCallUri_stripsLeadingPlusAndUsesWaMeScheme() {
+        val uri = WhatsAppLauncher.buildVideoCallUri("+34600123456")
+
+        assertThat(uri.toString()).isEqualTo("https://wa.me/34600123456?call_type=video")
+    }
+
+    @Test
+    fun buildVideoCallUri_keepsPlainDigits() {
+        val uri = WhatsAppLauncher.buildVideoCallUri("34600123456")
+
+        assertThat(uri.toString()).isEqualTo("https://wa.me/34600123456?call_type=video")
+    }
 }

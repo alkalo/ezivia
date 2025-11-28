@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Corrigimos el enlace de videollamada de WhatsApp para usar wa.me y evitar avisos de enlace no válido.
 - Corrigimos el tag de Flow en la tarjeta de contacto favorito para compilar el launcher con ConstraintLayout.
 - Ajustamos las paletas móviles para que cualquier texto sobre fondos oscuros use blanco, incluyendo iconos y botones, mejorando el contraste en toda la app.
 - Cambiamos la web a una paleta nocturna con textos claros sobre fondos oscuros y tarjetas contrastadas para mejorar la

@@ -50,7 +50,7 @@ class WhatsAppLauncher(private val activity: Activity) {
     }
 
     private fun launchVideoCall(phoneNumber: String, packageName: String) {
-        val videoCallUri = Uri.parse("whatsapp://call?phone=" + Uri.encode(phoneNumber) + "&call_type=video")
+        val videoCallUri = buildVideoCallUri(phoneNumber)
         val intent = Intent(Intent.ACTION_VIEW, videoCallUri).apply {
             setPackage(packageName)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -131,6 +131,11 @@ class WhatsAppLauncher(private val activity: Activity) {
 
         internal fun selectPreferredPackage(installedPackages: Set<String>): String? {
             return WHATSAPP_PACKAGES.firstOrNull { installedPackages.contains(it) }
+        }
+
+        internal fun buildVideoCallUri(phoneNumber: String): Uri {
+            val normalizedNumber = phoneNumber.trimStart('+')
+            return Uri.parse("https://wa.me/${Uri.encode(normalizedNumber)}?call_type=video")
         }
 
         internal fun sanitizePhoneNumber(raw: String): String {
