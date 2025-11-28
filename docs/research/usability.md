@@ -20,3 +20,24 @@
 - Iterar wireframes con cambios de contraste y SOS.
 - Preparar prototipo interactivo para segunda ronda de pruebas.
 - Documentar métricas de tiempo en tarea en la siguiente sesión.
+
+## Sesión Moderada Remota - Guion y Métricas
+- **Formato:** Sesiones remotas moderadas en dispositivos de pantalla grande (tablets o pantallas externas), con pausas de 5-10 minutos entre tareas para evitar fatiga.
+- **Objetivos:** Validar la claridad de los flujos principales, la legibilidad visual y el tamaño de los botones para personas mayores.
+
+### Guion de Tareas
+1. **Llamar a un contacto favorito.**
+2. **Iniciar una videollamada de WhatsApp con un favorito.**
+3. **Agregar un nuevo favorito.**
+4. **Activar y utilizar la función SOS.**
+
+### Métricas y Registro
+- **Tiempo en tarea:** medir inicio/fin por tarea y anotar demoras por duda o navegación extra.
+- **Errores:** contabilizar acciones incorrectas, pasos repetidos o abandonos; registrar qué desencadenó el error.
+- **Satisfacción (SUS):** aplicar el cuestionario System Usability Scale al cierre de la sesión.
+- **Impresiones cualitativas:** recoger comentarios sobre claridad visual (contraste, tipografía) y tamaño/espacio de botones después de cada tarea.
+
+### Consideraciones de Moderación
+- Recordar el contexto y objetivos antes de cada tarea y permitir que la persona piense en voz alta.
+- Usar compartir pantalla para observar gestos y narrativas; confirmar consentimientos previos.
+- Respetar los descansos entre tareas y ofrecer detener la sesión si hay fatiga o incomodidad.
