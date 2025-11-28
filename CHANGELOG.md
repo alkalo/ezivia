@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Cambiamos la web a una paleta nocturna con textos claros sobre fondos oscuros y tarjetas contrastadas para mejorar la
+  legibilidad.
 - Quitamos el panel del gesto de bloqueo en inicio, compactando el layout y usando confirmaciones para abrir Ajustes o salir sin depender del volumen.
 - Reorganizamos la pantalla de inicio del launcher en una sola columna con botones principales apilados, acciones rápidas y favoritos a ancho completo para mejorar la legibilidad.
 - Mejoramos la accesibilidad web con anillos de foco visibles, contrastes reforzados en estados críticos y formularios que anuncian sus estados para lectores de pantalla.
