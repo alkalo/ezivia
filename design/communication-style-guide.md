@@ -25,6 +25,8 @@
 ## Interfaz de llamada y videollamada
 - **Controles mínimos:** Colgar (rojo), Altavoz (gris/azul), Volumen +/- (azul), Silenciar (gris). Videollamada añade Cambiar cámara y muestra video remoto en tamaño grande.
 - **Distribución:** Controles centrados y separados con fondos sólidos de alto contraste; textos e iconos grandes.
+- **Jerarquía visual:** Botón de colgar dominante en rojo coral, acciones de audio (altavoz y volumen) en azul profundo, silenciar en gris neutral. Separación mínima de 16–20 px entre botones para reducir toques accidentales.
+- **Video remoto:** En videollamada el feed remoto ocupa la zona superior o completa de la pantalla, con miniatura propia flotante; controles se mantienen en una franja inferior accesible.
 
 ## Animaciones y microinteracciones
 - **Botones:** Scale-up ligero (1.04x) <200 ms con easing suave.

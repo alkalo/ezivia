@@ -74,3 +74,47 @@
 ### Elementos clave
 - Acción primaria en el centro de la pantalla con tipografía XL y contraste máximo.
 - Opciones secundarias claramente separadas para evitar errores.
+
+## Pantalla de Llamada en Curso
+
+```
++--------------------------------------------------+
+|  Foto contacto grande + Nombre/Número            |
++--------------------------------------------------+
+|                                                  |
+|      [ Silenciar ]   [ Altavoz ]   [ Vol + ]     |
+|                                                  |
+|                 [  Vol -  ]                      |
+|                                                  |
+|                 [   Colgar   ]                   |
+|                                                  |
++--------------------------------------------------+
+```
+
+### Elementos clave
+- Botones centrados con fondos sólidos: Colgar en rojo intenso, Altavoz y Volumen en azul profundo y Silenciar en gris.
+- Etiquetas tipográficas grandes bajo cada icono para reforzar la acción.
+- Separaciones amplias (espaciado 16–20 px) entre botones para evitar toques accidentales.
+- Foto o avatar del contacto en la parte superior para contexto rápido.
+
+## Pantalla de Videollamada
+
+```
++--------------------------------------------------+
+|              [ Video remoto a pantalla ]         |
+|              [ completa/pantalla grande ]        |
+|             ┌----------------------------┐       |
+|             |  Miniatura propia redonda  |       |
+|             └----------------------------┘       |
++--------------------------------------------------+
+| [ Silenciar ]  [ Altavoz ]  [ Vol + ] [ Vol - ]  |
+|                                                  |
+| [ Cambiar cámara ]           [   Colgar   ]      |
++--------------------------------------------------+
+```
+
+### Elementos clave
+- Video remoto ocupa la mayor parte de la pantalla para priorizar la comunicación visual.
+- Controles centrados en una franja inferior con botones de color diferenciado: Colgar en rojo, Cambiar cámara y volumen en azul, Silenciar en gris.
+- Botones grandes con relleno grueso y bordes redondeados para accesibilidad táctil.
+- Espaciado generoso entre controles para minimizar toques accidentales y mantener legibilidad.
