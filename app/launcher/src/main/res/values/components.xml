@@ -23,6 +23,14 @@
         <item name="iconTint">@color/ezivia_on_primary</item>
     </style>
 
+    <style name="Widget.Ezivia.SecondaryButton" parent="Widget.Ezivia.PrimaryButton">
+        <item name="backgroundTint">?attr/colorSurface</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="iconTint">?attr/colorOnSurface</item>
+        <item name="strokeColor">?attr/colorOutline</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
     <style name="Widget.Ezivia.Card" parent="Widget.Material3.CardView.Elevated">
         <item name="android:minHeight">@dimen/ezivia_min_touch_target</item>
         <item name="cardUseCompatPadding">true</item>
