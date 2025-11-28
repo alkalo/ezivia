@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.KeyEvent
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
@@ -18,7 +19,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.ezivia.communication.ConversationCoordinator
 import com.ezivia.communication.contacts.FavoriteContact
 import com.ezivia.communication.contacts.FavoriteContactsSynchronizer
@@ -61,6 +61,7 @@ class HomeActivity : AppCompatActivity() {
     private var contactsJob: Job? = null
     private var pendingCallNumber: String? = null
     private var pendingCameraRequest: CameraCaptureRequest? = null
+    private val fadeScaleIn by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_scale_in) }
 
     private val contactsPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -167,42 +168,39 @@ class HomeActivity : AppCompatActivity() {
 
         binding.favoriteContactsList.apply {
             adapter = contactsAdapter
-            layoutManager = LinearLayoutManager(this@HomeActivity)
+            layoutManager = GridLayoutManager(this@HomeActivity, 2)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fade_scale_in)
+            setHasFixedSize(true)
         }
 
         binding.quickActionsList.apply {
             adapter = quickActionsAdapter
             layoutManager = GridLayoutManager(this@HomeActivity, 2)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fade_scale_in)
+            setHasFixedSize(true)
         }
 
         quickActionsAdapter.submitList(HomeQuickActions.defaultActions())
+
+        binding.primaryCallButton.setOnClickListener { startDialer() }
+        binding.primaryVideoButton.setOnClickListener { startVideoQuickAction() }
+        binding.sosFab.setOnClickListener { startSosQuickAction() }
 
         binding.bottomNavigation.selectedItemId = R.id.navigation_home
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> true
-                R.id.navigation_contacts -> {
-                    startActivity(Intent(this, ContactsActivity::class.java))
-                    binding.bottomNavigation.selectedItemId = R.id.navigation_home
-                    true
-                }
-                R.id.navigation_health -> {
-                    startActivity(Intent(this, RemindersOverviewActivity::class.java))
-                    binding.bottomNavigation.selectedItemId = R.id.navigation_home
-                    true
-                }
-                R.id.navigation_sos -> {
-                    startActivity(Intent(this, SosActivity::class.java))
-                    binding.bottomNavigation.selectedItemId = R.id.navigation_home
-                    true
-                }
                 R.id.navigation_settings -> {
                     openProtectedSettings()
+                    binding.bottomNavigation.selectedItemId = R.id.navigation_home
                     true
                 }
                 else -> false
             }
         }
+
+        binding.quickActionsList.scheduleLayoutAnimation()
+        animateEntryViews()
 
         ensureContactsPermission()
 
@@ -281,9 +279,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun showContacts(contacts: List<FavoriteContact>) {
-        contactsAdapter.submitList(contacts)
-        binding.emptyContactsView.isVisible = contacts.isEmpty()
-        if (contacts.isEmpty()) {
+        val displayedContacts = contacts.take(6)
+        contactsAdapter.submitList(displayedContacts) {
+            binding.favoriteContactsList.scheduleLayoutAnimation()
+        }
+        binding.emptyContactsView.isVisible = displayedContacts.isEmpty()
+        if (displayedContacts.isEmpty()) {
             binding.emptyContactsView.text = getString(R.string.home_contacts_empty)
         }
     }
@@ -291,7 +292,9 @@ class HomeActivity : AppCompatActivity() {
     private fun showPermissionRequiredMessage() {
         contactsJob?.cancel()
         contactsJob = null
-        contactsAdapter.submitList(emptyList())
+        contactsAdapter.submitList(emptyList()) {
+            binding.favoriteContactsList.scheduleLayoutAnimation()
+        }
         binding.emptyContactsView.isVisible = true
         binding.emptyContactsView.text = getString(R.string.home_contacts_permission_needed)
     }
@@ -531,6 +534,18 @@ class HomeActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
+    }
+
+    private fun animateEntryViews() {
+        listOf(
+            binding.primaryCallButton,
+            binding.primaryVideoButton,
+            binding.sosFab,
+            binding.lockGestureCard,
+            binding.bottomNavigation
+        ).forEach { view ->
+            view.startAnimation(fadeScaleIn)
+        }
     }
 
     private fun maybeShowLockGestureTutorial() {

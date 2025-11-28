@@ -2,8 +2,10 @@ package com.ezivia.launcher
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.ezivia.launcher.databinding.ItemHomeQuickActionBinding
+import com.ezivia.launcher.R
 
 class HomeQuickActionsAdapter(
     private val onActionClick: (HomeQuickAction) -> Unit,
@@ -38,6 +40,9 @@ class HomeQuickActionsAdapter(
             binding.quickActionTitle.setText(action.titleRes)
             binding.quickActionDescription.setText(action.descriptionRes)
             binding.root.setOnClickListener { onActionClick(action) }
+
+            val animation = AnimationUtils.loadAnimation(binding.root.context, R.anim.fade_scale_in)
+            binding.root.startAnimation(animation)
         }
     }
 }

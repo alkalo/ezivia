@@ -15,4 +15,6 @@
     <color name="ezivia_on_critical">#FFFFFFFF</color>
     <color name="ezivia_critical_container">#FFD9DE</color>
     <color name="ezivia_on_critical_container">#470F18</color>
+    <color name="ezivia_alert">#FFB020</color>
+    <color name="ezivia_on_alert">#2E1600</color>
 </resources>

@@ -5,71 +5,114 @@
     style="@style/Widget.Ezivia.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
+    android:layout_margin="8dp"
     android:clickable="false"
     android:focusable="false"
-    app:strokeColor="@color/ezivia_primary">
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
-
-        <TextView
-            android:id="@+id/contactName"
-            style="@style/TextAppearance.Ezivia.Display"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/ezivia_on_surface"
-            tools:text="María Pérez" />
-
-        <TextView
-            android:id="@+id/contactNumber"
-            style="@style/TextAppearance.Ezivia.BodyLarge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/ezivia_on_surface_variant"
-            tools:text="+34 600 000 000" />
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/contactAvatar"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:background="@drawable/bg_contact_avatar">
+
+                <TextView
+                    android:id="@+id/contactInitial"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/ezivia_on_surface"
+                    android:textStyle="bold"
+                    android:textSize="28sp"
+                    tools:text="M" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/contactName"
+                    style="@style/TextAppearance.Ezivia.Display"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/ezivia_on_surface"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="María Pérez" />
+
+                <TextView
+                    android:id="@+id/contactNumber"
+                    style="@style/TextAppearance.Ezivia.BodyLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/ezivia_on_surface_variant"
+                    tools:text="+34 600 000 000" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="3">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/callButton"
-                style="@style/Widget.Ezivia.HomeButton"
+                style="@style/Widget.Ezivia.PrimaryButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:text="@string/action_call"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                app:backgroundTint="@color/ezivia_secondary"
+                app:icon="@drawable/ic_action_call"
+                app:iconTint="@color/ezivia_on_secondary" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/messageButton"
-                style="@style/Widget.Ezivia.HomeButton"
+                style="@style/Widget.Ezivia.PrimaryButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:layout_weight="1"
                 android:text="@string/action_message"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                app:backgroundTint="@color/ezivia_highlight"
+                app:icon="@drawable/ic_action_message"
+                app:iconTint="@color/ezivia_on_surface" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/videoButton"
-                style="@style/Widget.Ezivia.HomeButton"
+                style="@style/Widget.Ezivia.PrimaryButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:text="@string/action_video_call"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                app:backgroundTint="@color/ezivia_primary"
+                app:icon="@drawable/ic_action_video_call"
+                app:iconTint="@color/ezivia_on_primary" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

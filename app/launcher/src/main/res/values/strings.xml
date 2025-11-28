@@ -9,6 +9,8 @@
     
     
     <string name="home_subtitle">Elige qué deseas hacer hoy. Todo está simplificado para ti.</string>
+    <string name="home_primary_call">Llamada rápida</string>
+    <string name="home_primary_video">Videollamada WhatsApp</string>
     
     
     <string name="home_quick_actions_title">Acciones rápidas</string>
@@ -177,6 +179,7 @@
     
     
     <string name="navigation_sos">SOS</string>
+    <string name="home_sos_label">SOS</string>
     
     
     <string name="contacts_title">Contactos favoritos</string>
