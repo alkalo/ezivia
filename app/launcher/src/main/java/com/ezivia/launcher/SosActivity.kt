@@ -2,14 +2,12 @@ package com.ezivia.launcher
 
 import android.Manifest
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.ezivia.communication.telephony.NativeTelephonyController
 import com.ezivia.launcher.R
 import com.ezivia.launcher.databinding.ActivitySosBinding
 import com.ezivia.utilities.caregiver.CaregiverPreferences
 
-class SosActivity : AppCompatActivity() {
+class SosActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySosBinding
     private lateinit var telephonyController: NativeTelephonyController
@@ -27,9 +25,18 @@ class SosActivity : AppCompatActivity() {
         telephonyController = NativeTelephonyController(this)
         caregiverPreferences = CaregiverPreferences(this)
 
-        binding.sosCallButton.setOnClickListener { triggerEmergencyCall() }
-        binding.sosMessageButton.setOnClickListener { notifyCaregiver() }
-        binding.sosCloseButton.setOnClickListener { finish() }
+        binding.sosCallButton.apply {
+            applyPressScaleEffect()
+            setOnClickListener { triggerEmergencyCall() }
+        }
+        binding.sosMessageButton.apply {
+            applyPressScaleEffect()
+            setOnClickListener { notifyCaregiver() }
+        }
+        binding.sosCloseButton.apply {
+            applyPressScaleEffect()
+            setOnClickListener { finish() }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -46,20 +53,20 @@ class SosActivity : AppCompatActivity() {
             telephonyController.startDial(emergencyNumber)
         }
         if (!handled) {
-            Toast.makeText(this, R.string.sos_call_failed, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.sos_call_failed)
         }
     }
 
     private fun notifyCaregiver() {
         val caregiver = caregiverPreferences.loadCaregivers().firstOrNull()
         if (caregiver == null) {
-            Toast.makeText(this, R.string.sos_no_caregiver, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.sos_no_caregiver)
             return
         }
         if (telephonyController.startSms(caregiver.phoneNumber, getString(R.string.sos_message_body))) {
-            Toast.makeText(this, R.string.sos_message_sent, Toast.LENGTH_SHORT).show()
+            showSuccessFeedback(R.string.sos_message_sent)
         } else {
-            Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.telephony_not_available)
         }
     }
 }

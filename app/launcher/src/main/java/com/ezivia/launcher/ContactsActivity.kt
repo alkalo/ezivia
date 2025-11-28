@@ -4,9 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -24,7 +22,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ContactsActivity : AppCompatActivity() {
+class ContactsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityContactsBinding
     private lateinit var contactsAdapter: FavoriteContactsAdapter
@@ -42,7 +40,7 @@ class ContactsActivity : AppCompatActivity() {
                 val toastText = name?.let {
                     getString(R.string.contact_wizard_result_toast, it)
                 } ?: getString(R.string.contact_wizard_result_generic)
-                Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+                showSuccessFeedback(toastText)
             }
         }
 
@@ -92,19 +90,26 @@ class ContactsActivity : AppCompatActivity() {
         binding.contactsList.apply {
             adapter = contactsAdapter
             layoutManager = LinearLayoutManager(this@ContactsActivity)
+            itemAnimator = ScaleInItemAnimator()
         }
 
-        binding.addContactButton.setOnClickListener {
+        binding.addContactButton.apply {
+            applyPressScaleEffect()
+            setOnClickListener {
             contactWizardLauncher.launch(Intent(this, ContactWizardActivity::class.java))
+            }
         }
 
-        binding.manageFavoritesButton.setOnClickListener {
-            runCatching {
-                startActivity(Intent(CONTACTS_FAVORITES_ACTION))
-            }.recoverCatching {
-                startActivity(Intent(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_APP_CONTACTS) })
-            }.onFailure {
-                Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
+        binding.manageFavoritesButton.apply {
+            applyPressScaleEffect()
+            setOnClickListener {
+                runCatching {
+                    startActivity(Intent(CONTACTS_FAVORITES_ACTION))
+                }.recoverCatching {
+                    startActivity(Intent(Intent.ACTION_MAIN).apply { addCategory(Intent.CATEGORY_APP_CONTACTS) })
+                }.onFailure {
+                    showErrorFeedback(R.string.telephony_not_available)
+                }
             }
         }
 
@@ -188,7 +193,7 @@ class ContactsActivity : AppCompatActivity() {
     private fun onVideoCallClicked(contact: FavoriteContact) {
         val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
         if (!handled) {
-            Toast.makeText(this, R.string.quick_action_no_whatsapp, Toast.LENGTH_SHORT).show()
+            showErrorFeedback(R.string.quick_action_no_whatsapp)
         }
     }
 
@@ -203,7 +208,7 @@ class ContactsActivity : AppCompatActivity() {
     }
 
     private fun showTelephonyUnavailableToast() {
-        Toast.makeText(this, R.string.telephony_not_available, Toast.LENGTH_SHORT).show()
+        showErrorFeedback(R.string.telephony_not_available)
     }
 
     companion object {

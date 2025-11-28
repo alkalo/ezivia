@@ -8,18 +8,16 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.speech.RecognizerIntent
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.ezivia.launcher.databinding.ActivityContactWizardBinding
 import java.util.Locale
 
-class ContactWizardActivity : AppCompatActivity() {
+class ContactWizardActivity : BaseActivity() {
 
     private lateinit var binding: ActivityContactWizardBinding
     private var currentStep = 0
@@ -110,6 +108,7 @@ class ContactWizardActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
+        binding.backButton.applyPressScaleEffect()
         binding.backButton.setOnClickListener {
             if (currentStep == 0) {
                 finish()
@@ -118,24 +117,23 @@ class ContactWizardActivity : AppCompatActivity() {
             }
         }
 
+        binding.nextButton.applyPressScaleEffect()
         binding.nextButton.setOnClickListener {
             if (isCurrentStepValid()) {
                 goToStep(currentStep + 1)
             } else {
-                Toast.makeText(
-                    this,
-                    R.string.contact_wizard_fix_errors,
-                    Toast.LENGTH_SHORT
-                ).show()
+                showErrorFeedback(R.string.contact_wizard_fix_errors)
             }
         }
 
+        binding.choosePhotoButton.applyPressScaleEffect()
         binding.choosePhotoButton.setOnClickListener {
             photoPickerLauncher.launch(
                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
             )
         }
 
+        binding.voiceConfirmationButton.applyPressScaleEffect()
         binding.voiceConfirmationButton.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                 launchVoicePrompt()
@@ -144,11 +142,12 @@ class ContactWizardActivity : AppCompatActivity() {
             }
         }
 
+        binding.saveContactButton.applyPressScaleEffect()
         binding.saveContactButton.setOnClickListener {
             if (allStepsValid()) {
                 sendResultAndOpenContacts()
             } else {
-                Toast.makeText(this, R.string.contact_wizard_fix_errors, Toast.LENGTH_LONG).show()
+                showErrorFeedback(R.string.contact_wizard_fix_errors)
             }
         }
     }
@@ -385,7 +384,7 @@ class ContactWizardActivity : AppCompatActivity() {
             startActivity(actionIntent)
             finish()
         }.onFailure {
-            Toast.makeText(this, R.string.contact_wizard_save_error, Toast.LENGTH_LONG).show()
+            showErrorFeedback(R.string.contact_wizard_save_error)
         }
     }
 

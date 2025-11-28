@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Add tactile feedback and XL confirmation messaging across launcher screens, including press scale animations, success/error
+  vibrations with tones, global fade transitions, and scale-in list/card motion for new items.
 - Add a guided contact wizard with per-step validation, WhatsApp preference, optional voice confirmation, photo preview, and launcher entry points for adding or editing.
 - Rediseñar la pantalla de inicio con favoritos en rejilla de dos columnas, botones destacados de llamada y videollamada,
   un SOS flotante y animaciones de entrada con fade y scale.
