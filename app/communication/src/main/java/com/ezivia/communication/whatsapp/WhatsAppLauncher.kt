@@ -17,9 +17,9 @@ import com.ezivia.communication.contacts.FavoriteContact
 class WhatsAppLauncher(private val activity: Activity) {
 
     /**
-     * Solicita confirmación al usuario e intenta iniciar una videollamada de WhatsApp
-     * con el [contact]. Devuelve `true` si se mostró alguna interfaz relacionada con
-     * la acción (confirmación o tienda) y `false` si no se pudo continuar.
+     * Inicia directamente una videollamada de WhatsApp con el [contact]. Devuelve
+     * `true` si se pudo lanzar la acción o mostrar la tienda, y `false` cuando no
+     * hay número válido o no se detecta WhatsApp instalado.
      */
     fun startFavoriteVideoCall(contact: FavoriteContact): Boolean {
         val sanitizedNumber = sanitizePhoneNumber(contact.phoneNumber)
@@ -34,19 +34,8 @@ class WhatsAppLauncher(private val activity: Activity) {
             return false
         }
 
-        showConfirmationDialog(contact, sanitizedNumber, installedPackage)
+        launchVideoCall(sanitizedNumber, installedPackage)
         return true
-    }
-
-    private fun showConfirmationDialog(contact: FavoriteContact, phoneNumber: String, packageName: String) {
-        AlertDialog.Builder(activity)
-            .setTitle("Videollamada por WhatsApp")
-            .setMessage("¿Deseas iniciar una videollamada con ${contact.displayName}?")
-            .setPositiveButton("Videollamar") { _, _ ->
-                launchVideoCall(phoneNumber, packageName)
-            }
-            .setNegativeButton("Cancelar", null)
-            .show()
     }
 
     private fun launchVideoCall(phoneNumber: String, packageName: String) {
