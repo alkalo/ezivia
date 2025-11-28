@@ -2,11 +2,14 @@ package com.ezivia.launcher
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ezivia.communication.contacts.FavoriteContact
+import com.ezivia.launcher.R
 import com.ezivia.launcher.databinding.ItemFavoriteContactBinding
+import java.util.Locale
 
 class FavoriteContactsAdapter(
     private val onCallClick: (FavoriteContact) -> Unit,
@@ -31,10 +34,14 @@ class FavoriteContactsAdapter(
         fun bind(contact: FavoriteContact) {
             binding.contactName.text = contact.displayName
             binding.contactNumber.text = contact.phoneNumber
+            binding.contactInitial.text = contact.displayName.firstOrNull()?.toString()?.uppercase(Locale.getDefault())
 
             binding.callButton.setOnClickListener { onCallClick(contact) }
             binding.messageButton.setOnClickListener { onMessageClick(contact) }
             binding.videoButton.setOnClickListener { onVideoCallClick(contact) }
+
+            val animation = AnimationUtils.loadAnimation(binding.root.context, R.anim.fade_scale_in)
+            binding.root.startAnimation(animation)
         }
     }
 

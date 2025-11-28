@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+- Rediseñar la pantalla de inicio con favoritos en rejilla de dos columnas, botones destacados de llamada y videollamada,
+  un SOS flotante y animaciones de entrada con fade y scale.
 - Refresh launcher and settings theming with a cream/coral/deep blue palette, Roboto/Inter typography, rounded elevated cards,
   and enlarged touch targets.
 - Add a comprehensive Spanish-language accessibility and calling UI style guide covering home, favorites, call flows, animations, ajustes, iconografía y pruebas con personas mayores.
