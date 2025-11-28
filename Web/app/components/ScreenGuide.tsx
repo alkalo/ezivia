@@ -11,6 +11,7 @@ const GUIDE_LANGUAGE = "es-ES";
 
 export function ScreenGuide({ message, title = "Guía rápida" }: ScreenGuideProps) {
   const bubbleId = useId();
+  const bubblePanelId = `${bubbleId}-panel`;
   const [isBubbleOpen, setIsBubbleOpen] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [canSpeak, setCanSpeak] = useState(false);
@@ -106,6 +107,7 @@ export function ScreenGuide({ message, title = "Guía rápida" }: ScreenGuidePro
         className="screen-guide__fab"
         aria-label="Abrir ayuda de esta pantalla"
         aria-expanded={isBubbleOpen}
+        aria-controls={bubblePanelId}
         onClick={toggleHelp}
       >
         ?
@@ -113,6 +115,7 @@ export function ScreenGuide({ message, title = "Guía rápida" }: ScreenGuidePro
 
       {isBubbleOpen ? (
         <div
+          id={bubblePanelId}
           className="screen-guide__bubble"
           role="dialog"
           aria-modal="false"

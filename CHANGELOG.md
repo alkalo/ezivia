@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Mejoramos la accesibilidad web con anillos de foco visibles, contrastes reforzados en estados críticos y formularios que anuncian sus estados para lectores de pantalla.
 - Añadimos una sección en la web con iconos de trazo grueso para llamada, videollamada, ajustes y SOS,
   acompañados de una ilustración cálida alineada a la paleta crema/coral.
 - Fix contact wizard extras and favorite editing so the launcher build succeeds by correcting intent usage, starred flag

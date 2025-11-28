@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useId, useState } from "react";
 import { trackEvent } from "../lib/analytics";
 
 type WaitlistFormState = "idle" | "loading" | "success" | "error";
@@ -22,6 +22,8 @@ export const WaitlistForm = ({ title, description, privacyNote }: Props) => {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [status, setStatus] = useState<WaitlistFormState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const privacyNoteId = useId();
+  const statusMessageId = useId();
 
   useEffect(() => {
     trackEvent("waitlist_form_viewed");
@@ -103,7 +105,15 @@ export const WaitlistForm = ({ title, description, privacyNote }: Props) => {
           {description}
         </p>
       </div>
-      <form className="waitlist__form" onSubmit={handleSubmit}>
+      <form
+        className="waitlist__form"
+        onSubmit={handleSubmit}
+        aria-describedby={`${privacyNoteId}${
+          status !== "idle" ? ` ${statusMessageId}` : ""
+        }`}
+        aria-busy={status === "loading" ? "true" : "false"}
+        aria-labelledby="waitlist-title"
+      >
         <div className="waitlist__grid">
           <label className="waitlist__field">
             <span>Nombre completo</span>
@@ -147,22 +157,35 @@ export const WaitlistForm = ({ title, description, privacyNote }: Props) => {
             />
           </label>
         </div>
-        <p className="waitlist__note">{privacyNote}</p>
+        <p id={privacyNoteId} className="waitlist__note">
+          {privacyNote}
+        </p>
         <div className="waitlist__actions">
           <button
             type="submit"
             className="cta-button cta-button--primary"
             disabled={status === "loading"}
+            aria-describedby={status !== "idle" ? statusMessageId : undefined}
           >
             {status === "loading" ? "Enviando…" : "Unirme a la lista de espera"}
           </button>
           {status === "success" ? (
-            <p role="status" className="waitlist__status waitlist__status--success">
+            <p
+              id={statusMessageId}
+              role="status"
+              aria-live="polite"
+              className="waitlist__status waitlist__status--success"
+            >
               ¡Gracias! Te contactaremos muy pronto.
             </p>
           ) : null}
           {status === "error" && errorMessage ? (
-            <p role="alert" className="waitlist__status waitlist__status--error">
+            <p
+              id={statusMessageId}
+              role="alert"
+              aria-live="assertive"
+              className="waitlist__status waitlist__status--error"
+            >
               {errorMessage}
             </p>
           ) : null}
