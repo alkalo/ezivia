@@ -25,31 +25,24 @@
     <string name="home_contacts_permission_needed">Para ver tus favoritos, permite que Ezivia acceda a tus contactos.</string>
     
     
-    <string name="home_lock_hold_title">Para acciones especiales, mantén presionado el botón de subir volumen</string>
     
     
-    <string name="home_lock_hold_status_idle">Mantén presionado el botón de subir volumen y luego toca la opción.</string>
-    
-    
-    <string name="home_lock_hold_status_holding">Sigue presionando el botón de subir volumen y elige la opción.</string>
-    
-    
-    <string name="home_lock_hold_status_ready">Listo: toca &quot;Ajustes&quot; en los próximos segundos.</string>
-    
-    
-    <string name="home_lock_hold_required">Mantén presionado el botón de subir volumen primero.</string>
-    
-    
-    <string name="home_lock_hold_icon_description">Ilustración del botón de subir volumen del teléfono</string>
-    
-    
-    <string name="home_lock_tutorial_title">Nuevo gesto de seguridad</string>
-    
-    
-    <string name="home_lock_tutorial_message">Mantén presionado el botón de subir volumen y toca &quot;Ajustes&quot; para administrar Ezivia o salir del modo simplificado desde allí. Así evitamos cambios accidentales.</string>
-    
-    
-    <string name="home_lock_tutorial_button">Entendido</string>
+    <string name="home_settings_confirmation_title">Confirmar acceso a Ajustes</string>
+
+
+    <string name="home_settings_confirmation_message">Para mantener Ezivia configurado de forma segura, confirma que quieres abrir Ajustes.</string>
+
+
+    <string name="home_settings_confirmation_confirm">Abrir Ajustes</string>
+
+
+    <string name="home_exit_confirmation_title">Salir de Ezivia</string>
+
+
+    <string name="home_exit_confirmation_message">¿Seguro que quieres salir del modo simplificado? Podrás volver a abrir Ezivia más tarde.</string>
+
+
+    <string name="home_exit_confirmation_confirm">Salir</string>
     
     
     <string name="action_call">Llamar</string>

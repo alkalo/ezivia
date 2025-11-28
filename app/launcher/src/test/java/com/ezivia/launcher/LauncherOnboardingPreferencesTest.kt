@@ -32,17 +32,4 @@ class LauncherOnboardingPreferencesTest {
         val second = LauncherOnboardingPreferences(context)
         assertThat(second.shouldShowDefaultLauncherPrompt()).isFalse()
     }
-
-    @Test
-    fun lockGestureTutorial_isTrueAndPersistsShownFlag() {
-        val first = LauncherOnboardingPreferences(context)
-
-        assertThat(first.shouldShowLockGestureTutorial()).isTrue()
-
-        first.markLockGestureTutorialShown()
-        assertThat(first.shouldShowLockGestureTutorial()).isFalse()
-
-        val second = LauncherOnboardingPreferences(context)
-        assertThat(second.shouldShowLockGestureTutorial()).isFalse()
-    }
 }
