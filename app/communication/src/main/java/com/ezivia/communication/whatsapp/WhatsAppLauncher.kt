@@ -118,9 +118,10 @@ class WhatsAppLauncher(private val activity: Activity) {
         }
 
         internal fun buildVideoCallUri(phoneNumber: String): Uri {
+            val (parameter, normalizedPhone) = normalizeForCall(phoneNumber)
             return Uri.parse("whatsapp://call")
                 .buildUpon()
-                .appendQueryParameter("phone", phoneNumber)
+                .appendQueryParameter(parameter, normalizedPhone)
                 .appendQueryParameter("video", "true")
                 .build()
         }
@@ -151,6 +152,16 @@ class WhatsAppLauncher(private val activity: Activity) {
             }
 
             return builder.toString()
+        }
+
+        private fun normalizeForCall(phoneNumber: String): Pair<String, String> {
+            val digitsOnly = phoneNumber.filter(Char::isDigit)
+
+            if (phoneNumber.contains('+')) {
+                return "jid" to "$digitsOnly@s.whatsapp.net"
+            }
+
+            return "phone" to digitsOnly
         }
     }
 }
