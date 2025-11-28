@@ -82,7 +82,11 @@ class ReminderRepository(context: Context) {
     ): List<Reminder> {
         val upperBound = now.plusHours(withinHours)
         return storage.load()
-            .filter { it.dateTime.isAfter(now.minusMinutes(1)) && it.dateTime.isBefore(upperBound) }
+            .filter {
+                it.dateTime.isAfter(now.minusMinutes(1)) &&
+                    it.dateTime.isBefore(upperBound) &&
+                    !it.isCompleted
+            }
             .sortedBy { it.dateTime }
     }
 

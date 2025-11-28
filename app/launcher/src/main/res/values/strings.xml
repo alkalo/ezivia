@@ -45,6 +45,13 @@
 
 
     <string name="home_exit_confirmation_confirm">Salir</string>
+
+    <string name="home_reminders_title">Tus próximos recordatorios</string>
+    <string name="home_reminders_empty">No hay recordatorios pendientes por ahora.</string>
+    <string name="home_reminders_taken">Tomado</string>
+    <string name="home_reminders_later">Recordar más tarde</string>
+    <string name="home_reminders_taken_feedback">Marcaste %1$s como tomado.</string>
+    <string name="home_reminders_snoozed_feedback">Te lo recordaremos más tarde.</string>
     
     
     <string name="action_call">Llamar</string>
@@ -92,7 +99,7 @@
     <string name="quick_action_reminders_title">Recordatorios</string>
     
     
-    <string name="quick_action_reminders_description">Revisa tus medicamentos y citas de hoy.</string>
+    <string name="quick_action_reminders_description">Abre el resumen grande de recordatorios en esta pantalla.</string>
     
     
     <string name="quick_action_sos_title">SOS emergencia</string>

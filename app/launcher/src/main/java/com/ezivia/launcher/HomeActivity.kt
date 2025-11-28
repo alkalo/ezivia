@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioManager
+import android.media.ToneGenerator
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.KeyEvent
@@ -29,6 +31,7 @@ import com.ezivia.settings.RestrictedSettingsActivity
 import com.ezivia.utilities.caregiver.CaregiverPreferences
 import com.ezivia.utilities.camera.CameraCaptureRequest
 import com.ezivia.utilities.camera.SimpleCameraCoordinator
+import com.ezivia.utilities.reminders.Reminder
 import com.ezivia.utilities.reminders.ReminderRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -61,6 +64,10 @@ class HomeActivity : BaseActivity() {
     private var pendingCameraRequest: CameraCaptureRequest? = null
     private val fadeScaleIn by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_scale_in) }
     private var isVolumeUpPressed: Boolean = false
+    private var upcomingReminders: List<Reminder> = emptyList()
+    private val reminderDateFormatter by lazy {
+        DateTimeFormatter.ofPattern("EEEE d 'de' MMMM '•' HH:mm", Locale.getDefault())
+    }
 
     private val contactsPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -184,6 +191,21 @@ class HomeActivity : BaseActivity() {
             setHasFixedSize(true)
         }
 
+        binding.reminderTakeButton.apply {
+            applyPressScaleEffect()
+            setOnClickListener { updateReminderCompletion(completed = true) }
+        }
+
+        binding.reminderLaterButton.apply {
+            applyPressScaleEffect()
+            setOnClickListener { updateReminderCompletion(completed = false) }
+        }
+
+        binding.reminderSummaryCard.setOnClickListener {
+            binding.homeScroll.smoothScrollTo(0, binding.reminderSummaryCard.top)
+            announceReminders()
+        }
+
         quickActionsAdapter.submitList(HomeQuickActions.defaultActions())
 
         binding.primaryCallButton.apply {
@@ -216,6 +238,7 @@ class HomeActivity : BaseActivity() {
         animateEntryViews()
 
         ensureContactsPermission()
+        refreshReminderSummary()
     }
 
     override fun onResume() {
@@ -238,6 +261,8 @@ class HomeActivity : BaseActivity() {
         if (hasPermission && contactsJob == null) {
             startContactsSync()
         }
+
+        refreshReminderSummary()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -276,6 +301,69 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    private fun refreshReminderSummary() {
+        val now = LocalDateTime.now()
+        val reminders = reminderRepository.getUpcomingReminders(now)
+        upcomingReminders = reminders.take(2)
+
+        val friendlySummary = reminderRepository.buildFriendlySummary(now)
+        binding.reminderSummaryText.text = friendlySummary
+
+        val detailText = if (upcomingReminders.isEmpty()) {
+            getString(R.string.home_reminders_empty)
+        } else {
+            upcomingReminders.joinToString(separator = "\n\n") { reminder ->
+                buildString {
+                    append(reminder.title)
+                    append('\n')
+                    append(reminderDateFormatter.format(reminder.dateTime))
+                }
+            }
+        }
+
+        binding.reminderDetailText.text = detailText
+        binding.reminderActions.isVisible = upcomingReminders.isNotEmpty()
+        if (upcomingReminders.isNotEmpty()) {
+            announceReminders()
+        }
+    }
+
+    private fun announceReminders() {
+        val summary = binding.reminderSummaryText.text
+        if (summary.isNullOrBlank()) return
+        binding.reminderSummaryCard.announceForAccessibility(summary)
+    }
+
+    private fun focusReminderCard() {
+        binding.homeScroll.post {
+            binding.homeScroll.smoothScrollTo(0, binding.reminderSummaryCard.top)
+            announceReminders()
+        }
+    }
+
+    private fun updateReminderCompletion(completed: Boolean) {
+        val reminder = upcomingReminders.firstOrNull() ?: run {
+            showErrorFeedback(R.string.quick_action_reminders_empty)
+            return
+        }
+        reminderRepository.updateCompletion(reminder.id, completed)
+        playConfirmationTone()
+        val feedback = if (completed) {
+            getString(R.string.home_reminders_taken_feedback, reminder.title)
+        } else {
+            getString(R.string.home_reminders_snoozed_feedback)
+        }
+        showSuccessFeedback(feedback)
+        refreshReminderSummary()
+    }
+
+    private fun playConfirmationTone() {
+        ToneGenerator(AudioManager.STREAM_NOTIFICATION, 80).apply {
+            startTone(ToneGenerator.TONE_PROP_ACK, 150)
+            release()
+        }
+    }
+
     private fun startContactsSync() {
         contactsJob?.cancel()
         contactsJob = lifecycleScope.launch(Dispatchers.Main) {
@@ -311,7 +399,7 @@ class HomeActivity : BaseActivity() {
             HomeQuickActionType.VIDEO_CALL -> startVideoQuickAction()
             HomeQuickActionType.MESSAGE -> startMessageQuickAction()
             HomeQuickActionType.PHOTOS -> startPhotosQuickAction()
-            HomeQuickActionType.REMINDERS -> showRemindersSummary()
+            HomeQuickActionType.REMINDERS -> focusReminderCard()
             HomeQuickActionType.SOS -> startSosQuickAction()
         }
     }
@@ -393,46 +481,6 @@ class HomeActivity : BaseActivity() {
         } catch (_: ActivityNotFoundException) {
             showErrorFeedback(R.string.quick_action_gallery_unavailable)
         }
-    }
-
-    private fun showRemindersSummary() {
-        val now = LocalDateTime.now()
-        val upcoming = reminderRepository.getUpcomingReminders(now)
-        if (upcoming.isEmpty()) {
-            AlertDialog.Builder(this)
-                .setTitle(R.string.reminders_title)
-                .setMessage(R.string.quick_action_reminders_empty)
-                .setPositiveButton(R.string.reminders_add) { _, _ ->
-                    startActivity(Intent(this, RemindersOverviewActivity::class.java))
-                }
-                .setNegativeButton(android.R.string.cancel, null)
-                .show()
-            return
-        }
-        val formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM HH:mm", Locale.getDefault())
-        val message = buildString {
-            upcoming.forEachIndexed { index, reminder ->
-                append("• ")
-                append(reminder.title)
-                append(" – ")
-                append(reminder.dateTime.format(formatter))
-                if (index < upcoming.lastIndex) {
-                    append('\n')
-                }
-            }
-            if (reminderRepository.getReminders().size > upcoming.size) {
-                append('\n')
-                append(getString(R.string.quick_action_reminders_summary_more))
-            }
-        }
-        AlertDialog.Builder(this)
-            .setTitle(R.string.quick_action_reminders_summary_title)
-            .setMessage(message)
-            .setPositiveButton(android.R.string.ok, null)
-            .setNegativeButton(R.string.reminders_add) { _, _ ->
-                startActivity(Intent(this, RemindersOverviewActivity::class.java))
-            }
-            .show()
     }
 
     private fun startSosQuickAction() {

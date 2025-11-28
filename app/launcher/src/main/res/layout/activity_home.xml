@@ -45,6 +45,85 @@
                 android:text="@string/home_subtitle"
                 android:textAlignment="center" />
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/reminderSummaryCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/ezivia_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:contentPadding="20dp">
+
+                <LinearLayout
+                    android:id="@+id/reminderCardContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true">
+
+                    <TextView
+                        android:id="@+id/reminderCardTitle"
+                        style="@style/TextAppearance.Ezivia.BodyLarge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_reminders_title" />
+
+                    <TextView
+                        android:id="@+id/reminderSummaryText"
+                        style="@style/TextAppearance.Ezivia.Display"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/home_reminders_empty"
+                        android:textAlignment="viewStart" />
+
+                    <TextView
+                        android:id="@+id/reminderDetailText"
+                        style="@style/TextAppearance.Ezivia.BodyLarge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/home_reminders_empty"
+                        android:textAlignment="viewStart" />
+
+                    <LinearLayout
+                        android:id="@+id/reminderActions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/reminderTakeButton"
+                            style="@style/Widget.Ezivia.PrimaryButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:layout_weight="1"
+                            android:text="@string/home_reminders_taken"
+                            android:textAllCaps="false"
+                            app:backgroundTint="@color/ezivia_secondary"
+                            app:icon="@drawable/ic_action_check"
+                            app:iconTint="@color/ezivia_on_secondary" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/reminderLaterButton"
+                            style="@style/Widget.Ezivia.PrimaryButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/home_reminders_later"
+                            android:textAllCaps="false"
+                            app:backgroundTint="@color/ezivia_primary"
+                            app:icon="@drawable/ic_action_clock"
+                            app:iconTint="@color/ezivia_on_primary" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <LinearLayout
                 android:id="@+id/highlightActionsContainer"
                 android:layout_width="match_parent"
