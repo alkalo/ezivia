@@ -68,10 +68,33 @@
         android:text="@string/reminders_dialog_message"
         android:textColor="@color/ezivia_on_surface_variant" />
 
+    <TextView
+        android:id="@+id/reminderDateLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/reminders_dialog_date_label"
+        android:textColor="@color/ezivia_on_surface_variant" />
+
+    <DatePicker
+        android:id="@+id/reminderDatePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/reminderTimeLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/reminders_dialog_time_label"
+        android:textColor="@color/ezivia_on_surface_variant" />
+
     <TimePicker
         android:id="@+id/reminderTimePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="8dp" />
 
 </LinearLayout>

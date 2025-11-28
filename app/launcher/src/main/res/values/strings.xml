@@ -222,7 +222,7 @@
     <string name="reminders_dialog_title">Nuevo recordatorio</string>
     
     
-    <string name="reminders_dialog_message">Introduce el nombre, tipo y hora para hoy.</string>
+    <string name="reminders_dialog_message">Introduce el nombre, notas, tipo, fecha y hora.</string>
     
     
     <string name="reminders_dialog_name_hint">¿Qué debes recordar?</string>
@@ -232,9 +232,18 @@
     
     
     <string name="reminders_dialog_type">Tipo de recordatorio</string>
-    
-    
+
+
+    <string name="reminders_dialog_date_label">Fecha del recordatorio</string>
+
+
+    <string name="reminders_dialog_time_label">Hora del recordatorio</string>
+
+
     <string name="reminders_dialog_error_name">Escribe un nombre para el recordatorio.</string>
+
+
+    <string name="reminders_dialog_error_time">Selecciona una fecha y hora en el futuro.</string>
     
     
     <string name="reminders_dialog_save">Guardar</string>
@@ -244,9 +253,24 @@
     
     
     <string name="reminders_saved">Recordatorio guardado.</string>
-    
-    
+
+
     <string name="reminders_status_updated">Estado actualizado.</string>
+
+
+    <string name="reminders_notification_channel_name">Alarmas de recordatorios</string>
+
+
+    <string name="reminders_notification_channel_description">Avisos sonoros y vibración para tus recordatorios.</string>
+
+
+    <string name="reminders_notification_title_fallback">Recordatorio</string>
+
+
+    <string name="reminders_notification_body">%1$s: %2$s</string>
+
+
+    <string name="reminders_notification_permission_denied">Activa las notificaciones para escuchar las alarmas de tus recordatorios.</string>
     
     
     <string name="sos_title">Emergencia</string>
