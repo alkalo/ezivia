@@ -399,7 +399,14 @@ class HomeActivity : BaseActivity() {
         val now = LocalDateTime.now()
         val upcoming = reminderRepository.getUpcomingReminders(now)
         if (upcoming.isEmpty()) {
-            showErrorFeedback(R.string.quick_action_reminders_empty)
+            AlertDialog.Builder(this)
+                .setTitle(R.string.reminders_title)
+                .setMessage(R.string.quick_action_reminders_empty)
+                .setPositiveButton(R.string.reminders_add) { _, _ ->
+                    startActivity(Intent(this, RemindersOverviewActivity::class.java))
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
             return
         }
         val formatter = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM HH:mm", Locale.getDefault())
