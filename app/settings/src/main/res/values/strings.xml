@@ -1,16 +1,5 @@
 <resources>
     <string name="settings_title">Ajustes de Ezivia</string>
-    <string name="settings_description">Configura la experiencia de lectura y sonido para que Ezivia se escuche y se vea con claridad. Mantén presionado el botón de subir volumen en la pantalla principal para entrar aquí.</string>
-    <string name="settings_accessibility_section">Lectura y sonido</string>
-    <string name="settings_accessibility_description">Ajusta el tamaño del texto, la guía por voz y los avisos sonoros para que todo se entienda mejor.</string>
-    <string name="settings_option_font_size">Tamaño de letra en el launcher</string>
-    <string name="settings_option_font_size_value">Tamaño actual: %1$d pt</string>
-    <string name="settings_option_voice_guidance">Guía por voz y lectura de opciones</string>
-    <string name="settings_option_tone_volume">Volumen de avisos y llamadas</string>
-    <string name="settings_option_tone_volume_value">Volumen actual: %1$d%%</string>
-    <string name="settings_option_sound_confirmation">Sonidos de confirmación al tocar</string>
-    <string name="settings_safety_section">Seguridad y accesos</string>
-    <string name="settings_option_emergency_contacts">Contactos de emergencia visibles</string>
-    <string name="settings_option_large_lock_screen">Bloqueo de pantalla grande</string>
+    <string name="settings_exit_only_description">Para mantener el modo simplificado seguro, aquí solo podrás salir del modo Ezivia.</string>
     <string name="settings_exit_mode">Salir del modo Ezivia</string>
 </resources>

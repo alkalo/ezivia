@@ -1,3 +1,4 @@
+- Ajustamos Ajustes restringidos para que solo muestre la opción de salir del modo Ezivia y se abra únicamente manteniendo subir volumen al tocar Ajustes.
 # Changelog
 
 ## [Unreleased]
