@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.KeyEvent
 import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
@@ -54,7 +53,6 @@ class HomeActivity : BaseActivity() {
     private lateinit var caregiverPreferences: CaregiverPreferences
     private lateinit var conversationCoordinator: ConversationCoordinator
     private lateinit var onBackPressedCallback: OnBackPressedCallback
-    private lateinit var lockGestureCoordinator: LockGestureCoordinator
     private val favoriteContactsSynchronizer by lazy { FavoriteContactsSynchronizer(contentResolver) }
     private var contactsJob: Job? = null
     private var pendingCallNumber: String? = null
@@ -158,20 +156,9 @@ class HomeActivity : BaseActivity() {
         cameraCoordinator = SimpleCameraCoordinator(this)
         reminderRepository = ReminderRepository(this)
         caregiverPreferences = CaregiverPreferences(this)
-        lockGestureCoordinator = LockGestureCoordinator(
-            context = this,
-            holdView = binding.lockGestureHoldView,
-            statusTextView = binding.lockGestureStatus
-        )
-
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (!lockGestureCoordinator.canTriggerProtectedAction()) {
-                    showErrorFeedback(R.string.home_lock_hold_required)
-                    return
-                }
-                lockGestureCoordinator.consumeGesture()
-                finish()
+                showExitConfirmation()
             }
         }
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
@@ -224,8 +211,6 @@ class HomeActivity : BaseActivity() {
         animateEntryViews()
 
         ensureContactsPermission()
-
-        maybeShowLockGestureTutorial()
     }
 
     override fun onResume() {
@@ -248,24 +233,6 @@ class HomeActivity : BaseActivity() {
         if (hasPermission && contactsJob == null) {
             startContactsSync()
         }
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            if (event?.repeatCount == 0) {
-                lockGestureCoordinator.startHold()
-            }
-            return true
-        }
-        return super.onKeyDown(keyCode, event)
-    }
-
-    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            lockGestureCoordinator.endHold()
-            return true
-        }
-        return super.onKeyUp(keyCode, event)
     }
 
     override fun onDestroy() {
@@ -549,14 +516,21 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun openProtectedSettings() {
-        if (!lockGestureCoordinator.canTriggerProtectedAction()) {
-            showErrorFeedback(R.string.home_lock_hold_required)
-            binding.bottomNavigation.selectedItemId = R.id.navigation_home
-            return
-        }
-        lockGestureCoordinator.consumeGesture()
-        settingsLauncher.launch(Intent(this, RestrictedSettingsActivity::class.java))
-        binding.bottomNavigation.selectedItemId = R.id.navigation_home
+        AlertDialog.Builder(this)
+            .setTitle(R.string.home_settings_confirmation_title)
+            .setMessage(R.string.home_settings_confirmation_message)
+            .setPositiveButton(R.string.home_settings_confirmation_confirm) { _, _ ->
+                settingsLauncher.launch(Intent(this, RestrictedSettingsActivity::class.java))
+                binding.bottomNavigation.selectedItemId = R.id.navigation_home
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                binding.bottomNavigation.selectedItemId = R.id.navigation_home
+            }
+            .setOnCancelListener {
+                binding.bottomNavigation.selectedItemId = R.id.navigation_home
+            }
+            .show()
     }
 
     private fun startExitFlow() {
@@ -572,25 +546,18 @@ class HomeActivity : BaseActivity() {
             binding.primaryCallButton,
             binding.primaryVideoButton,
             binding.sosFab,
-            binding.lockGestureCard,
             binding.bottomNavigation
         ).forEach { view ->
             view.startAnimation(fadeScaleIn)
         }
     }
 
-    private fun maybeShowLockGestureTutorial() {
-        if (!onboardingPreferences.shouldShowLockGestureTutorial()) {
-            return
-        }
+    private fun showExitConfirmation() {
         AlertDialog.Builder(this)
-            .setTitle(R.string.home_lock_tutorial_title)
-            .setMessage(R.string.home_lock_tutorial_message)
-            .setPositiveButton(R.string.home_lock_tutorial_button) { dialog, _ ->
-                onboardingPreferences.markLockGestureTutorialShown()
-                dialog.dismiss()
-            }
-            .setCancelable(false)
+            .setTitle(R.string.home_exit_confirmation_title)
+            .setMessage(R.string.home_exit_confirmation_message)
+            .setPositiveButton(R.string.home_exit_confirmation_confirm) { _, _ -> finish() }
+            .setNegativeButton(android.R.string.cancel, null)
             .show()
     }
 }
