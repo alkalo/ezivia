@@ -7,9 +7,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.telephony.PhoneNumberUtils
+import android.telephony.TelephonyManager
 import android.widget.Toast
 import com.ezivia.communication.DiagnosticsLog
 import com.ezivia.communication.contacts.FavoriteContact
+import java.util.Locale
 
 /**
  * Encapsula la lógica necesaria para iniciar videollamadas de WhatsApp
@@ -53,7 +56,7 @@ class WhatsAppLauncher(private val activity: Activity) {
     }
 
     private fun launchVideoCall(phoneNumber: String, packageName: String) {
-        val intent = buildVideoCallIntent(phoneNumber, packageName)
+        val intent = buildVideoCallIntent(phoneNumber, packageName, resolveRegionIso())
         DiagnosticsLog.record(
             source = "WhatsAppLauncher",
             message = "Lanzando videollamada con URI ${intent.data} y paquete $packageName"
@@ -140,6 +143,14 @@ class WhatsAppLauncher(private val activity: Activity) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
+    private fun resolveRegionIso(): String {
+        val telephonyManager = activity.getSystemService(TelephonyManager::class.java)
+        val fromSim = telephonyManager?.simCountryIso?.takeIf { it.isNotBlank() }
+        val fromNetwork = telephonyManager?.networkCountryIso?.takeIf { it.isNotBlank() }
+
+        return (fromSim ?: fromNetwork ?: Locale.getDefault().country).uppercase(Locale.US)
+    }
+
     companion object {
         private const val PRIMARY_WHATSAPP_PACKAGE = "com.whatsapp"
         private val WHATSAPP_PACKAGES = listOf(PRIMARY_WHATSAPP_PACKAGE, "com.whatsapp.w4b")
@@ -148,8 +159,8 @@ class WhatsAppLauncher(private val activity: Activity) {
             return WHATSAPP_PACKAGES.firstOrNull { installedPackages.contains(it) }
         }
 
-        internal fun buildVideoCallUri(phoneNumber: String): Uri {
-            val (parameter, normalizedPhone) = normalizeForCall(phoneNumber)
+        internal fun buildVideoCallUri(phoneNumber: String, regionIso: String? = null): Uri {
+            val (parameter, normalizedPhone) = normalizeForCall(phoneNumber, regionIso)
             return Uri.parse("whatsapp://call")
                 .buildUpon()
                 .appendQueryParameter(parameter, normalizedPhone)
@@ -157,8 +168,8 @@ class WhatsAppLauncher(private val activity: Activity) {
                 .build()
         }
 
-        internal fun buildVideoCallIntent(phoneNumber: String, packageName: String): Intent {
-            return Intent(Intent.ACTION_VIEW, buildVideoCallUri(phoneNumber)).apply {
+        internal fun buildVideoCallIntent(phoneNumber: String, packageName: String, regionIso: String? = null): Intent {
+            return Intent(Intent.ACTION_VIEW, buildVideoCallUri(phoneNumber, regionIso)).apply {
                 setPackage(packageName)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
@@ -185,14 +196,14 @@ class WhatsAppLauncher(private val activity: Activity) {
             return builder.toString()
         }
 
-        private fun normalizeForCall(phoneNumber: String): Pair<String, String> {
-            val digitsOnly = phoneNumber.filter(Char::isDigit)
+        private fun normalizeForCall(phoneNumber: String, regionIso: String?): Pair<String, String> {
+            val normalizedE164 = PhoneNumberUtils.formatNumberToE164(phoneNumber, regionIso)
+                ?: if (phoneNumber.startsWith("+")) phoneNumber else "+$phoneNumber"
 
-            if (phoneNumber.contains('+')) {
-                return "jid" to "$digitsOnly@s.whatsapp.net"
-            }
+            val digitsOnly = normalizedE164.dropWhile { it == '+' || it.isWhitespace() }
+                .filter(Char::isDigit)
 
-            return "phone" to digitsOnly
+            return "jid" to "$digitsOnly@s.whatsapp.net"
         }
     }
 }
