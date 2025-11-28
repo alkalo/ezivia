@@ -3,17 +3,16 @@ package com.ezivia.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.ezivia.settings.databinding.ActivityRestrictedSettingsBinding
-import com.ezivia.utilities.caregiver.CaregiverPreferences
-import com.google.android.material.textview.MaterialTextView
 
 private const val SETTINGS_PREFS = "ezivia_settings_preferences"
 private const val KEY_FONT_SIZE = "font_size"
 private const val KEY_TONE_VOLUME = "tone_volume"
 private const val KEY_EMERGENCY_CONTACTS = "emergency_contacts"
 private const val KEY_LARGE_LOCK_SCREEN = "large_lock_screen"
+private const val KEY_VOICE_GUIDANCE = "voice_guidance"
+private const val KEY_SOUND_CONFIRMATIONS = "sound_confirmations"
 
 /**
  * Hosts configuration knobs reserved for caregivers while keeping the main
@@ -26,43 +25,16 @@ class RestrictedSettingsActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityRestrictedSettingsBinding
-    private lateinit var caregiverPreferences: CaregiverPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRestrictedSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        caregiverPreferences = CaregiverPreferences(this)
-
-        populateCaregivers()
         configureControls()
 
         binding.exitModeButton.setOnClickListener {
             exitEziviaMode()
-        }
-    }
-
-    private fun populateCaregivers() {
-        val caregivers = caregiverPreferences.loadCaregivers()
-        binding.caregiverContainer.removeAllViews()
-
-        if (caregivers.isEmpty()) {
-            val emptyView = TextView(this).apply {
-                text = getString(R.string.settings_caregiver_empty)
-                setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Body2)
-            }
-            binding.caregiverContainer.addView(emptyView)
-            return
-        }
-
-        caregivers.forEach { caregiver ->
-            val textView = MaterialTextView(this).apply {
-                text = caregiver.asDisplayText()
-                setPadding(0, 8, 0, 8)
-                setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Body2)
-            }
-            binding.caregiverContainer.addView(textView)
         }
     }
 
@@ -71,6 +43,8 @@ class RestrictedSettingsActivity : AppCompatActivity() {
 
         val defaultFontSize = 24f
         val defaultToneVolume = 70f
+        val defaultVoiceGuidance = true
+        val defaultSoundConfirmations = true
 
         binding.fontSizeSlider.value = preferences.getFloat(KEY_FONT_SIZE, defaultFontSize)
         updateFontSizeValue(binding.fontSizeSlider.value)
@@ -84,6 +58,18 @@ class RestrictedSettingsActivity : AppCompatActivity() {
         binding.toneVolumeSlider.addOnChangeListener { _, value, _ ->
             updateToneVolumeValue(value)
             preferences.edit().putFloat(KEY_TONE_VOLUME, value).apply()
+        }
+
+        binding.voiceGuidanceSwitch.isChecked =
+            preferences.getBoolean(KEY_VOICE_GUIDANCE, defaultVoiceGuidance)
+        binding.voiceGuidanceSwitch.setOnCheckedChangeListener { _, isChecked ->
+            preferences.edit().putBoolean(KEY_VOICE_GUIDANCE, isChecked).apply()
+        }
+
+        binding.soundConfirmationSwitch.isChecked =
+            preferences.getBoolean(KEY_SOUND_CONFIRMATIONS, defaultSoundConfirmations)
+        binding.soundConfirmationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            preferences.edit().putBoolean(KEY_SOUND_CONFIRMATIONS, isChecked).apply()
         }
 
         binding.emergencyContactsSwitch.isChecked = preferences.getBoolean(KEY_EMERGENCY_CONTACTS, true)

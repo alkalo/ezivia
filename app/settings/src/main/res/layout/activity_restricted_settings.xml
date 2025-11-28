@@ -41,48 +41,18 @@
                 android:paddingVertical="@dimen/ezivia_component_padding_vertical">
 
                 <TextView
-                    style="@style/TextAppearance.Ezivia.BodyLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settings_caregiver_section"
-                    android:textColor="?attr/colorOnBackground" />
-
-                <LinearLayout
-                    android:id="@+id/caregiverContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical"
-                    tools:targetApi="o">
-
-                    <TextView
-                        style="@style/TextAppearance.Ezivia.BodyLarge"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_caregiver_empty"
-                        android:textColor="?attr/colorOnBackground" />
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.Ezivia.Card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingHorizontal="@dimen/ezivia_component_padding_horizontal"
-                android:paddingVertical="@dimen/ezivia_component_padding_vertical">
-
-                <TextView
                     style="@style/TextAppearance.Ezivia.Display"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_accessibility_section"
+                    android:textColor="?attr/colorOnBackground" />
+
+                <TextView
+                    style="@style/TextAppearance.Ezivia.BodyLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/settings_accessibility_description"
                     android:textColor="?attr/colorOnBackground" />
 
                 <TextView
@@ -115,6 +85,17 @@
                     android:layout_marginTop="4dp"
                     android:textColor="?attr/colorOnBackground" />
 
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/voiceGuidanceSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:minHeight="@dimen/ezivia_min_touch_target"
+                    android:paddingVertical="8dp"
+                    android:text="@string/settings_option_voice_guidance"
+                    android:textColor="?attr/colorOnBackground"
+                    android:textAppearance="@style/TextAppearance.Ezivia.BodyLarge" />
+
                 <TextView
                     style="@style/TextAppearance.Ezivia.BodyLarge"
                     android:layout_width="match_parent"
@@ -144,6 +125,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:textColor="?attr/colorOnBackground" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/soundConfirmationSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:minHeight="@dimen/ezivia_min_touch_target"
+                    android:paddingVertical="8dp"
+                    android:text="@string/settings_option_sound_confirmation"
+                    android:textColor="?attr/colorOnBackground"
+                    android:textAppearance="@style/TextAppearance.Ezivia.BodyLarge" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

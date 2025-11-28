@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Simplificamos los ajustes restringidos eliminando la lista de cuidadores, sumando guías por voz y sonidos de confirmación, y reorganizando la tarjeta de lectura y sonido con copias más claras.
 - Quitamos el panel del gesto de bloqueo en inicio, compactando el layout y usando confirmaciones para abrir Ajustes o salir sin depender del volumen.
 - Reorganizamos la pantalla de inicio del launcher en una sola columna con botones principales apilados, acciones rápidas y favoritos a ancho completo para mejorar la legibilidad.
 - Mejoramos la accesibilidad web con anillos de foco visibles, contrastes reforzados en estados críticos y formularios que anuncian sus estados para lectores de pantalla.
