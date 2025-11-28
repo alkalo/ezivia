@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Add a guided contact wizard with per-step validation, WhatsApp preference, optional voice confirmation, photo preview, and launcher entry points for adding or editing.
 - Rediseñar la pantalla de inicio con favoritos en rejilla de dos columnas, botones destacados de llamada y videollamada,
   un SOS flotante y animaciones de entrada con fade y scale.
 - Refresh launcher and settings theming with a cream/coral/deep blue palette, Roboto/Inter typography, rounded elevated cards,

@@ -285,4 +285,92 @@
     <string name="default_launcher_reconfigure_description">Si deseas volver al inicio tradicional de Android, elige otra aplicación de inicio predeterminada.</string>
     <string name="default_launcher_reconfigure_action">Cambiar inicio predeterminado</string>
     <string name="default_launcher_force_hint">Cuando hayas seleccionado otra app de inicio, volverás automáticamente.</string>
+
+    <string name="contacts_add_contact">Añadir o editar contacto</string>
+
+    <string name="contact_wizard_title_add">Añadir contacto</string>
+
+    <string name="contact_wizard_title_edit">Editar contacto</string>
+
+    <string name="contact_wizard_step_indicator">Paso %1$d de %2$d</string>
+
+    <string name="contact_wizard_step_title_name">Datos principales</string>
+
+    <string name="contact_wizard_step_title_phone">Número y WhatsApp</string>
+
+    <string name="contact_wizard_step_title_summary">Resumen y confirmación</string>
+
+    <string name="contact_wizard_name_label">Nombre completo</string>
+
+    <string name="contact_wizard_name_hint">Escribe el nombre tal como quieres verlo</string>
+
+    <string name="contact_wizard_name_error">Añade al menos 3 letras para reconocerlo</string>
+
+    <string name="contact_wizard_name_valid">Nombre listo y claro</string>
+
+    <string name="contact_wizard_phone_label">Teléfono</string>
+
+    <string name="contact_wizard_phone_hint">Incluye prefijo si es necesario</string>
+
+    <string name="contact_wizard_phone_error">El número necesita al menos 7 dígitos</string>
+
+    <string name="contact_wizard_phone_valid">Número preparado para llamar</string>
+
+    <string name="contact_wizard_whatsapp_label">Usar WhatsApp</string>
+
+    <string name="contact_wizard_whatsapp_hint">Actívalo si prefieres mensajes o videollamadas</string>
+
+    <string name="contact_wizard_whatsapp_enabled">WhatsApp activado para este contacto</string>
+
+    <string name="contact_wizard_whatsapp_disabled">WhatsApp desactivado</string>
+
+    <string name="contact_wizard_summary_title">Revisa y personaliza antes de guardar</string>
+
+    <string name="contact_wizard_photo_label">Foto opcional</string>
+
+    <string name="contact_wizard_photo_hint">Añade una imagen para reconocerlo más rápido</string>
+
+    <string name="contact_wizard_photo_action">Elegir foto</string>
+
+    <string name="contact_wizard_photo_content_description">Vista previa de la foto del contacto</string>
+
+    <string name="contact_wizard_voice_label">Confirmación por voz</string>
+
+    <string name="contact_wizard_voice_hint">Pide que el usuario diga “confirmar” o “guardar”</string>
+
+    <string name="contact_wizard_voice_action">Grabar confirmación</string>
+
+    <string name="contact_wizard_voice_prompt_helper">Activa para pedir una confirmación hablada antes de guardar</string>
+
+    <string name="contact_wizard_voice_prompt">Di “confirmar contacto” para continuar</string>
+
+    <string name="contact_wizard_voice_retry">No se entendió la confirmación. Intenta otra vez.</string>
+
+    <string name="contact_wizard_voice_confirmed">Confirmación recibida: “%1$s”.</string>
+
+    <string name="contact_wizard_voice_not_understood">No se reconoció “%1$s”. Prueba de nuevo.</string>
+
+    <string name="contact_wizard_voice_disabled">Confirmación por voz desactivada</string>
+
+    <string name="contact_wizard_voice_permission_denied">Activa el micrófono para usar la confirmación por voz.</string>
+
+    <string name="contact_wizard_fix_errors">Revisa los campos en rojo antes de avanzar</string>
+
+    <string name="contact_wizard_placeholder_name">Nombre pendiente</string>
+
+    <string name="contact_wizard_placeholder_phone">Número pendiente</string>
+
+    <string name="contact_wizard_save">Guardar contacto</string>
+
+    <string name="contact_wizard_back">Volver</string>
+
+    <string name="contact_wizard_next">Siguiente</string>
+
+    <string name="contact_wizard_contact_note">Prefiere WhatsApp para mensajes y videollamadas</string>
+
+    <string name="contact_wizard_save_error">No se pudo abrir el guardado del contacto.</string>
+
+    <string name="contact_wizard_result_toast">%1$s listo para guardar</string>
+
+    <string name="contact_wizard_result_generic">Datos de contacto listos</string>
 </resources>

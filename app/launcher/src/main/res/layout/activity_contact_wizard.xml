@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    tools:context=".ContactWizardActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/contactWizardToolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/ezivia_surface"
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:navigationIconTint="@color/ezivia_primary"
+        app:titleCentered="true"
+        app:titleTextColor="@color/ezivia_on_surface"
+        tools:title="Añadir contacto" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/stepProgress"
+        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/contactWizardToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:indicatorColor="@color/ezivia_primary"
+        app:trackColor="@color/ezivia_highlight" />
+
+    <TextView
+        android:id="@+id/stepIndicator"
+        style="@style/TextAppearance.Ezivia.BodyLarge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/stepProgress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Paso 1 de 3" />
+
+    <TextView
+        android:id="@+id/stepTitle"
+        style="@style/TextAppearance.Ezivia.Display"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/stepIndicator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Datos principales" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/contactWizardScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/stepTitle"
+        app:layout_constraintBottom_toTopOf="@id/navigationButtons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/nameStepGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                tools:visibility="visible">
+
+                <TextView
+                    style="@style/TextAppearance.Ezivia.BodyLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_wizard_name_label" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:startIconDrawable="@drawable/ic_action_person"
+                    app:startIconTint="@color/ezivia_on_surface_variant">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nameInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/contact_wizard_name_hint"
+                        android:inputType="textPersonName"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/nameValidationMessage"
+                    style="@style/TextAppearance.Ezivia.BodyLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/ezivia_critical"
+                    tools:text="Añade al menos 3 letras." />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/phoneStepGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/TextAppearance.Ezivia.BodyLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_wizard_phone_label" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:startIconDrawable="@drawable/ic_action_call"
+                    app:startIconTint="@color/ezivia_on_surface_variant">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phoneInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/contact_wizard_phone_hint"
+                        android:inputType="phone"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:contentDescription="@string/contact_wizard_whatsapp_label"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_action_message"
+                        android:tint="@color/ezivia_primary" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextAppearance.Ezivia.BodyLarge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contact_wizard_whatsapp_label" />
+
+                        <TextView
+                            style="@style/TextAppearance.Ezivia.BodyMedium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contact_wizard_whatsapp_hint"
+                            android:textColor="@color/ezivia_on_surface_variant" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/whatsappSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:contentDescription="@string/contact_wizard_whatsapp_label" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/phoneValidationMessage"
+                    style="@style/TextAppearance.Ezivia.BodyLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/ezivia_critical"
+                    tools:text="El número necesita 7 dígitos." />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/summaryStepGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/TextAppearance.Ezivia.BodyLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_wizard_summary_title" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/summaryCard"
+                    style="@style/Widget.Ezivia.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:cardUseCompatPadding="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/summaryName"
+                            style="@style/TextAppearance.Ezivia.Display"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="Nombre Apellido" />
+
+                        <TextView
+                            android:id="@+id/summaryPhone"
+                            style="@style/TextAppearance.Ezivia.BodyLarge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textColor="@color/ezivia_on_surface_variant"
+                            tools:text="+34 600 123 456" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:contentDescription="@string/contact_wizard_whatsapp_label"
+                                android:src="@drawable/ic_action_message"
+                                android:tint="@color/ezivia_primary" />
+
+                            <TextView
+                                android:id="@+id/summaryWhatsapp"
+                                style="@style/TextAppearance.Ezivia.BodyLarge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                tools:text="WhatsApp activado" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/contactPhoto"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:background="@drawable/bg_contact_avatar"
+                        android:contentDescription="@string/contact_wizard_photo_content_description"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_action_photos"
+                        android:tint="@color/ezivia_on_surface_variant" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextAppearance.Ezivia.BodyLarge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contact_wizard_photo_label" />
+
+                        <TextView
+                            style="@style/TextAppearance.Ezivia.BodyMedium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contact_wizard_photo_hint"
+                            android:textColor="@color/ezivia_on_surface_variant" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/choosePhotoButton"
+                            style="@style/Widget.Ezivia.PrimaryButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/contact_wizard_photo_action"
+                            android:textAllCaps="false"
+                            app:icon="@drawable/ic_action_photos"
+                            app:iconTint="@color/ezivia_on_surface" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/voiceConfirmationContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:contentDescription="@string/contact_wizard_voice_label"
+                            android:padding="4dp"
+                            android:src="@drawable/ic_action_mic"
+                            android:tint="@color/ezivia_primary" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/TextAppearance.Ezivia.BodyLarge"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/contact_wizard_voice_label" />
+
+                            <TextView
+                                style="@style/TextAppearance.Ezivia.BodyMedium"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/contact_wizard_voice_hint"
+                                android:textColor="@color/ezivia_on_surface_variant" />
+                        </LinearLayout>
+
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/voiceConfirmationSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/contact_wizard_voice_label" />
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/voiceConfirmationButton"
+                        style="@style/Widget.Ezivia.PrimaryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/contact_wizard_voice_action"
+                        android:textAllCaps="false"
+                        android:visibility="gone"
+                        app:icon="@drawable/ic_action_mic"
+                        app:iconTint="@color/ezivia_on_primary" />
+
+                    <TextView
+                        android:id="@+id/voiceValidationMessage"
+                        style="@style/TextAppearance.Ezivia.BodyLarge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/ezivia_on_surface_variant"
+                        tools:text="Confirmación por voz desactivada" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/saveContactButton"
+                    style="@style/Widget.Ezivia.PrimaryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/contact_wizard_save"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.Ezivia.Button"
+                    app:backgroundTint="@color/ezivia_secondary"
+                    app:cornerRadius="20dp"
+                    app:icon="@drawable/ic_action_call"
+                    app:iconTint="@color/ezivia_on_secondary" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/navigationButtons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/backButton"
+            style="@style/Widget.Ezivia.PrimaryButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="@string/contact_wizard_back"
+            android:textAllCaps="false"
+            app:backgroundTint="@color/ezivia_highlight"
+            app:icon="@drawable/ic_action_home"
+            app:iconTint="@color/ezivia_on_surface_variant" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nextButton"
+            style="@style/Widget.Ezivia.PrimaryButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/contact_wizard_next"
+            android:textAllCaps="false"
+            app:backgroundTint="@color/ezivia_primary"
+            app:icon="@drawable/ic_action_video_call"
+            app:iconTint="@color/ezivia_on_primary" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

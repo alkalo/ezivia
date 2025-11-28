@@ -11,6 +11,8 @@
     <color name="ezivia_on_surface_variant">#4B6075</color>
     <color name="ezivia_outline">#C8D2E1</color>
     <color name="ezivia_highlight">#FFE3D8</color>
+    <color name="ezivia_success">#2E7D32</color>
+    <color name="ezivia_on_success">#FFFFFFFF</color>
     <color name="ezivia_critical">#D7263D</color>
     <color name="ezivia_on_critical">#FFFFFFFF</color>
     <color name="ezivia_critical_container">#FFD9DE</color>
