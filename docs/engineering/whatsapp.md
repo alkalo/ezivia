@@ -12,7 +12,7 @@ durante la investigación interna (enero 2025).
 | Abrir chat | `Intent.ACTION_VIEW` + `Uri.parse("https://wa.me/<numero>")` | Crea o abre una conversación con el número en formato internacional. |
 | Compartir texto | `Intent.ACTION_SEND` con `setPackage("com.whatsapp")` | Soporta texto plano e imágenes con permiso de `content://`. |
 | Llamada de voz | `Intent.ACTION_VIEW` + `Uri.parse("whatsapp://call?phone=<numero>")` | Requiere que el número tenga WhatsApp activo y el contacto esté registrado. |
-| Videollamada (no documentado) | `Intent.ACTION_VIEW` + `Uri.parse("whatsapp://call?phone=<numero>&call_type=video")` | Utiliza un parámetro interno observado en versiones recientes de WhatsApp. |
+| Videollamada (no documentado) | `Intent.ACTION_VIEW` + `Uri.parse("https://wa.me/<numero>?call=true&video=true")` | Usa el esquema `wa.me` para evitar el aviso de enlace no válido antes de conectar la llamada. |
 
 ## Limitaciones y riesgos
 
