@@ -21,7 +21,6 @@ enum class HomeQuickActionType {
     VIDEO_CALL,
     MESSAGE,
     PHOTOS,
-    REMINDERS,
     SOS,
 }
 
@@ -52,12 +51,6 @@ object HomeQuickActions {
             iconRes = R.drawable.ic_action_photos,
             titleRes = R.string.quick_action_photos_title,
             descriptionRes = R.string.quick_action_photos_description,
-        ),
-        HomeQuickAction(
-            type = HomeQuickActionType.REMINDERS,
-            iconRes = R.drawable.ic_action_reminders,
-            titleRes = R.string.quick_action_reminders_title,
-            descriptionRes = R.string.quick_action_reminders_description,
         ),
         HomeQuickAction(
             type = HomeQuickActionType.SOS,
