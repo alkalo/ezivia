@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Add the missing Body Medium text appearance so the contact wizard hint texts compile under AAPT again.
 - Rediseñar los ajustes restringidos para mostrar solo tamaño de letra, volumen de tonos, contactos de emergencia y bloqueo de
   pantalla grande con tarjetas y controles grandes.
 - Añadimos guías contextuales con lectura en voz alta y un botón flotante de ayuda contrastado en la web para orientar al
@@ -44,3 +45,4 @@
 - Replace legacy coroutine UI dispatcher usage with Dispatchers.Main in the launcher module so assemble tasks compile without unresolved references.
 - Documentar los controles accesibles de llamada y videollamada con layouts centrados, botones de colores contrastados y video remoto a pantalla grande.
 - Añadir un desglose detallado de flujos (inicio, llamada, videollamada, favoritos y ajustes) con notas de accesibilidad, botones grandes y paleta cálida contrastada en la guía de estilo.
+- Añadir guion y métricas para sesiones de usabilidad remotas moderadas con tareas de favoritos, videollamadas WhatsApp y SOS, incluyendo pausas y registro de SUS.
