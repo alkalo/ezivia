@@ -509,6 +509,10 @@ class HomeActivity : BaseActivity() {
                 settingsLauncher.launch(Intent(this, RestrictedSettingsActivity::class.java))
                 binding.bottomNavigation.selectedItemId = R.id.navigation_home
             }
+            .setNeutralButton(R.string.home_settings_open_diagnostics) { _, _ ->
+                startActivity(Intent(this, DiagnosticsActivity::class.java))
+                binding.bottomNavigation.selectedItemId = R.id.navigation_home
+            }
             .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
                 binding.bottomNavigation.selectedItemId = R.id.navigation_home

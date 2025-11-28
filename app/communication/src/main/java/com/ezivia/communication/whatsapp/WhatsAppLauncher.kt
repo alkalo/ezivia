@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
+import com.ezivia.communication.DiagnosticsLog
 import com.ezivia.communication.contacts.FavoriteContact
 
 /**
@@ -24,12 +25,25 @@ class WhatsAppLauncher(private val activity: Activity) {
     fun startFavoriteVideoCall(contact: FavoriteContact): Boolean {
         val sanitizedNumber = sanitizePhoneNumber(contact.phoneNumber)
         if (sanitizedNumber.isEmpty() || sanitizedNumber == "+") {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "Número vacío o inválido para la videollamada"
+            )
             showToast("El contacto no tiene un número válido.")
             return false
         }
 
+        DiagnosticsLog.record(
+            source = "WhatsAppLauncher",
+            message = "Número sanitizado para videollamada: $sanitizedNumber"
+        )
+
         val installedPackage = resolveInstalledWhatsAppPackage()
         if (installedPackage == null) {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "No se encontró WhatsApp instalado"
+            )
             showInstallFallback()
             return false
         }
@@ -40,9 +54,17 @@ class WhatsAppLauncher(private val activity: Activity) {
 
     private fun launchVideoCall(phoneNumber: String, packageName: String) {
         val intent = buildVideoCallIntent(phoneNumber, packageName)
+        DiagnosticsLog.record(
+            source = "WhatsAppLauncher",
+            message = "Lanzando videollamada con URI ${intent.data} y paquete $packageName"
+        )
         try {
             activity.startActivity(intent)
         } catch (error: ActivityNotFoundException) {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "WhatsApp no respondió al intento de abrir la videollamada"
+            )
             showToast("No se pudo abrir WhatsApp para la videollamada.")
             showInstallFallback()
         }
@@ -50,7 +72,12 @@ class WhatsAppLauncher(private val activity: Activity) {
 
     private fun resolveInstalledWhatsAppPackage(): String? {
         val installedPackages = WHATSAPP_PACKAGES.filter { isWhatsAppInstalled(it) }.toSet()
-        return selectPreferredPackage(installedPackages)
+        val selected = selectPreferredPackage(installedPackages)
+        DiagnosticsLog.record(
+            source = "WhatsAppLauncher",
+            message = "Paquetes detectados: $installedPackages; seleccionado: ${selected ?: "ninguno"}"
+        )
+        return selected
     }
 
     private fun isWhatsAppInstalled(packageName: String): Boolean {
@@ -75,6 +102,10 @@ class WhatsAppLauncher(private val activity: Activity) {
             .setTitle("Instalar WhatsApp")
             .setMessage("Para realizar la videollamada necesitas instalar o activar WhatsApp.")
             .setPositiveButton("Abrir Play Store") { _, _ ->
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "Abriendo ficha de WhatsApp en Play Store"
+                )
                 openStoreListing()
             }
             .setNegativeButton("Cancelar", null)
