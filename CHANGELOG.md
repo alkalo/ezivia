@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Permitimos que el botón "Cambiar inicio predeterminado" al salir de Ezivia abra los ajustes de inicio cuando ya somos la app por defecto.
 - Quitamos el panel del gesto de bloqueo en inicio, compactando el layout y usando confirmaciones para abrir Ajustes o salir sin depender del volumen.
 - Reorganizamos la pantalla de inicio del launcher en una sola columna con botones principales apilados, acciones rápidas y favoritos a ancho completo para mejorar la legibilidad.
 - Mejoramos la accesibilidad web con anillos de foco visibles, contrastes reforzados en estados críticos y formularios que anuncian sus estados para lectores de pantalla.
