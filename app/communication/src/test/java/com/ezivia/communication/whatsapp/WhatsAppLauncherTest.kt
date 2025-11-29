@@ -60,24 +60,24 @@ class WhatsAppLauncherTest {
     }
 
     @Test
-    fun buildVideoCallUri_convertsLeadingPlusToJidParameter() {
+    fun buildVideoCallUri_convertsLeadingPlusToPhoneParameter() {
         val uri = WhatsAppLauncher.buildVideoCallUri("+34600123456", "ES")
 
-        assertThat(uri.toString()).isEqualTo("whatsapp://call?jid=34600123456%40s.whatsapp.net&video=true")
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
     }
 
     @Test
-    fun buildVideoCallUri_convertsPlainDigitsToJidParameter() {
+    fun buildVideoCallUri_convertsPlainDigitsToPhoneParameter() {
         val uri = WhatsAppLauncher.buildVideoCallUri("34600123456", "ES")
 
-        assertThat(uri.toString()).isEqualTo("whatsapp://call?jid=34600123456%40s.whatsapp.net&video=true")
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
     }
 
     @Test
     fun buildVideoCallUri_normalizesLeadingPlusAndKeepsCallValid() {
         val uri = WhatsAppLauncher.buildVideoCallUri("+12 34 567", "ES")
 
-        assertThat(uri.toString()).isEqualTo("whatsapp://call?jid=1234567%40s.whatsapp.net&video=true")
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=+1234567&video=true")
     }
 
     @Test
@@ -85,7 +85,7 @@ class WhatsAppLauncherTest {
         val intent = WhatsAppLauncher.buildVideoCallIntent("34600123456", "com.whatsapp", "ES")
 
         assertThat(intent.action).isEqualTo(Intent.ACTION_VIEW)
-        assertThat(intent.data.toString()).isEqualTo("whatsapp://call?jid=34600123456%40s.whatsapp.net&video=true")
+        assertThat(intent.data.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
         assertThat(intent.`package`).isEqualTo("com.whatsapp")
         assertThat(intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK).isNotEqualTo(0)
     }
