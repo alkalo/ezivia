@@ -161,12 +161,9 @@ class WhatsAppLauncher(private val activity: Activity) {
 
         internal fun buildVideoCallUri(phoneNumber: String, regionIso: String? = null): Uri {
             val normalizedPhone = normalizeForCall(phoneNumber, regionIso)
-            val phoneWithoutPlus = normalizedPhone.removePrefix("+")
-            return Uri.parse("https://wa.me/")
+            return Uri.parse("whatsapp://call")
                 .buildUpon()
-                .appendPath(phoneWithoutPlus)
-                .appendQueryParameter("call", "true")
-                .appendQueryParameter("video", "true")
+                .encodedQuery("phone=$normalizedPhone&video=true")
                 .build()
         }
 
