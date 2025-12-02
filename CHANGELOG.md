@@ -69,3 +69,4 @@
 - Soportar videollamadas tanto con WhatsApp estándar como Business para evitar falsos avisos de instalación.
 - Declarar la visibilidad de los paquetes y esquema de WhatsApp en el manifest del launcher para que Android 11+ detecte correctamente la app instalada y no muestre el aviso de instalación.
 - Añadimos configuración de fecha y hora en recordatorios, permiso de notificaciones y alarmas sonoras con reprogramación tras reinicios para no perder avisos.
+- Evitar caídas al iniciar videollamadas de WhatsApp sin permiso de contactos usando fallback directo y pruebas de selección de intent.

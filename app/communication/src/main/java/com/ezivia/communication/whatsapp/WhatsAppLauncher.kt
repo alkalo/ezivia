@@ -57,20 +57,17 @@ class WhatsAppLauncher(private val activity: Activity) {
     }
 
     private fun launchVideoCall(contact: FavoriteContact, phoneNumber: String, packageName: String) {
-        val dataId = findWhatsAppVideoCallDataId(contact.id)
-        val intent = if (dataId != null) {
+        val dataId = try {
+            findWhatsAppVideoCallDataId(contact.id)
+        } catch (security: SecurityException) {
             DiagnosticsLog.record(
                 source = "WhatsAppLauncher",
-                message = "Usando dato de agenda para videollamada WhatsApp: dataId=$dataId"
+                message = "Sin permiso para leer agenda, usando URI directo"
             )
-            buildContactVideoCallIntent(dataId, packageName)
-        } else {
-            DiagnosticsLog.record(
-                source = "WhatsAppLauncher",
-                message = "No se encontró dataId de videollamada, usando URI directo"
-            )
-            buildVideoCallIntent(phoneNumber, packageName, resolveRegionIso())
+            null
         }
+
+        val intent = chooseVideoCallIntent(dataId, phoneNumber, packageName, resolveRegionIso())
         DiagnosticsLog.record(
             source = "WhatsAppLauncher",
             message = "Lanzando videollamada con URI ${intent.data} y paquete $packageName"
@@ -193,6 +190,27 @@ class WhatsAppLauncher(private val activity: Activity) {
 
         internal fun selectPreferredPackage(installedPackages: Set<String>): String? {
             return WHATSAPP_PACKAGES.firstOrNull { installedPackages.contains(it) }
+        }
+
+        internal fun chooseVideoCallIntent(
+            dataId: Long?,
+            phoneNumber: String,
+            packageName: String,
+            regionIso: String?
+        ): Intent {
+            return if (dataId != null) {
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "Usando dato de agenda para videollamada WhatsApp: dataId=$dataId"
+                )
+                buildContactVideoCallIntent(dataId, packageName)
+            } else {
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "No se encontró dataId de videollamada, usando URI directo"
+                )
+                buildVideoCallIntent(phoneNumber, packageName, regionIso)
+            }
         }
 
         internal fun buildContactVideoCallIntent(dataId: Long, packageName: String): Intent {

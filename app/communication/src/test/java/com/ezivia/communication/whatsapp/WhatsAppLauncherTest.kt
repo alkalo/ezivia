@@ -107,4 +107,20 @@ class WhatsAppLauncherTest {
         assertThat(intent.`package`).isEqualTo("com.whatsapp")
         assertThat(intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK).isNotEqualTo(0)
     }
+
+    @Test
+    fun chooseVideoCallIntent_usesContactDataWhenAvailable() {
+        val intent = WhatsAppLauncher.chooseVideoCallIntent(25, "34600123456", "com.whatsapp", "ES")
+
+        assertThat(intent.data.toString()).isEqualTo("content://com.android.contacts/data/25")
+        assertThat(intent.type).isEqualTo(WhatsAppLauncher.WHATSAPP_VIDEO_CALL_MIME_TYPE)
+    }
+
+    @Test
+    fun chooseVideoCallIntent_fallsBackToUriWhenNoDataId() {
+        val intent = WhatsAppLauncher.chooseVideoCallIntent(null, "34600123456", "com.whatsapp", "ES")
+
+        assertThat(intent.data.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
+        assertThat(intent.type).isNull()
+    }
 }
