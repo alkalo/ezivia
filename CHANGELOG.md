@@ -2,6 +2,7 @@
 # Changelog
 
 ## [Unreleased]
+- Lanzamos las videollamadas de WhatsApp desde el dataId de la agenda para saltar directo a la pantalla de video sin pasar por el chat.
 - Iniciamos las videollamadas de WhatsApp con el esquema nativo de llamada para entrar directamente a la videollamada sin pasar por el chat.
 - Corrigimos el enlace de videollamada de WhatsApp para usar wa.me y evitar avisos de enlace no válido.
 - Corrigimos el tag de Flow en la tarjeta de contacto favorito para compilar el launcher con ConstraintLayout.
