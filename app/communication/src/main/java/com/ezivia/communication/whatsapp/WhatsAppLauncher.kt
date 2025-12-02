@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.provider.ContactsContract
 import android.telephony.PhoneNumberUtils
 import android.telephony.TelephonyManager
 import android.widget.Toast
@@ -51,12 +52,22 @@ class WhatsAppLauncher(private val activity: Activity) {
             return false
         }
 
-        launchVideoCall(sanitizedNumber, installedPackage)
+        launchVideoCall(contact, sanitizedNumber, installedPackage)
         return true
     }
 
-    private fun launchVideoCall(phoneNumber: String, packageName: String) {
-        val intent = buildVideoCallIntent(phoneNumber, packageName, resolveRegionIso())
+    private fun launchVideoCall(contact: FavoriteContact, phoneNumber: String, packageName: String) {
+        val dataId = try {
+            findWhatsAppVideoCallDataId(contact.id)
+        } catch (security: SecurityException) {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "Sin permiso para leer agenda, usando URI directo"
+            )
+            null
+        }
+
+        val intent = chooseVideoCallIntent(dataId, phoneNumber, packageName, resolveRegionIso())
         DiagnosticsLog.record(
             source = "WhatsAppLauncher",
             message = "Lanzando videollamada con URI ${intent.data} y paquete $packageName"
@@ -70,6 +81,27 @@ class WhatsAppLauncher(private val activity: Activity) {
             )
             showToast("No se pudo abrir WhatsApp para la videollamada.")
             showInstallFallback()
+        }
+    }
+
+    private fun findWhatsAppVideoCallDataId(contactId: Long): Long? {
+        val projection = arrayOf(ContactsContract.Data._ID)
+        val selection = "${ContactsContract.Data.CONTACT_ID}=? AND ${ContactsContract.Data.MIMETYPE}=?"
+        val selectionArgs = arrayOf(contactId.toString(), WHATSAPP_VIDEO_CALL_MIME_TYPE)
+
+        return activity.contentResolver.query(
+            ContactsContract.Data.CONTENT_URI,
+            projection,
+            selection,
+            selectionArgs,
+            null
+        )?.use { cursor ->
+            val idIndex = cursor.getColumnIndexOrThrow(ContactsContract.Data._ID)
+            if (cursor.moveToFirst()) {
+                cursor.getLong(idIndex)
+            } else {
+                null
+            }
         }
     }
 
@@ -154,9 +186,43 @@ class WhatsAppLauncher(private val activity: Activity) {
     companion object {
         private const val PRIMARY_WHATSAPP_PACKAGE = "com.whatsapp"
         private val WHATSAPP_PACKAGES = listOf(PRIMARY_WHATSAPP_PACKAGE, "com.whatsapp.w4b")
+        internal const val WHATSAPP_VIDEO_CALL_MIME_TYPE = "vnd.android.cursor.item/vnd.com.whatsapp.video.call"
 
         internal fun selectPreferredPackage(installedPackages: Set<String>): String? {
             return WHATSAPP_PACKAGES.firstOrNull { installedPackages.contains(it) }
+        }
+
+        internal fun chooseVideoCallIntent(
+            dataId: Long?,
+            phoneNumber: String,
+            packageName: String,
+            regionIso: String?
+        ): Intent {
+            return if (dataId != null) {
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "Usando dato de agenda para videollamada WhatsApp: dataId=$dataId"
+                )
+                buildContactVideoCallIntent(dataId, packageName)
+            } else {
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "No se encontró dataId de videollamada, usando URI directo"
+                )
+                buildVideoCallIntent(phoneNumber, packageName, regionIso)
+            }
+        }
+
+        internal fun buildContactVideoCallIntent(dataId: Long, packageName: String): Intent {
+            return Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(buildContactDataUri(dataId), WHATSAPP_VIDEO_CALL_MIME_TYPE)
+                setPackage(packageName)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+        }
+
+        internal fun buildContactDataUri(dataId: Long): Uri {
+            return Uri.withAppendedPath(ContactsContract.Data.CONTENT_URI, dataId.toString())
         }
 
         internal fun buildVideoCallUri(phoneNumber: String, regionIso: String? = null): Uri {

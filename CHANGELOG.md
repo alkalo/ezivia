@@ -2,6 +2,7 @@
 # Changelog
 
 ## [Unreleased]
+- Lanzamos las videollamadas de WhatsApp desde el dataId de la agenda para saltar directo a la pantalla de video sin pasar por el chat.
 - Iniciamos las videollamadas de WhatsApp con el esquema nativo de llamada para entrar directamente a la videollamada sin pasar por el chat.
 - Corrigimos el enlace de videollamada de WhatsApp para usar wa.me y evitar avisos de enlace no válido.
 - Corrigimos el tag de Flow en la tarjeta de contacto favorito para compilar el launcher con ConstraintLayout.
@@ -68,3 +69,4 @@
 - Soportar videollamadas tanto con WhatsApp estándar como Business para evitar falsos avisos de instalación.
 - Declarar la visibilidad de los paquetes y esquema de WhatsApp en el manifest del launcher para que Android 11+ detecte correctamente la app instalada y no muestre el aviso de instalación.
 - Añadimos configuración de fecha y hora en recordatorios, permiso de notificaciones y alarmas sonoras con reprogramación tras reinicios para no perder avisos.
+- Evitar caídas al iniciar videollamadas de WhatsApp sin permiso de contactos usando fallback directo y pruebas de selección de intent.
