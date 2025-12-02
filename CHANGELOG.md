@@ -2,6 +2,7 @@
 # Changelog
 
 ## [Unreleased]
+- Evitamos caídas al iniciar videollamadas de WhatsApp cuando el país no se puede leer del operador, usando un fallback seguro y pruebas para la región.
 - Lanzamos las videollamadas de WhatsApp desde el dataId de la agenda para saltar directo a la pantalla de video sin pasar por el chat.
 - Iniciamos las videollamadas de WhatsApp con el esquema nativo de llamada para entrar directamente a la videollamada sin pasar por el chat.
 - Corrigimos el enlace de videollamada de WhatsApp para usar wa.me y evitar avisos de enlace no válido.

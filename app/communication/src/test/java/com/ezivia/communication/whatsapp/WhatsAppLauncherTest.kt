@@ -123,4 +123,48 @@ class WhatsAppLauncherTest {
         assertThat(intent.data.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
         assertThat(intent.type).isNull()
     }
+
+    @Test
+    fun resolveRegionIso_prefersSimAndUppercases() {
+        val region = WhatsAppLauncher.resolveRegionIso(
+            simCountryProvider = { "es" },
+            networkCountryProvider = { "mx" },
+            defaultCountryProvider = { "ar" },
+        )
+
+        assertThat(region).isEqualTo("ES")
+    }
+
+    @Test
+    fun resolveRegionIso_usesNetworkWhenSimEmpty() {
+        val region = WhatsAppLauncher.resolveRegionIso(
+            simCountryProvider = { "" },
+            networkCountryProvider = { "us" },
+            defaultCountryProvider = { "ar" },
+        )
+
+        assertThat(region).isEqualTo("US")
+    }
+
+    @Test
+    fun resolveRegionIso_fallsBackToDefaultWhenTelephonyMissing() {
+        val region = WhatsAppLauncher.resolveRegionIso(
+            simCountryProvider = { null },
+            networkCountryProvider = { null },
+            defaultCountryProvider = { "br" },
+        )
+
+        assertThat(region).isEqualTo("BR")
+    }
+
+    @Test
+    fun resolveRegionIso_handlesErrorsAndUsesSafeFallback() {
+        val region = WhatsAppLauncher.resolveRegionIso(
+            simCountryProvider = { throw SecurityException("carrier locked") },
+            networkCountryProvider = { throw SecurityException("no signal") },
+            defaultCountryProvider = { "" },
+        )
+
+        assertThat(region).isEqualTo("US")
+    }
 }
