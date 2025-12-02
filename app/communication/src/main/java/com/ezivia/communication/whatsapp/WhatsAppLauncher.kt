@@ -177,10 +177,11 @@ class WhatsAppLauncher(private val activity: Activity) {
 
     private fun resolveRegionIso(): String {
         val telephonyManager = activity.getSystemService(TelephonyManager::class.java)
-        val fromSim = telephonyManager?.simCountryIso?.takeIf { it.isNotBlank() }
-        val fromNetwork = telephonyManager?.networkCountryIso?.takeIf { it.isNotBlank() }
-
-        return (fromSim ?: fromNetwork ?: Locale.getDefault().country).uppercase(Locale.US)
+        return resolveRegionIso(
+            simCountryProvider = { telephonyManager?.simCountryIso },
+            networkCountryProvider = { telephonyManager?.networkCountryIso },
+            defaultCountryProvider = { Locale.getDefault().country }
+        )
     }
 
     companion object {
@@ -266,6 +267,22 @@ class WhatsAppLauncher(private val activity: Activity) {
                 ?: if (phoneNumber.startsWith("+")) phoneNumber else "+$phoneNumber"
 
             return normalizedE164.filter { it == '+' || it.isDigit() }
+        }
+
+        internal fun resolveRegionIso(
+            simCountryProvider: () -> String?,
+            networkCountryProvider: () -> String?,
+            defaultCountryProvider: () -> String,
+        ): String {
+            val simIso = runCatching { simCountryProvider() }.getOrNull().orEmpty()
+            val networkIso = runCatching { networkCountryProvider() }.getOrNull().orEmpty()
+            val defaultIso = runCatching { defaultCountryProvider() }.getOrNull().orEmpty()
+
+            val chosenIso = listOf(simIso, networkIso, defaultIso, Locale.US.country)
+                .firstOrNull { it.isNotBlank() }
+                ?: Locale.US.country
+
+            return chosenIso.uppercase(Locale.US)
         }
     }
 }
