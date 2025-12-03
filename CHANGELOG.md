@@ -2,6 +2,8 @@
 # Changelog
 
 ## [Unreleased]
+- Solicitamos y comprobamos el permiso de contactos antes de iniciar videollamadas de WhatsApp desde inicio o contactos,
+  mostrando un aviso claro si se deniega.
 - Normalizamos los números de videollamada de WhatsApp al formato E.164 usando el país del dispositivo y un prefijo de código cuando la API no puede formatear, evitando intents con teléfonos locales incompletos.
 - Añadimos un botón de videollamada directa que busca el dataId de WhatsApp por número en la agenda, comprobando permisos de contactos y mostrando avisos claros si falta la integración o la app.
 - Evitamos caídas al iniciar videollamadas de WhatsApp cuando el país no se puede leer del operador, usando un fallback seguro y pruebas para la región.
