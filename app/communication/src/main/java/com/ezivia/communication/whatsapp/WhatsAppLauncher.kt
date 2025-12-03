@@ -58,28 +58,21 @@ class WhatsAppLauncher(private val activity: Activity) {
         }
 
         val dataId = findWhatsAppVideoCallIdForNumber(activity, sanitizedNumber)
-        if (dataId == null) {
-            DiagnosticsLog.record(
-                source = "WhatsAppLauncher",
-                message = "No se encontró dataId de videollamada para el contacto"
-            )
-            showToast("No se ha encontrado la opción de videollamada de WhatsApp para este contacto.")
-            return false
-        }
-
-        return launchVideoCall(dataId, installedPackage)
+        return launchVideoCall(dataId, sanitizedNumber, installedPackage)
     }
 
-    private fun launchVideoCall(dataId: Long, packageName: String): Boolean {
+    private fun launchVideoCall(dataId: Long?, phoneNumber: String, packageName: String): Boolean {
         DiagnosticsLog.record(
             source = "WhatsAppLauncher",
-            message = "Lanzando videollamada con paquete $packageName y dataId=$dataId"
+            message = "Lanzando videollamada con paquete $packageName y dataId=${dataId ?: "sin dato"}"
         )
-        val started = startWhatsAppVideoCall(activity, dataId, packageName)
+        val regionIso = resolveRegionIso()
+        val intents = buildVideoCallIntentChain(dataId, phoneNumber, packageName, regionIso)
+        val started = startWhatsAppIntentChain(intents, packageName)
         if (!started) {
             DiagnosticsLog.record(
                 source = "WhatsAppLauncher",
-                message = "WhatsApp no respondió al intento de abrir la videollamada"
+                message = "WhatsApp no respondió al intentar abrir la videollamada; mostrando fallback de instalación"
             )
             showInstallFallback()
         }
@@ -150,6 +143,26 @@ class WhatsAppLauncher(private val activity: Activity) {
         } catch (_: ActivityNotFoundException) {
             false
         }
+    }
+
+    private fun startWhatsAppIntentChain(intents: List<Intent>, packageName: String): Boolean {
+        intents.forEachIndexed { index, intent ->
+            val started = tryStart(intent)
+            if (started) {
+                return true
+            }
+
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = if (index == 0 && intents.size > 1) {
+                    "No se pudo abrir la videollamada con dataId; probando fallback whatsapp://call con paquete $packageName"
+                } else {
+                    "Intent de videollamada de WhatsApp #${index + 1}/${intents.size} falló con paquete $packageName"
+                }
+            )
+        }
+
+        return false
     }
 
     private fun showToast(message: String) {
@@ -251,21 +264,35 @@ class WhatsAppLauncher(private val activity: Activity) {
             dataId: Long?,
             phoneNumber: String,
             packageName: String,
-            regionIso: String?
+            regionIso: String?,
         ): Intent {
-            return if (dataId != null) {
+            return buildVideoCallIntentChain(dataId, phoneNumber, packageName, regionIso).first()
+        }
+
+        internal fun buildVideoCallIntentChain(
+            dataId: Long?,
+            phoneNumber: String,
+            packageName: String,
+            regionIso: String?,
+        ): List<Intent> {
+            val intents = mutableListOf<Intent>()
+
+            if (dataId != null) {
                 DiagnosticsLog.record(
                     source = "WhatsAppLauncher",
                     message = "Usando dato de agenda para videollamada WhatsApp: dataId=$dataId"
                 )
-                buildContactVideoCallIntent(dataId, packageName)
+                intents += buildContactVideoCallIntent(dataId, packageName)
             } else {
                 DiagnosticsLog.record(
                     source = "WhatsAppLauncher",
                     message = "No se encontró dataId de videollamada, usando URI directo"
                 )
-                buildVideoCallIntent(phoneNumber, packageName, regionIso)
             }
+
+            intents += buildVideoCallIntent(phoneNumber, packageName, regionIso)
+
+            return intents
         }
 
         internal fun buildContactVideoCallIntent(dataId: Long, packageName: String): Intent {

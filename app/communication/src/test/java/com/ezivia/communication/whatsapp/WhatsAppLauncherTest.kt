@@ -135,6 +135,34 @@ class WhatsAppLauncherTest {
     }
 
     @Test
+    fun buildVideoCallIntentChain_prioritizesContactUriAndAddsFallback() {
+        val intents = WhatsAppLauncher.buildVideoCallIntentChain(
+            dataId = 99,
+            phoneNumber = "34600123456",
+            packageName = "com.whatsapp",
+            regionIso = "ES"
+        )
+
+        assertThat(intents).hasSize(2)
+        assertThat(intents[0].data.toString()).isEqualTo("content://com.android.contacts/data/99")
+        assertThat(intents[0].type).isEqualTo(WhatsAppLauncher.WHATSAPP_VIDEO_CALL_MIME_TYPE)
+        assertThat(intents[1].data.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
+    }
+
+    @Test
+    fun buildVideoCallIntentChain_returnsDirectUriWhenNoDataId() {
+        val intents = WhatsAppLauncher.buildVideoCallIntentChain(
+            dataId = null,
+            phoneNumber = "34600123456",
+            packageName = "com.whatsapp",
+            regionIso = "ES"
+        )
+
+        assertThat(intents).hasSize(1)
+        assertThat(intents[0].data.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
+    }
+
+    @Test
     fun chooseVideoCallIntent_usesContactDataWhenAvailable() {
         val intent = WhatsAppLauncher.chooseVideoCallIntent(25, "34600123456", "com.whatsapp", "ES")
 
