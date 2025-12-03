@@ -28,10 +28,10 @@ class WhatsAppLauncher(private val activity: Activity) {
 
     /**
      * Inicia directamente una videollamada de WhatsApp con el [contact]. Devuelve
-     * `true` si se pudo lanzar la acción o mostrar la tienda, y `false` cuando no
-     * hay número válido o no se detecta WhatsApp instalado.
+     * un [VideoCallResult] con el estado de la acción para poder mostrar feedback
+     * específico al usuario en función del fallo.
      */
-    fun startFavoriteVideoCall(contact: FavoriteContact): Boolean {
+    fun startFavoriteVideoCall(contact: FavoriteContact): VideoCallResult {
         val sanitizedNumber = sanitizePhoneNumber(contact.phoneNumber)
         if (sanitizedNumber.isEmpty() || sanitizedNumber == "+") {
             DiagnosticsLog.record(
@@ -39,7 +39,7 @@ class WhatsAppLauncher(private val activity: Activity) {
                 message = "Número vacío o inválido para la videollamada"
             )
             showToast("El contacto no tiene un número válido.")
-            return false
+            return VideoCallResult.InvalidNumber
         }
 
         DiagnosticsLog.record(
@@ -54,19 +54,25 @@ class WhatsAppLauncher(private val activity: Activity) {
                 message = "No se encontró WhatsApp instalado"
             )
             showInstallFallback()
-            return false
+            return VideoCallResult.WhatsappNotInstalled
         }
 
-        val dataId = findWhatsAppVideoCallIdForNumber(activity, sanitizedNumber)
-        if (dataId == null) {
-            DiagnosticsLog.record(
-                source = "WhatsAppLauncher",
-                message = "No se encontró dataId de videollamada para el contacto; intentando fallback wa.me"
-            )
-            return launchWebVideoCallFallback(sanitizedNumber, installedPackage)
+        return when (val lookupResult = findWhatsAppVideoCallIdForNumber(activity, sanitizedNumber)) {
+            VideoCallLookupResult.PermissionMissing -> VideoCallResult.ContactsPermissionMissing
+            VideoCallLookupResult.InvalidNumber -> VideoCallResult.InvalidNumber
+            VideoCallLookupResult.NotFound -> {
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "No se encontró dataId de videollamada para el contacto"
+                )
+                showToast("No se ha encontrado la opción de videollamada de WhatsApp para este contacto.")
+                VideoCallResult.VideoCallEntryMissing
+            }
+            is VideoCallLookupResult.Found -> {
+                val started = launchVideoCall(lookupResult.dataId, installedPackage)
+                if (started) VideoCallResult.Success else VideoCallResult.WhatsappNotInstalled
+            }
         }
-
-        return launchVideoCall(dataId, installedPackage)
     }
 
     private fun launchVideoCall(dataId: Long, packageName: String): Boolean {
@@ -228,14 +234,14 @@ class WhatsAppLauncher(private val activity: Activity) {
     fun findWhatsAppVideoCallIdForNumber(
         context: Context,
         phoneNumber: String
-    ): Long? {
+    ): VideoCallLookupResult {
         val sanitizedNumber = sanitizePhoneNumber(phoneNumber)
         if (sanitizedNumber.isEmpty()) {
             DiagnosticsLog.record(
                 source = "WhatsAppLauncher",
                 message = "No hay número válido para resolver videollamada"
             )
-            return null
+            return VideoCallLookupResult.InvalidNumber
         }
 
         if (!hasContactsPermission(context)) {
@@ -243,11 +249,11 @@ class WhatsAppLauncher(private val activity: Activity) {
                 source = "WhatsAppLauncher",
                 message = "Sin permiso READ_CONTACTS para resolver videollamada"
             )
-            return null
+            return VideoCallLookupResult.PermissionMissing
         }
 
         val (selection, selectionArgs) = buildVideoCallLookup(sanitizedNumber)
-        return context.contentResolver.query(
+        val dataId = context.contentResolver.query(
             ContactsContract.Data.CONTENT_URI,
             arrayOf(ContactsContract.Data._ID),
             selection,
@@ -261,6 +267,8 @@ class WhatsAppLauncher(private val activity: Activity) {
                 null
             }
         }
+
+        return dataId?.let { VideoCallLookupResult.Found(it) } ?: VideoCallLookupResult.NotFound
     }
 
     /**
@@ -283,14 +291,7 @@ class WhatsAppLauncher(private val activity: Activity) {
             context.startActivity(intent)
             LaunchResult.Success
         } catch (_: ActivityNotFoundException) {
-            Toast.makeText(
-                context,
-                "No se pudo abrir WhatsApp para la videollamada.",
-                Toast.LENGTH_LONG
-            ).show()
-            LaunchResult.PackageMissing
-        } catch (error: Exception) {
-            LaunchResult.LaunchError(error.message ?: error::class.java.simpleName)
+            false
         }
     }
 
@@ -491,5 +492,20 @@ class WhatsAppLauncher(private val activity: Activity) {
                 Manifest.permission.READ_CONTACTS
             ) == PackageManager.PERMISSION_GRANTED
         }
+    }
+
+    sealed class VideoCallResult {
+        data object Success : VideoCallResult()
+        data object InvalidNumber : VideoCallResult()
+        data object WhatsappNotInstalled : VideoCallResult()
+        data object VideoCallEntryMissing : VideoCallResult()
+        data object ContactsPermissionMissing : VideoCallResult()
+    }
+
+    internal sealed class VideoCallLookupResult {
+        data class Found(val dataId: Long) : VideoCallLookupResult()
+        data object InvalidNumber : VideoCallLookupResult()
+        data object PermissionMissing : VideoCallLookupResult()
+        data object NotFound : VideoCallLookupResult()
     }
 }

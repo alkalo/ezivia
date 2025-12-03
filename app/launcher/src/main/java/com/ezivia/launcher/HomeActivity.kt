@@ -323,18 +323,14 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun startVideoQuickAction() {
-        requestContactsPermissionForVideoCall {
-            val favorites = contactsAdapter.currentList
-            if (favorites.isEmpty()) {
-                showErrorFeedback(R.string.quick_action_no_contacts)
-                return@requestContactsPermissionForVideoCall
-            }
-            showContactPicker(R.string.quick_action_video_choose_contact, favorites) { contact ->
-                val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
-                if (!handled) {
-                    showErrorFeedback(R.string.quick_action_no_whatsapp)
-                }
-            }
+        val favorites = contactsAdapter.currentList
+        if (favorites.isEmpty()) {
+            showErrorFeedback(R.string.quick_action_no_contacts)
+            return
+        }
+        showContactPicker(R.string.quick_action_video_choose_contact, favorites) { contact ->
+            val result = whatsAppLauncher.startFavoriteVideoCall(contact)
+            handleVideoCallResult(result)
         }
     }
 
@@ -479,12 +475,13 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun onVideoCallClicked(contact: FavoriteContact) {
-        requestContactsPermissionForVideoCall {
-            val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
-            if (!handled) {
-                showErrorFeedback(R.string.quick_action_no_whatsapp)
-            }
+        if (!hasContactsPermission()) {
+            contactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+            showErrorFeedback(R.string.quick_action_contacts_permission_needed)
+            return
         }
+        val result = whatsAppLauncher.startFavoriteVideoCall(contact)
+        handleVideoCallResult(result)
     }
 
     private fun triggerEmergencyCall() {
@@ -518,6 +515,16 @@ class HomeActivity : BaseActivity() {
 
     private fun showTelephonyUnavailableToast() {
             showErrorFeedback(R.string.telephony_not_available)
+    }
+
+    private fun handleVideoCallResult(result: WhatsAppLauncher.VideoCallResult) {
+        when (result) {
+            WhatsAppLauncher.VideoCallResult.Success -> Unit
+            WhatsAppLauncher.VideoCallResult.InvalidNumber -> showErrorFeedback(R.string.quick_action_invalid_phone_number)
+            WhatsAppLauncher.VideoCallResult.VideoCallEntryMissing -> showErrorFeedback(R.string.quick_action_whatsapp_video_unavailable)
+            WhatsAppLauncher.VideoCallResult.ContactsPermissionMissing -> showErrorFeedback(R.string.quick_action_contacts_permission_needed)
+            WhatsAppLauncher.VideoCallResult.WhatsappNotInstalled -> showErrorFeedback(R.string.quick_action_no_whatsapp)
+        }
     }
 
     private fun handleProtectedSettingsAccess() {
