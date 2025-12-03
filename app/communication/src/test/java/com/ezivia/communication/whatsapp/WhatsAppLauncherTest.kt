@@ -135,31 +135,27 @@ class WhatsAppLauncherTest {
     }
 
     @Test
-    fun buildVideoCallIntentChain_prioritizesContactUriAndAddsFallback() {
-        val intents = WhatsAppLauncher.buildVideoCallIntentChain(
-            dataId = 99,
-            phoneNumber = "34600123456",
-            packageName = "com.whatsapp",
-            regionIso = "ES"
-        )
+    fun buildWebVideoCallUri_usesWaMeWithNormalizedDigits() {
+        val uri = WhatsAppLauncher.buildWebVideoCallUri("+34 600 123 456", "ES")
 
-        assertThat(intents).hasSize(2)
-        assertThat(intents[0].data.toString()).isEqualTo("content://com.android.contacts/data/99")
-        assertThat(intents[0].type).isEqualTo(WhatsAppLauncher.WHATSAPP_VIDEO_CALL_MIME_TYPE)
-        assertThat(intents[1].data.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
+        assertThat(uri.toString()).isEqualTo("https://wa.me/34600123456?call=true&video=true")
     }
 
     @Test
-    fun buildVideoCallIntentChain_returnsDirectUriWhenNoDataId() {
-        val intents = WhatsAppLauncher.buildVideoCallIntentChain(
-            dataId = null,
-            phoneNumber = "34600123456",
-            packageName = "com.whatsapp",
-            regionIso = "ES"
-        )
+    fun buildWebVideoCallIntent_setsPackageWhenProvided() {
+        val intent = WhatsAppLauncher.buildWebVideoCallIntent("34600123456", "com.whatsapp", "ES")
 
-        assertThat(intents).hasSize(1)
-        assertThat(intents[0].data.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
+        assertThat(intent.action).isEqualTo(Intent.ACTION_VIEW)
+        assertThat(intent.data.toString()).isEqualTo("https://wa.me/34600123456?call=true&video=true")
+        assertThat(intent.`package`).isEqualTo("com.whatsapp")
+        assertThat(intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK).isNotEqualTo(0)
+    }
+
+    @Test
+    fun buildWebVideoCallIntent_omitsPackageWhenNull() {
+        val intent = WhatsAppLauncher.buildWebVideoCallIntent("34600123456", null, "ES")
+
+        assertThat(intent.`package`).isNull()
     }
 
     @Test

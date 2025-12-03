@@ -58,7 +58,15 @@ class WhatsAppLauncher(private val activity: Activity) {
         }
 
         val dataId = findWhatsAppVideoCallIdForNumber(activity, sanitizedNumber)
-        return launchVideoCall(dataId, sanitizedNumber, installedPackage)
+        if (dataId == null) {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "No se encontró dataId de videollamada para el contacto; intentando fallback wa.me"
+            )
+            return launchWebVideoCallFallback(sanitizedNumber, installedPackage)
+        }
+
+        return launchVideoCall(dataId, installedPackage)
     }
 
     private fun launchVideoCall(dataId: Long?, phoneNumber: String, packageName: String): Boolean {
@@ -77,6 +85,40 @@ class WhatsAppLauncher(private val activity: Activity) {
             showInstallFallback()
         }
         return started
+    }
+
+    private fun launchWebVideoCallFallback(phoneNumber: String, packageName: String): Boolean {
+        val regionIso = resolveRegionIso()
+        val intentWithPackage = buildWebVideoCallIntent(phoneNumber, packageName, regionIso)
+        if (tryStart(intentWithPackage)) {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "Fallback wa.me lanzado con paquete $packageName"
+            )
+            return true
+        }
+
+        DiagnosticsLog.record(
+            source = "WhatsAppLauncher",
+            message = "El fallback wa.me no pudo lanzarse con paquete; probando sin package"
+        )
+
+        val browserIntent = buildWebVideoCallIntent(phoneNumber, packageName = null, regionIso = regionIso)
+        if (tryStart(browserIntent)) {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "Fallback wa.me lanzado mediante navegador"
+            )
+            return true
+        }
+
+        DiagnosticsLog.record(
+            source = "WhatsAppLauncher",
+            message = "No se pudo lanzar el fallback wa.me"
+        )
+
+        showToast("No se pudo iniciar la videollamada. Verifica que el contacto tenga WhatsApp.")
+        return false
     }
 
     private fun resolveInstalledWhatsAppPackage(): String? {
@@ -318,6 +360,26 @@ class WhatsAppLauncher(private val activity: Activity) {
         internal fun buildVideoCallIntent(phoneNumber: String, packageName: String, regionIso: String? = null): Intent {
             return Intent(Intent.ACTION_VIEW, buildVideoCallUri(phoneNumber, regionIso)).apply {
                 setPackage(packageName)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+        }
+
+        internal fun buildWebVideoCallUri(phoneNumber: String, regionIso: String? = null): Uri {
+            val normalizedPhone = normalizeForCall(phoneNumber, regionIso)
+            val plainDigits = normalizedPhone.filter { it.isDigit() }
+            return Uri.parse("https://wa.me/$plainDigits")
+                .buildUpon()
+                .encodedQuery("call=true&video=true")
+                .build()
+        }
+
+        internal fun buildWebVideoCallIntent(
+            phoneNumber: String,
+            packageName: String?,
+            regionIso: String? = null
+        ): Intent {
+            return Intent(Intent.ACTION_VIEW, buildWebVideoCallUri(phoneNumber, regionIso)).apply {
+                packageName?.let { setPackage(it) }
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
         }

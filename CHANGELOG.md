@@ -2,6 +2,7 @@
 # Changelog
 
 ## [Unreleased]
+- Añadimos un fallback wa.me para videollamadas de WhatsApp cuando no existe dataId, intentando abrir la app o el navegador y avisando si el número no está registrado.
 - Abrimos las videollamadas de WhatsApp usando el dataId de agenda con fallback al esquema directo si el MIME interno no está disponible en el dispositivo.
 - Solicitamos y comprobamos el permiso de contactos antes de iniciar videollamadas de WhatsApp desde inicio o contactos,
   mostrando un aviso claro si se deniega.
