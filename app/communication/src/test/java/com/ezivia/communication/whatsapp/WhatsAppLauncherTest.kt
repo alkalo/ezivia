@@ -84,10 +84,24 @@ class WhatsAppLauncherTest {
     }
 
     @Test
+    fun buildVideoCallUri_formatsLocalNumberToE164UsingRegion() {
+        val uri = WhatsAppLauncher.buildVideoCallUri("600123456", "ES")
+
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
+    }
+
+    @Test
     fun buildVideoCallUri_normalizesLeadingPlusAndKeepsCallValid() {
         val uri = WhatsAppLauncher.buildVideoCallUri("+12 34 567", "ES")
 
         assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=+1234567&video=true")
+    }
+
+    @Test
+    fun buildVideoCallUri_handlesUnknownRegionByFallingBackToPlusPrefix() {
+        val uri = WhatsAppLauncher.buildVideoCallUri("987654321", "ZZ")
+
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=+987654321&video=true")
     }
 
     @Test
@@ -127,6 +141,30 @@ class WhatsAppLauncherTest {
         assertThat(intent.data.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
         assertThat(intent.`package`).isEqualTo("com.whatsapp")
         assertThat(intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK).isNotEqualTo(0)
+    }
+
+    @Test
+    fun buildWebVideoCallUri_usesWaMeWithNormalizedDigits() {
+        val uri = WhatsAppLauncher.buildWebVideoCallUri("+34 600 123 456", "ES")
+
+        assertThat(uri.toString()).isEqualTo("https://wa.me/34600123456?call=true&video=true")
+    }
+
+    @Test
+    fun buildWebVideoCallIntent_setsPackageWhenProvided() {
+        val intent = WhatsAppLauncher.buildWebVideoCallIntent("34600123456", "com.whatsapp", "ES")
+
+        assertThat(intent.action).isEqualTo(Intent.ACTION_VIEW)
+        assertThat(intent.data.toString()).isEqualTo("https://wa.me/34600123456?call=true&video=true")
+        assertThat(intent.`package`).isEqualTo("com.whatsapp")
+        assertThat(intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK).isNotEqualTo(0)
+    }
+
+    @Test
+    fun buildWebVideoCallIntent_omitsPackageWhenNull() {
+        val intent = WhatsAppLauncher.buildWebVideoCallIntent("34600123456", null, "ES")
+
+        assertThat(intent.`package`).isNull()
     }
 
     @Test
