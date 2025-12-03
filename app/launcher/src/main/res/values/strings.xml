@@ -118,11 +118,14 @@
     
     
     <string name="quick_action_no_contacts">Configura contactos favoritos para usar esta opción.</string>
-    
-    
+
+
     <string name="quick_action_no_whatsapp">Necesitas WhatsApp instalado para hacer videollamadas.</string>
-    
-    
+
+
+    <string name="quick_action_contacts_permission_needed">Activa el permiso de contactos para iniciar la videollamada.</string>
+
+
     <string name="quick_action_camera_error">No se pudo preparar la cámara. Inténtalo de nuevo.</string>
     
     
