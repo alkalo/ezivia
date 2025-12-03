@@ -2,6 +2,8 @@
 # Changelog
 
 ## [Unreleased]
+- Corregimos la búsqueda y lanzamiento de videollamadas de WhatsApp marcando el helper como interno y devolviendo el estado de
+paquete ausente en vez de un booleano.
 - Corregimos el lanzamiento de videollamadas de WhatsApp usando dataId no nulo, ajustando la visibilidad del helper y cubriendo la cadena de intents con pruebas.
 - Afinamos los avisos de videollamadas de WhatsApp devolviendo estados detallados, diferenciando permisos, número inválido o contacto sin videollamada y mostrando feedback en pantalla además del toast.
 - Ajustamos la detección de variantes de WhatsApp y evitamos sugerir reinstalar cuando el intento de videollamada falla por formato o datos, mostrando un error claro en su lugar.
