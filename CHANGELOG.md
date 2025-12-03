@@ -3,6 +3,7 @@
 
 ## [Unreleased]
 - Afinamos los avisos de videollamadas de WhatsApp devolviendo estados detallados, diferenciando permisos, número inválido o contacto sin videollamada y mostrando feedback en pantalla además del toast.
+- Ajustamos la detección de variantes de WhatsApp y evitamos sugerir reinstalar cuando el intento de videollamada falla por formato o datos, mostrando un error claro en su lugar.
 - Añadimos un botón de videollamada directa que busca el dataId de WhatsApp por número en la agenda, comprobando permisos de contactos y mostrando avisos claros si falta la integración o la app.
 - Evitamos caídas al iniciar videollamadas de WhatsApp cuando el país no se puede leer del operador, usando un fallback seguro y pruebas para la región.
 - Lanzamos las videollamadas de WhatsApp desde el dataId de la agenda para saltar directo a la pantalla de video sin pasar por el chat.
@@ -71,5 +72,6 @@
 - Añadir guion y métricas para sesiones de usabilidad remotas moderadas con tareas de favoritos, videollamadas WhatsApp y SOS, incluyendo pausas y registro de SUS.
 - Soportar videollamadas tanto con WhatsApp estándar como Business para evitar falsos avisos de instalación.
 - Declarar la visibilidad de los paquetes y esquema de WhatsApp en el manifest del launcher para que Android 11+ detecte correctamente la app instalada y no muestre el aviso de instalación.
+- Añadimos visibilidad explícita para la URL wa.me en el manifest del launcher, asegurando que Android 11+ dirija los intents web al cliente de WhatsApp.
 - Añadimos configuración de fecha y hora en recordatorios, permiso de notificaciones y alarmas sonoras con reprogramación tras reinicios para no perder avisos.
 - Evitar caídas al iniciar videollamadas de WhatsApp sin permiso de contactos usando fallback directo y pruebas de selección de intent.

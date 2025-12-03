@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.ezivia.communication.DiagnosticsLog
 import com.ezivia.communication.contacts.FavoriteContact
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.util.Locale
 
 /**
@@ -74,20 +75,64 @@ class WhatsAppLauncher(private val activity: Activity) {
         }
     }
 
-    private fun launchVideoCall(dataId: Long, packageName: String): Boolean {
+    private fun launchVideoCall(dataId: Long?, phoneNumber: String, packageName: String): Boolean {
         DiagnosticsLog.record(
             source = "WhatsAppLauncher",
-            message = "Lanzando videollamada con paquete $packageName y dataId=$dataId"
+            message = "Lanzando videollamada con paquete $packageName y dataId=${dataId ?: "sin dato"}"
         )
-        val started = startWhatsAppVideoCall(activity, dataId, packageName)
-        if (!started) {
+        return when (val result = startWhatsAppVideoCall(activity, dataId, packageName)) {
+            LaunchResult.Success -> true
+            LaunchResult.PackageMissing -> {
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "WhatsApp no respondió al intento de abrir la videollamada"
+                )
+                showToast("No se pudo abrir la videollamada de WhatsApp. Revisa el número o inténtalo de nuevo.")
+                false
+            }
+            is LaunchResult.LaunchError -> {
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "Falló el intento de videollamada: ${result.reason}"
+                )
+                showToast("No se pudo abrir la videollamada de WhatsApp. Revisa el número o inténtalo de nuevo.")
+                false
+            }
+        }
+    }
+
+    private fun launchWebVideoCallFallback(phoneNumber: String, packageName: String): Boolean {
+        val regionIso = resolveRegionIso()
+        val intentWithPackage = buildWebVideoCallIntent(phoneNumber, packageName, regionIso)
+        if (tryStart(intentWithPackage)) {
             DiagnosticsLog.record(
                 source = "WhatsAppLauncher",
-                message = "WhatsApp no respondió al intento de abrir la videollamada"
+                message = "Fallback wa.me lanzado con paquete $packageName"
             )
-            showInstallFallback()
+            return true
         }
-        return started
+
+        DiagnosticsLog.record(
+            source = "WhatsAppLauncher",
+            message = "El fallback wa.me no pudo lanzarse con paquete; probando sin package"
+        )
+
+        val browserIntent = buildWebVideoCallIntent(phoneNumber, packageName = null, regionIso = regionIso)
+        if (tryStart(browserIntent)) {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "Fallback wa.me lanzado mediante navegador"
+            )
+            return true
+        }
+
+        DiagnosticsLog.record(
+            source = "WhatsAppLauncher",
+            message = "No se pudo lanzar el fallback wa.me"
+        )
+
+        showToast("No se pudo iniciar la videollamada. Verifica que el contacto tenga WhatsApp.")
+        return false
     }
 
     private fun resolveInstalledWhatsAppPackage(): String? {
@@ -156,6 +201,26 @@ class WhatsAppLauncher(private val activity: Activity) {
         }
     }
 
+    private fun startWhatsAppIntentChain(intents: List<Intent>, packageName: String): Boolean {
+        intents.forEachIndexed { index, intent ->
+            val started = tryStart(intent)
+            if (started) {
+                return true
+            }
+
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = if (index == 0 && intents.size > 1) {
+                    "No se pudo abrir la videollamada con dataId; probando fallback whatsapp://call con paquete $packageName"
+                } else {
+                    "Intent de videollamada de WhatsApp #${index + 1}/${intents.size} falló con paquete $packageName"
+                }
+            )
+        }
+
+        return false
+    }
+
     private fun showToast(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
@@ -215,7 +280,7 @@ class WhatsAppLauncher(private val activity: Activity) {
         context: Context,
         dataId: Long,
         packageName: String = PRIMARY_WHATSAPP_PACKAGE
-    ): Boolean {
+    ): LaunchResult {
         val intent = Intent(Intent.ACTION_VIEW).apply {
             setDataAndType(buildContactDataUri(dataId), WHATSAPP_VIDEO_CALL_MIME_TYPE)
             setPackage(packageName)
@@ -224,7 +289,7 @@ class WhatsAppLauncher(private val activity: Activity) {
 
         return try {
             context.startActivity(intent)
-            true
+            LaunchResult.Success
         } catch (_: ActivityNotFoundException) {
             false
         }
@@ -241,8 +306,21 @@ class WhatsAppLauncher(private val activity: Activity) {
 
     companion object {
         private const val PRIMARY_WHATSAPP_PACKAGE = "com.whatsapp"
-        private val WHATSAPP_PACKAGES = listOf(PRIMARY_WHATSAPP_PACKAGE, "com.whatsapp.w4b")
+        // Ordenadas por prioridad; añadir aquí nuevas variantes oficiales o betas cuando surjan.
+        private val WHATSAPP_PACKAGES = listOf(
+            PRIMARY_WHATSAPP_PACKAGE,
+            "com.whatsapp.w4b",
+            "com.whatsapp.w4b.smb",
+            "com.whatsapp.w4b.beta",
+            "com.whatsapp.beta"
+        )
         internal const val WHATSAPP_VIDEO_CALL_MIME_TYPE = "vnd.android.cursor.item/vnd.com.whatsapp.video.call"
+
+        internal sealed class LaunchResult {
+            data object Success : LaunchResult()
+            data object PackageMissing : LaunchResult()
+            data class LaunchError(val reason: String) : LaunchResult()
+        }
 
         internal fun selectPreferredPackage(installedPackages: Set<String>): String? {
             return WHATSAPP_PACKAGES.firstOrNull { installedPackages.contains(it) }
@@ -252,21 +330,35 @@ class WhatsAppLauncher(private val activity: Activity) {
             dataId: Long?,
             phoneNumber: String,
             packageName: String,
-            regionIso: String?
+            regionIso: String?,
         ): Intent {
-            return if (dataId != null) {
+            return buildVideoCallIntentChain(dataId, phoneNumber, packageName, regionIso).first()
+        }
+
+        internal fun buildVideoCallIntentChain(
+            dataId: Long?,
+            phoneNumber: String,
+            packageName: String,
+            regionIso: String?,
+        ): List<Intent> {
+            val intents = mutableListOf<Intent>()
+
+            if (dataId != null) {
                 DiagnosticsLog.record(
                     source = "WhatsAppLauncher",
                     message = "Usando dato de agenda para videollamada WhatsApp: dataId=$dataId"
                 )
-                buildContactVideoCallIntent(dataId, packageName)
+                intents += buildContactVideoCallIntent(dataId, packageName)
             } else {
                 DiagnosticsLog.record(
                     source = "WhatsAppLauncher",
                     message = "No se encontró dataId de videollamada, usando URI directo"
                 )
-                buildVideoCallIntent(phoneNumber, packageName, regionIso)
             }
+
+            intents += buildVideoCallIntent(phoneNumber, packageName, regionIso)
+
+            return intents
         }
 
         internal fun buildContactVideoCallIntent(dataId: Long, packageName: String): Intent {
@@ -292,6 +384,26 @@ class WhatsAppLauncher(private val activity: Activity) {
         internal fun buildVideoCallIntent(phoneNumber: String, packageName: String, regionIso: String? = null): Intent {
             return Intent(Intent.ACTION_VIEW, buildVideoCallUri(phoneNumber, regionIso)).apply {
                 setPackage(packageName)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+        }
+
+        internal fun buildWebVideoCallUri(phoneNumber: String, regionIso: String? = null): Uri {
+            val normalizedPhone = normalizeForCall(phoneNumber, regionIso)
+            val plainDigits = normalizedPhone.filter { it.isDigit() }
+            return Uri.parse("https://wa.me/$plainDigits")
+                .buildUpon()
+                .encodedQuery("call=true&video=true")
+                .build()
+        }
+
+        internal fun buildWebVideoCallIntent(
+            phoneNumber: String,
+            packageName: String?,
+            regionIso: String? = null
+        ): Intent {
+            return Intent(Intent.ACTION_VIEW, buildWebVideoCallUri(phoneNumber, regionIso)).apply {
+                packageName?.let { setPackage(it) }
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
         }
@@ -329,10 +441,33 @@ class WhatsAppLauncher(private val activity: Activity) {
         }
 
         private fun normalizeForCall(phoneNumber: String, regionIso: String?): String {
-            val normalizedE164 = PhoneNumberUtils.formatNumberToE164(phoneNumber, regionIso)
-                ?: if (phoneNumber.startsWith("+")) phoneNumber else "+$phoneNumber"
+            val sanitizedNumber = sanitizePhoneNumber(phoneNumber)
+            if (sanitizedNumber.isEmpty()) return ""
+
+            val effectiveRegion = resolveFormattingRegion(regionIso)
+            val normalizedE164 = PhoneNumberUtils.formatNumberToE164(sanitizedNumber, effectiveRegion)
+                ?: formatWithCountryCodeFallback(sanitizedNumber, effectiveRegion)
 
             return normalizedE164.filter { it == '+' || it.isDigit() }
+        }
+
+        private fun resolveFormattingRegion(regionIso: String?): String {
+            return regionIso
+                ?.takeIf { it.isNotBlank() }
+                ?.uppercase(Locale.US)
+                ?: Locale.getDefault().country.takeIf { it.isNotBlank() }?.uppercase(Locale.US)
+                ?: Locale.US.country
+        }
+
+        private fun formatWithCountryCodeFallback(phoneNumber: String, regionIso: String): String {
+            if (phoneNumber.startsWith("+")) return phoneNumber
+
+            val countryCode = runCatching {
+                PhoneNumberUtil.getInstance().getCountryCodeForRegion(regionIso)
+            }.getOrNull()?.takeIf { it != 0 }
+
+            val prefix = countryCode?.let { "+$it" } ?: "+"
+            return "$prefix$phoneNumber"
         }
 
         internal fun resolveRegionIso(

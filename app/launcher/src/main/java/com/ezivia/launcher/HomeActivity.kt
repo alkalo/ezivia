@@ -54,6 +54,7 @@ class HomeActivity : BaseActivity() {
     private var contactsJob: Job? = null
     private var pendingCallNumber: String? = null
     private var pendingCameraRequest: CameraCaptureRequest? = null
+    private var pendingVideoCallAction: (() -> Unit)? = null
     private val fadeScaleIn by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_scale_in) }
     private var isVolumeUpPressed: Boolean = false
 
@@ -79,6 +80,17 @@ class HomeActivity : BaseActivity() {
 
             if (!handled) {
                 showTelephonyUnavailableToast()
+            }
+        }
+
+    private val videoCallPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            val action = pendingVideoCallAction
+            pendingVideoCallAction = null
+            if (granted) {
+                action?.invoke()
+            } else {
+                showErrorFeedback(R.string.quick_action_contacts_permission_needed)
             }
         }
 
@@ -431,6 +443,15 @@ class HomeActivity : BaseActivity() {
             this,
             Manifest.permission.READ_CONTACTS
         ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestContactsPermissionForVideoCall(onGranted: () -> Unit) {
+        if (hasContactsPermission()) {
+            onGranted()
+        } else {
+            pendingVideoCallAction = onGranted
+            videoCallPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+        }
     }
 
     private fun onCallClicked(contact: FavoriteContact) {
