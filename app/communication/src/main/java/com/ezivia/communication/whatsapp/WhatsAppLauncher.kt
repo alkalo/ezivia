@@ -74,17 +74,25 @@ class WhatsAppLauncher(private val activity: Activity) {
             source = "WhatsAppLauncher",
             message = "Lanzando videollamada con paquete $packageName y dataId=${dataId ?: "sin dato"}"
         )
-        val regionIso = resolveRegionIso()
-        val intents = buildVideoCallIntentChain(dataId, phoneNumber, packageName, regionIso)
-        val started = startWhatsAppIntentChain(intents, packageName)
-        if (!started) {
-            DiagnosticsLog.record(
-                source = "WhatsAppLauncher",
-                message = "WhatsApp no respondió al intentar abrir la videollamada; mostrando fallback de instalación"
-            )
-            showInstallFallback()
+        return when (val result = startWhatsAppVideoCall(activity, dataId, packageName)) {
+            LaunchResult.Success -> true
+            LaunchResult.PackageMissing -> {
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "WhatsApp no respondió al intento de abrir la videollamada"
+                )
+                showToast("No se pudo abrir la videollamada de WhatsApp. Revisa el número o inténtalo de nuevo.")
+                false
+            }
+            is LaunchResult.LaunchError -> {
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "Falló el intento de videollamada: ${result.reason}"
+                )
+                showToast("No se pudo abrir la videollamada de WhatsApp. Revisa el número o inténtalo de nuevo.")
+                false
+            }
         }
-        return started
     }
 
     private fun launchWebVideoCallFallback(phoneNumber: String, packageName: String): Boolean {
@@ -264,7 +272,7 @@ class WhatsAppLauncher(private val activity: Activity) {
         context: Context,
         dataId: Long,
         packageName: String = PRIMARY_WHATSAPP_PACKAGE
-    ): Boolean {
+    ): LaunchResult {
         val intent = Intent(Intent.ACTION_VIEW).apply {
             setDataAndType(buildContactDataUri(dataId), WHATSAPP_VIDEO_CALL_MIME_TYPE)
             setPackage(packageName)
@@ -273,14 +281,16 @@ class WhatsAppLauncher(private val activity: Activity) {
 
         return try {
             context.startActivity(intent)
-            true
+            LaunchResult.Success
         } catch (_: ActivityNotFoundException) {
             Toast.makeText(
                 context,
-                "WhatsApp no está instalado en este dispositivo.",
+                "No se pudo abrir WhatsApp para la videollamada.",
                 Toast.LENGTH_LONG
             ).show()
-            false
+            LaunchResult.PackageMissing
+        } catch (error: Exception) {
+            LaunchResult.LaunchError(error.message ?: error::class.java.simpleName)
         }
     }
 
@@ -295,8 +305,21 @@ class WhatsAppLauncher(private val activity: Activity) {
 
     companion object {
         private const val PRIMARY_WHATSAPP_PACKAGE = "com.whatsapp"
-        private val WHATSAPP_PACKAGES = listOf(PRIMARY_WHATSAPP_PACKAGE, "com.whatsapp.w4b")
+        // Ordenadas por prioridad; añadir aquí nuevas variantes oficiales o betas cuando surjan.
+        private val WHATSAPP_PACKAGES = listOf(
+            PRIMARY_WHATSAPP_PACKAGE,
+            "com.whatsapp.w4b",
+            "com.whatsapp.w4b.smb",
+            "com.whatsapp.w4b.beta",
+            "com.whatsapp.beta"
+        )
         internal const val WHATSAPP_VIDEO_CALL_MIME_TYPE = "vnd.android.cursor.item/vnd.com.whatsapp.video.call"
+
+        internal sealed class LaunchResult {
+            data object Success : LaunchResult()
+            data object PackageMissing : LaunchResult()
+            data class LaunchError(val reason: String) : LaunchResult()
+        }
 
         internal fun selectPreferredPackage(installedPackages: Set<String>): String? {
             return WHATSAPP_PACKAGES.firstOrNull { installedPackages.contains(it) }
