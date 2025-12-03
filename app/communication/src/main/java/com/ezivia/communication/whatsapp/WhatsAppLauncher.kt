@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.ezivia.communication.DiagnosticsLog
 import com.ezivia.communication.contacts.FavoriteContact
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.util.Locale
 
 /**
@@ -327,10 +328,33 @@ class WhatsAppLauncher(private val activity: Activity) {
         }
 
         private fun normalizeForCall(phoneNumber: String, regionIso: String?): String {
-            val normalizedE164 = PhoneNumberUtils.formatNumberToE164(phoneNumber, regionIso)
-                ?: if (phoneNumber.startsWith("+")) phoneNumber else "+$phoneNumber"
+            val sanitizedNumber = sanitizePhoneNumber(phoneNumber)
+            if (sanitizedNumber.isEmpty()) return ""
+
+            val effectiveRegion = resolveFormattingRegion(regionIso)
+            val normalizedE164 = PhoneNumberUtils.formatNumberToE164(sanitizedNumber, effectiveRegion)
+                ?: formatWithCountryCodeFallback(sanitizedNumber, effectiveRegion)
 
             return normalizedE164.filter { it == '+' || it.isDigit() }
+        }
+
+        private fun resolveFormattingRegion(regionIso: String?): String {
+            return regionIso
+                ?.takeIf { it.isNotBlank() }
+                ?.uppercase(Locale.US)
+                ?: Locale.getDefault().country.takeIf { it.isNotBlank() }?.uppercase(Locale.US)
+                ?: Locale.US.country
+        }
+
+        private fun formatWithCountryCodeFallback(phoneNumber: String, regionIso: String): String {
+            if (phoneNumber.startsWith("+")) return phoneNumber
+
+            val countryCode = runCatching {
+                PhoneNumberUtil.getInstance().getCountryCodeForRegion(regionIso)
+            }.getOrNull()?.takeIf { it != 0 }
+
+            val prefix = countryCode?.let { "+$it" } ?: "+"
+            return "$prefix$phoneNumber"
         }
 
         internal fun resolveRegionIso(
