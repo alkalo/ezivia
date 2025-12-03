@@ -75,10 +75,24 @@ class WhatsAppLauncherTest {
     }
 
     @Test
+    fun buildVideoCallUri_formatsLocalNumberToE164UsingRegion() {
+        val uri = WhatsAppLauncher.buildVideoCallUri("600123456", "ES")
+
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
+    }
+
+    @Test
     fun buildVideoCallUri_normalizesLeadingPlusAndKeepsCallValid() {
         val uri = WhatsAppLauncher.buildVideoCallUri("+12 34 567", "ES")
 
         assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=+1234567&video=true")
+    }
+
+    @Test
+    fun buildVideoCallUri_handlesUnknownRegionByFallingBackToPlusPrefix() {
+        val uri = WhatsAppLauncher.buildVideoCallUri("987654321", "ZZ")
+
+        assertThat(uri.toString()).isEqualTo("whatsapp://call?phone=+987654321&video=true")
     }
 
     @Test
