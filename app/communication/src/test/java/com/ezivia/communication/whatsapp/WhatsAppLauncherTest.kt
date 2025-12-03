@@ -121,6 +121,30 @@ class WhatsAppLauncherTest {
     }
 
     @Test
+    fun buildWebVideoCallUri_usesWaMeWithNormalizedDigits() {
+        val uri = WhatsAppLauncher.buildWebVideoCallUri("+34 600 123 456", "ES")
+
+        assertThat(uri.toString()).isEqualTo("https://wa.me/34600123456?call=true&video=true")
+    }
+
+    @Test
+    fun buildWebVideoCallIntent_setsPackageWhenProvided() {
+        val intent = WhatsAppLauncher.buildWebVideoCallIntent("34600123456", "com.whatsapp", "ES")
+
+        assertThat(intent.action).isEqualTo(Intent.ACTION_VIEW)
+        assertThat(intent.data.toString()).isEqualTo("https://wa.me/34600123456?call=true&video=true")
+        assertThat(intent.`package`).isEqualTo("com.whatsapp")
+        assertThat(intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK).isNotEqualTo(0)
+    }
+
+    @Test
+    fun buildWebVideoCallIntent_omitsPackageWhenNull() {
+        val intent = WhatsAppLauncher.buildWebVideoCallIntent("34600123456", null, "ES")
+
+        assertThat(intent.`package`).isNull()
+    }
+
+    @Test
     fun chooseVideoCallIntent_usesContactDataWhenAvailable() {
         val intent = WhatsAppLauncher.chooseVideoCallIntent(25, "34600123456", "com.whatsapp", "ES")
 
