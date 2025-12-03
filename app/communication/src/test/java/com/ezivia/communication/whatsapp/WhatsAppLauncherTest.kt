@@ -61,6 +61,15 @@ class WhatsAppLauncherTest {
     }
 
     @Test
+    fun selectPreferredPackage_handlesAdditionalVariants() {
+        val installed = setOf("com.whatsapp.beta")
+
+        val resolved = WhatsAppLauncher.selectPreferredPackage(installed)
+
+        assertThat(resolved).isEqualTo("com.whatsapp.beta")
+    }
+
+    @Test
     fun buildVideoCallUri_convertsLeadingPlusToPhoneParameter() {
         val uri = WhatsAppLauncher.buildVideoCallUri("+34600123456", "ES")
 
