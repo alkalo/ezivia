@@ -54,6 +54,7 @@ class HomeActivity : BaseActivity() {
     private var contactsJob: Job? = null
     private var pendingCallNumber: String? = null
     private var pendingCameraRequest: CameraCaptureRequest? = null
+    private var pendingVideoCallAction: (() -> Unit)? = null
     private val fadeScaleIn by lazy { AnimationUtils.loadAnimation(this, R.anim.fade_scale_in) }
     private var isVolumeUpPressed: Boolean = false
 
@@ -79,6 +80,17 @@ class HomeActivity : BaseActivity() {
 
             if (!handled) {
                 showTelephonyUnavailableToast()
+            }
+        }
+
+    private val videoCallPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            val action = pendingVideoCallAction
+            pendingVideoCallAction = null
+            if (granted) {
+                action?.invoke()
+            } else {
+                showErrorFeedback(R.string.quick_action_contacts_permission_needed)
             }
         }
 
@@ -311,15 +323,17 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun startVideoQuickAction() {
-        val favorites = contactsAdapter.currentList
-        if (favorites.isEmpty()) {
-            showErrorFeedback(R.string.quick_action_no_contacts)
-            return
-        }
-        showContactPicker(R.string.quick_action_video_choose_contact, favorites) { contact ->
-            val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
-            if (!handled) {
-                showErrorFeedback(R.string.quick_action_no_whatsapp)
+        requestContactsPermissionForVideoCall {
+            val favorites = contactsAdapter.currentList
+            if (favorites.isEmpty()) {
+                showErrorFeedback(R.string.quick_action_no_contacts)
+                return@requestContactsPermissionForVideoCall
+            }
+            showContactPicker(R.string.quick_action_video_choose_contact, favorites) { contact ->
+                val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
+                if (!handled) {
+                    showErrorFeedback(R.string.quick_action_no_whatsapp)
+                }
             }
         }
     }
@@ -435,6 +449,15 @@ class HomeActivity : BaseActivity() {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    private fun requestContactsPermissionForVideoCall(onGranted: () -> Unit) {
+        if (hasContactsPermission()) {
+            onGranted()
+        } else {
+            pendingVideoCallAction = onGranted
+            videoCallPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+        }
+    }
+
     private fun onCallClicked(contact: FavoriteContact) {
         val hasPermission = ContextCompat.checkSelfPermission(
             this,
@@ -456,14 +479,11 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun onVideoCallClicked(contact: FavoriteContact) {
-        if (!hasContactsPermission()) {
-            contactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
-            showErrorFeedback(R.string.quick_action_contacts_permission_needed)
-            return
-        }
-        val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
-        if (!handled) {
-            showErrorFeedback(R.string.quick_action_no_whatsapp)
+        requestContactsPermissionForVideoCall {
+            val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
+            if (!handled) {
+                showErrorFeedback(R.string.quick_action_no_whatsapp)
+            }
         }
     }
 
