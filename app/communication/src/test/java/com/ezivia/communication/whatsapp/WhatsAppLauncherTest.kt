@@ -184,6 +184,27 @@ class WhatsAppLauncherTest {
     }
 
     @Test
+    fun buildVideoCallIntentChain_includesContactAndDirectCallIntents() {
+        val intents = WhatsAppLauncher.buildVideoCallIntentChain(10, "34600123456", "com.whatsapp", "ES")
+
+        assertThat(intents).hasSize(2)
+        assertThat(intents[0].data.toString()).isEqualTo("content://com.android.contacts/data/10")
+        assertThat(intents[0].type).isEqualTo(WhatsAppLauncher.WHATSAPP_VIDEO_CALL_MIME_TYPE)
+        assertThat(intents[0].`package`).isEqualTo("com.whatsapp")
+        assertThat(intents[1].data.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
+        assertThat(intents[1].`package`).isEqualTo("com.whatsapp")
+    }
+
+    @Test
+    fun buildVideoCallIntentChain_skipsContactIntentWhenMissingDataId() {
+        val intents = WhatsAppLauncher.buildVideoCallIntentChain(null, "34600123456", "com.whatsapp", "ES")
+
+        assertThat(intents).hasSize(1)
+        assertThat(intents[0].data.toString()).isEqualTo("whatsapp://call?phone=+34600123456&video=true")
+        assertThat(intents[0].`package`).isEqualTo("com.whatsapp")
+    }
+
+    @Test
     fun resolveRegionIso_prefersSimAndUppercases() {
         val region = WhatsAppLauncher.resolveRegionIso(
             simCountryProvider = { "es" },

@@ -69,10 +69,10 @@ class WhatsAppLauncher(private val activity: Activity) {
         return launchVideoCall(dataId, installedPackage)
     }
 
-    private fun launchVideoCall(dataId: Long?, phoneNumber: String, packageName: String): Boolean {
+    private fun launchVideoCall(dataId: Long, packageName: String): Boolean {
         DiagnosticsLog.record(
             source = "WhatsAppLauncher",
-            message = "Lanzando videollamada con paquete $packageName y dataId=${dataId ?: "sin dato"}"
+            message = "Lanzando videollamada con paquete $packageName y dataId=$dataId"
         )
         return when (val result = startWhatsAppVideoCall(activity, dataId, packageName)) {
             LaunchResult.Success -> true
@@ -268,7 +268,7 @@ class WhatsAppLauncher(private val activity: Activity) {
      * [dataId] de agenda proporcionado. También usa el MIME type interno de WhatsApp
      * para abrir la pantalla de videollamada.
      */
-    fun startWhatsAppVideoCall(
+    internal fun startWhatsAppVideoCall(
         context: Context,
         dataId: Long,
         packageName: String = PRIMARY_WHATSAPP_PACKAGE
