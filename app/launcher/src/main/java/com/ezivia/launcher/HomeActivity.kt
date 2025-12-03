@@ -258,12 +258,7 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun ensureContactsPermission() {
-        val hasPermission = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.READ_CONTACTS
-        ) == PackageManager.PERMISSION_GRANTED
-
-        if (hasPermission) {
+        if (hasContactsPermission()) {
             startContactsSync()
         } else {
             contactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
@@ -433,6 +428,13 @@ class HomeActivity : BaseActivity() {
             .show()
     }
 
+    private fun hasContactsPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.READ_CONTACTS
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
     private fun onCallClicked(contact: FavoriteContact) {
         val hasPermission = ContextCompat.checkSelfPermission(
             this,
@@ -454,6 +456,11 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun onVideoCallClicked(contact: FavoriteContact) {
+        if (!hasContactsPermission()) {
+            contactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+            showErrorFeedback(R.string.quick_action_contacts_permission_needed)
+            return
+        }
         val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
         if (!handled) {
             showErrorFeedback(R.string.quick_action_no_whatsapp)

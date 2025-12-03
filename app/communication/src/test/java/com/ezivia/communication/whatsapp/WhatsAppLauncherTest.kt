@@ -1,6 +1,7 @@
 package com.ezivia.communication.whatsapp
 
 import android.content.Intent
+import android.provider.ContactsContract
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -96,6 +97,17 @@ class WhatsAppLauncherTest {
         assertThat(intent.type).isEqualTo(WhatsAppLauncher.WHATSAPP_VIDEO_CALL_MIME_TYPE)
         assertThat(intent.`package`).isEqualTo("com.whatsapp")
         assertThat(intent.flags and Intent.FLAG_ACTIVITY_NEW_TASK).isNotEqualTo(0)
+    }
+
+    @Test
+    fun buildVideoCallLookup_buildsSelectionAndArgsWithSanitizedNumber() {
+        val (selection, args) = WhatsAppLauncher.buildVideoCallLookup(" +34 600 123 456 ")
+
+        assertThat(selection).contains(ContactsContract.Data.MIMETYPE)
+        assertThat(selection).contains(ContactsContract.CommonDataKinds.Phone.NUMBER)
+        assertThat(args[0]).isEqualTo(WhatsAppLauncher.WHATSAPP_VIDEO_CALL_MIME_TYPE)
+        assertThat(args[1]).isEqualTo("%+34600123456%")
+        assertThat(args[2]).isEqualTo("%+34600123456%")
     }
 
     @Test

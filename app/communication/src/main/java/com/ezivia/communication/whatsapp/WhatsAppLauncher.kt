@@ -1,16 +1,20 @@
 package com.ezivia.communication.whatsapp
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.ContactsContract
+import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.telephony.PhoneNumberUtils
 import android.telephony.TelephonyManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.ezivia.communication.DiagnosticsLog
 import com.ezivia.communication.contacts.FavoriteContact
 import java.util.Locale
@@ -52,57 +56,33 @@ class WhatsAppLauncher(private val activity: Activity) {
             return false
         }
 
-        launchVideoCall(contact, sanitizedNumber, installedPackage)
-        return true
-    }
-
-    private fun launchVideoCall(contact: FavoriteContact, phoneNumber: String, packageName: String) {
-        val dataId = try {
-            findWhatsAppVideoCallDataId(contact.id)
-        } catch (security: SecurityException) {
+        val dataId = findWhatsAppVideoCallIdForNumber(activity, sanitizedNumber)
+        if (dataId == null) {
             DiagnosticsLog.record(
                 source = "WhatsAppLauncher",
-                message = "Sin permiso para leer agenda, usando URI directo"
+                message = "No se encontró dataId de videollamada para el contacto"
             )
-            null
+            showToast("No se ha encontrado la opción de videollamada de WhatsApp para este contacto.")
+            return false
         }
 
-        val intent = chooseVideoCallIntent(dataId, phoneNumber, packageName, resolveRegionIso())
+        return launchVideoCall(dataId, installedPackage)
+    }
+
+    private fun launchVideoCall(dataId: Long, packageName: String): Boolean {
         DiagnosticsLog.record(
             source = "WhatsAppLauncher",
-            message = "Lanzando videollamada con URI ${intent.data} y paquete $packageName"
+            message = "Lanzando videollamada con paquete $packageName y dataId=$dataId"
         )
-        try {
-            activity.startActivity(intent)
-        } catch (error: ActivityNotFoundException) {
+        val started = startWhatsAppVideoCall(activity, dataId, packageName)
+        if (!started) {
             DiagnosticsLog.record(
                 source = "WhatsAppLauncher",
                 message = "WhatsApp no respondió al intento de abrir la videollamada"
             )
-            showToast("No se pudo abrir WhatsApp para la videollamada.")
             showInstallFallback()
         }
-    }
-
-    private fun findWhatsAppVideoCallDataId(contactId: Long): Long? {
-        val projection = arrayOf(ContactsContract.Data._ID)
-        val selection = "${ContactsContract.Data.CONTACT_ID}=? AND ${ContactsContract.Data.MIMETYPE}=?"
-        val selectionArgs = arrayOf(contactId.toString(), WHATSAPP_VIDEO_CALL_MIME_TYPE)
-
-        return activity.contentResolver.query(
-            ContactsContract.Data.CONTENT_URI,
-            projection,
-            selection,
-            selectionArgs,
-            null
-        )?.use { cursor ->
-            val idIndex = cursor.getColumnIndexOrThrow(ContactsContract.Data._ID)
-            if (cursor.moveToFirst()) {
-                cursor.getLong(idIndex)
-            } else {
-                null
-            }
-        }
+        return started
     }
 
     private fun resolveInstalledWhatsAppPackage(): String? {
@@ -175,6 +155,79 @@ class WhatsAppLauncher(private val activity: Activity) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
+    /**
+     * Busca el identificador de videollamada de WhatsApp para un número concreto usando
+     * el [ContactsContract.Data]. Este método se apoya en un MIME type no documentado
+     * oficialmente por WhatsApp y podría dejar de funcionar si cambian su integración
+     * con la agenda.
+     */
+    fun findWhatsAppVideoCallIdForNumber(
+        context: Context,
+        phoneNumber: String
+    ): Long? {
+        val sanitizedNumber = sanitizePhoneNumber(phoneNumber)
+        if (sanitizedNumber.isEmpty()) {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "No hay número válido para resolver videollamada"
+            )
+            return null
+        }
+
+        if (!hasContactsPermission(context)) {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "Sin permiso READ_CONTACTS para resolver videollamada"
+            )
+            return null
+        }
+
+        val (selection, selectionArgs) = buildVideoCallLookup(sanitizedNumber)
+        return context.contentResolver.query(
+            ContactsContract.Data.CONTENT_URI,
+            arrayOf(ContactsContract.Data._ID),
+            selection,
+            selectionArgs,
+            null
+        )?.use { cursor ->
+            val idIndex = cursor.getColumnIndexOrThrow(ContactsContract.Data._ID)
+            if (cursor.moveToFirst()) {
+                cursor.getLong(idIndex)
+            } else {
+                null
+            }
+        }
+    }
+
+    /**
+     * Lanza un intent directo hacia la acción de videollamada de WhatsApp para el
+     * [dataId] de agenda proporcionado. También usa el MIME type interno de WhatsApp
+     * para abrir la pantalla de videollamada.
+     */
+    fun startWhatsAppVideoCall(
+        context: Context,
+        dataId: Long,
+        packageName: String = PRIMARY_WHATSAPP_PACKAGE
+    ): Boolean {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(buildContactDataUri(dataId), WHATSAPP_VIDEO_CALL_MIME_TYPE)
+            setPackage(packageName)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        return try {
+            context.startActivity(intent)
+            true
+        } catch (_: ActivityNotFoundException) {
+            Toast.makeText(
+                context,
+                "WhatsApp no está instalado en este dispositivo.",
+                Toast.LENGTH_LONG
+            ).show()
+            false
+        }
+    }
+
     private fun resolveRegionIso(): String {
         val telephonyManager = activity.getSystemService(TelephonyManager::class.java)
         return resolveRegionIso(
@@ -241,6 +294,17 @@ class WhatsAppLauncher(private val activity: Activity) {
             }
         }
 
+        internal fun buildVideoCallLookup(phoneNumber: String): Pair<String, Array<String>> {
+            val sanitized = sanitizePhoneNumber(phoneNumber)
+            val likeNumber = "%$sanitized%"
+
+            val selection =
+                "${ContactsContract.Data.MIMETYPE}=? AND (${Phone.NORMALIZED_NUMBER} LIKE ? OR ${Phone.NUMBER} LIKE ?)"
+            val selectionArgs = arrayOf(WHATSAPP_VIDEO_CALL_MIME_TYPE, likeNumber, likeNumber)
+
+            return selection to selectionArgs
+        }
+
         internal fun sanitizePhoneNumber(raw: String): String {
             val trimmed = raw.trim()
             if (trimmed.isEmpty()) {
@@ -283,6 +347,13 @@ class WhatsAppLauncher(private val activity: Activity) {
                 ?: Locale.US.country
 
             return chosenIso.uppercase(Locale.US)
+        }
+
+        private fun hasContactsPermission(context: Context): Boolean {
+            return ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_CONTACTS
+            ) == PackageManager.PERMISSION_GRANTED
         }
     }
 }
