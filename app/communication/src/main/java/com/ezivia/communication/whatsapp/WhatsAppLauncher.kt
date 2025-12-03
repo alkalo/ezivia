@@ -231,7 +231,7 @@ class WhatsAppLauncher(private val activity: Activity) {
      * oficialmente por WhatsApp y podría dejar de funcionar si cambian su integración
      * con la agenda.
      */
-    fun findWhatsAppVideoCallIdForNumber(
+    internal fun findWhatsAppVideoCallIdForNumber(
         context: Context,
         phoneNumber: String
     ): VideoCallLookupResult {
@@ -291,7 +291,7 @@ class WhatsAppLauncher(private val activity: Activity) {
             context.startActivity(intent)
             LaunchResult.Success
         } catch (_: ActivityNotFoundException) {
-            false
+            LaunchResult.PackageMissing
         }
     }
 
