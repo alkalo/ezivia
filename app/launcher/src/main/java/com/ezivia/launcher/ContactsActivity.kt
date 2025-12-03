@@ -206,21 +206,8 @@ class ContactsActivity : BaseActivity() {
     }
 
     private fun onVideoCallClicked(contact: FavoriteContact) {
-        requestContactsPermissionForVideoCall {
-            val handled = whatsAppLauncher.startFavoriteVideoCall(contact)
-            if (!handled) {
-                showErrorFeedback(R.string.quick_action_no_whatsapp)
-            }
-        }
-    }
-
-    private fun requestContactsPermissionForVideoCall(onGranted: () -> Unit) {
-        if (hasContactsPermission()) {
-            onGranted()
-        } else {
-            pendingVideoCallAction = onGranted
-            videoCallPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
-        }
+        val result = whatsAppLauncher.startFavoriteVideoCall(contact)
+        handleVideoCallResult(result)
     }
 
     private fun onEditClicked(contact: FavoriteContact) {
@@ -231,6 +218,16 @@ class ContactsActivity : BaseActivity() {
             putExtra(ContactWizardActivity.EXTRA_USE_WHATSAPP, true)
         }
         contactWizardLauncher.launch(intent)
+    }
+
+    private fun handleVideoCallResult(result: WhatsAppLauncher.VideoCallResult) {
+        when (result) {
+            WhatsAppLauncher.VideoCallResult.Success -> Unit
+            WhatsAppLauncher.VideoCallResult.InvalidNumber -> showErrorFeedback(R.string.quick_action_invalid_phone_number)
+            WhatsAppLauncher.VideoCallResult.VideoCallEntryMissing -> showErrorFeedback(R.string.quick_action_whatsapp_video_unavailable)
+            WhatsAppLauncher.VideoCallResult.ContactsPermissionMissing -> showErrorFeedback(R.string.quick_action_contacts_permission_needed)
+            WhatsAppLauncher.VideoCallResult.WhatsappNotInstalled -> showErrorFeedback(R.string.quick_action_no_whatsapp)
+        }
     }
 
     private fun showTelephonyUnavailableToast() {
