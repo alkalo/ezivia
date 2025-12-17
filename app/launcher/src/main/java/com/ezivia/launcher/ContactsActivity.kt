@@ -237,6 +237,7 @@ class ContactsActivity : BaseActivity() {
             WhatsAppLauncher.VideoCallResult.InvalidNumber -> showErrorFeedback(R.string.quick_action_invalid_phone_number)
             WhatsAppLauncher.VideoCallResult.VideoCallEntryMissing -> showErrorFeedback(R.string.quick_action_whatsapp_video_unavailable)
             WhatsAppLauncher.VideoCallResult.ContactsPermissionMissing -> showErrorFeedback(R.string.quick_action_contacts_permission_needed)
+            WhatsAppLauncher.VideoCallResult.LaunchError -> showErrorFeedback(R.string.quick_action_whatsapp_launch_error)
             WhatsAppLauncher.VideoCallResult.WhatsappNotInstalled -> showErrorFeedback(R.string.quick_action_no_whatsapp)
         }
     }

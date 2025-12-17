@@ -2,6 +2,7 @@
 # Changelog
 
 ## [Unreleased]
+- Diferenciamos los fallos de lanzamiento de videollamada de la ausencia de WhatsApp, mostrando un error claro en pantalla y en los toasts sin sugerir reinstalación cuando la app está instalada.
 - Pedimos dinámicamente el permiso de contactos antes de iniciar videollamadas rápidas o desde favoritos, reintentando el contacto elegido al concederlo y mostrando el aviso adecuado si se deniega.
 - Corregimos la búsqueda y lanzamiento de videollamadas de WhatsApp marcando el helper como interno y devolviendo el estado de
 paquete ausente en vez de un booleano.
