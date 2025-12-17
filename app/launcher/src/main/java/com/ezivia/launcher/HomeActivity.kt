@@ -329,8 +329,10 @@ class HomeActivity : BaseActivity() {
             return
         }
         showContactPicker(R.string.quick_action_video_choose_contact, favorites) { contact ->
-            val result = whatsAppLauncher.startFavoriteVideoCall(contact)
-            handleVideoCallResult(result)
+            requestContactsPermissionForVideoCall {
+                val result = whatsAppLauncher.startFavoriteVideoCall(contact)
+                handleVideoCallResult(result)
+            }
         }
     }
 
@@ -475,13 +477,10 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun onVideoCallClicked(contact: FavoriteContact) {
-        if (!hasContactsPermission()) {
-            contactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
-            showErrorFeedback(R.string.quick_action_contacts_permission_needed)
-            return
+        requestContactsPermissionForVideoCall {
+            val result = whatsAppLauncher.startFavoriteVideoCall(contact)
+            handleVideoCallResult(result)
         }
-        val result = whatsAppLauncher.startFavoriteVideoCall(contact)
-        handleVideoCallResult(result)
     }
 
     private fun triggerEmergencyCall() {
