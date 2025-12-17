@@ -65,8 +65,24 @@ class WhatsAppLauncher(private val activity: Activity) {
                     source = "WhatsAppLauncher",
                     message = "No se encontró dataId de videollamada para el contacto"
                 )
-                showToast("No se ha encontrado la opción de videollamada de WhatsApp para este contacto.")
-                VideoCallResult.VideoCallEntryMissing
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "Intentando fallback web de videollamada con paquete $installedPackage"
+                )
+
+                val result = resolveNotFoundWithFallback(
+                    fallbackLauncher = { number, packageName ->
+                        launchWebVideoCallFallback(number, packageName)
+                    },
+                    phoneNumber = sanitizedNumber,
+                    packageName = installedPackage,
+                )
+
+                if (result == VideoCallResult.VideoCallEntryMissing) {
+                    showToast("No se ha encontrado la opción de videollamada de WhatsApp para este contacto.")
+                }
+
+                result
             }
             is VideoCallLookupResult.Found -> {
                 val started = launchVideoCall(lookupResult.dataId, installedPackage)
@@ -491,6 +507,24 @@ class WhatsAppLauncher(private val activity: Activity) {
                 context,
                 Manifest.permission.READ_CONTACTS
             ) == PackageManager.PERMISSION_GRANTED
+        }
+
+        internal fun resolveNotFoundWithFallback(
+            fallbackLauncher: (String, String) -> Boolean,
+            phoneNumber: String,
+            packageName: String,
+        ): VideoCallResult {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "Fallback de videollamada web solicitado para $packageName"
+            )
+
+            val fallbackStarted = fallbackLauncher(phoneNumber, packageName)
+            return if (fallbackStarted) {
+                VideoCallResult.Success
+            } else {
+                VideoCallResult.VideoCallEntryMissing
+            }
         }
     }
 

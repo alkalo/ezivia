@@ -2,6 +2,7 @@
 # Changelog
 
 ## [Unreleased]
+- Añadimos fallback web de videollamada tras no encontrar el dataId, devolviendo éxito cuando wa.me se abre y registrando el uso.
 - Corregimos la búsqueda y lanzamiento de videollamadas de WhatsApp marcando el helper como interno y devolviendo el estado de
 paquete ausente en vez de un booleano.
 - Corregimos el lanzamiento de videollamadas de WhatsApp usando dataId no nulo, ajustando la visibilidad del helper y cubriendo la cadena de intents con pruebas.
