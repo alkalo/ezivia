@@ -154,6 +154,15 @@ class ContactsActivity : BaseActivity() {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    private fun requestContactsPermissionForVideoCall(onGranted: () -> Unit) {
+        if (hasContactsPermission()) {
+            onGranted()
+        } else {
+            pendingVideoCallAction = onGranted
+            videoCallPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+        }
+    }
+
     private fun startContactsSync() {
         contactsJob?.cancel()
         contactsJob = lifecycleScope.launch(Dispatchers.Main) {
@@ -206,8 +215,10 @@ class ContactsActivity : BaseActivity() {
     }
 
     private fun onVideoCallClicked(contact: FavoriteContact) {
-        val result = whatsAppLauncher.startFavoriteVideoCall(contact)
-        handleVideoCallResult(result)
+        requestContactsPermissionForVideoCall {
+            val result = whatsAppLauncher.startFavoriteVideoCall(contact)
+            handleVideoCallResult(result)
+        }
     }
 
     private fun onEditClicked(contact: FavoriteContact) {
