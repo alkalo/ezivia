@@ -65,30 +65,46 @@ class WhatsAppLauncher(private val activity: Activity) {
                     source = "WhatsAppLauncher",
                     message = "No se encontró dataId de videollamada para el contacto"
                 )
-                showToast("No se ha encontrado la opción de videollamada de WhatsApp para este contacto.")
-                VideoCallResult.VideoCallEntryMissing
+                DiagnosticsLog.record(
+                    source = "WhatsAppLauncher",
+                    message = "Intentando fallback web de videollamada con paquete $installedPackage"
+                )
+
+                val result = resolveNotFoundWithFallback(
+                    fallbackLauncher = { number, packageName ->
+                        launchWebVideoCallFallback(number, packageName)
+                    },
+                    phoneNumber = sanitizedNumber,
+                    packageName = installedPackage,
+                )
+
+                if (result == VideoCallResult.VideoCallEntryMissing) {
+                    showToast("No se ha encontrado la opción de videollamada de WhatsApp para este contacto.")
+                }
+
+                result
             }
             is VideoCallLookupResult.Found -> {
-                val started = launchVideoCall(lookupResult.dataId, installedPackage)
-                if (started) VideoCallResult.Success else VideoCallResult.WhatsappNotInstalled
+                val launchResult = launchVideoCall(lookupResult.dataId, installedPackage)
+                mapLaunchResultToVideoCallResult(launchResult)
             }
         }
     }
 
-    private fun launchVideoCall(dataId: Long, packageName: String): Boolean {
+    private fun launchVideoCall(dataId: Long, packageName: String): LaunchResult {
         DiagnosticsLog.record(
             source = "WhatsAppLauncher",
             message = "Lanzando videollamada con paquete $packageName y dataId=$dataId"
         )
         return when (val result = startWhatsAppVideoCall(activity, dataId, packageName)) {
-            LaunchResult.Success -> true
+            LaunchResult.Success -> LaunchResult.Success
             LaunchResult.PackageMissing -> {
                 DiagnosticsLog.record(
                     source = "WhatsAppLauncher",
                     message = "WhatsApp no respondió al intento de abrir la videollamada"
                 )
                 showToast("No se pudo abrir la videollamada de WhatsApp. Revisa el número o inténtalo de nuevo.")
-                false
+                LaunchResult.PackageMissing
             }
             is LaunchResult.LaunchError -> {
                 DiagnosticsLog.record(
@@ -96,7 +112,7 @@ class WhatsAppLauncher(private val activity: Activity) {
                     message = "Falló el intento de videollamada: ${result.reason}"
                 )
                 showToast("No se pudo abrir la videollamada de WhatsApp. Revisa el número o inténtalo de nuevo.")
-                false
+                result
             }
         }
     }
@@ -322,6 +338,14 @@ class WhatsAppLauncher(private val activity: Activity) {
             data class LaunchError(val reason: String) : LaunchResult()
         }
 
+        internal fun mapLaunchResultToVideoCallResult(result: LaunchResult): VideoCallResult {
+            return when (result) {
+                LaunchResult.Success -> VideoCallResult.Success
+                LaunchResult.PackageMissing -> VideoCallResult.LaunchError
+                is LaunchResult.LaunchError -> VideoCallResult.LaunchError
+            }
+        }
+
         internal fun selectPreferredPackage(installedPackages: Set<String>): String? {
             return WHATSAPP_PACKAGES.firstOrNull { installedPackages.contains(it) }
         }
@@ -495,6 +519,24 @@ class WhatsAppLauncher(private val activity: Activity) {
                 Manifest.permission.READ_CONTACTS
             ) == PackageManager.PERMISSION_GRANTED
         }
+
+        internal fun resolveNotFoundWithFallback(
+            fallbackLauncher: (String, String) -> Boolean,
+            phoneNumber: String,
+            packageName: String,
+        ): VideoCallResult {
+            DiagnosticsLog.record(
+                source = "WhatsAppLauncher",
+                message = "Fallback de videollamada web solicitado para $packageName"
+            )
+
+            val fallbackStarted = fallbackLauncher(phoneNumber, packageName)
+            return if (fallbackStarted) {
+                VideoCallResult.Success
+            } else {
+                VideoCallResult.VideoCallEntryMissing
+            }
+        }
     }
 
     sealed class VideoCallResult {
@@ -503,6 +545,7 @@ class WhatsAppLauncher(private val activity: Activity) {
         data object WhatsappNotInstalled : VideoCallResult()
         data object VideoCallEntryMissing : VideoCallResult()
         data object ContactsPermissionMissing : VideoCallResult()
+        data object LaunchError : VideoCallResult()
     }
 
     internal sealed class VideoCallLookupResult {

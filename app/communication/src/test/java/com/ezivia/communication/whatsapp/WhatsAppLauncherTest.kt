@@ -254,4 +254,26 @@ class WhatsAppLauncherTest {
 
         assertThat(region).isEqualTo("US")
     }
+
+    @Test
+    fun resolveNotFoundWithFallback_returnsSuccessWhenFallbackLaunches() {
+        val result = WhatsAppLauncher.resolveNotFoundWithFallback(
+            fallbackLauncher = { _, _ -> true },
+            phoneNumber = "+34600123456",
+            packageName = "com.whatsapp",
+        )
+
+        assertThat(result).isEqualTo(WhatsAppLauncher.VideoCallResult.Success)
+    }
+
+    @Test
+    fun resolveNotFoundWithFallback_returnsMissingWhenFallbackFails() {
+        val result = WhatsAppLauncher.resolveNotFoundWithFallback(
+            fallbackLauncher = { _, _ -> false },
+            phoneNumber = "+34600123456",
+            packageName = "com.whatsapp",
+        )
+
+        assertThat(result).isEqualTo(WhatsAppLauncher.VideoCallResult.VideoCallEntryMissing)
+    }
 }
