@@ -247,4 +247,22 @@ class WhatsAppLauncherTest {
 
         assertThat(region).isEqualTo("US")
     }
+
+    @Test
+    fun mapLaunchResultToVideoCallResult_mapsPackageMissingToLaunchError() {
+        val result = WhatsAppLauncher.mapLaunchResultToVideoCallResult(
+            WhatsAppLauncher.LaunchResult.PackageMissing
+        )
+
+        assertThat(result).isEqualTo(WhatsAppLauncher.VideoCallResult.LaunchError)
+    }
+
+    @Test
+    fun mapLaunchResultToVideoCallResult_mapsLaunchErrorReasonToLaunchErrorResult() {
+        val result = WhatsAppLauncher.mapLaunchResultToVideoCallResult(
+            WhatsAppLauncher.LaunchResult.LaunchError("missing intent handler")
+        )
+
+        assertThat(result).isEqualTo(WhatsAppLauncher.VideoCallResult.LaunchError)
+    }
 }
