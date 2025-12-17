@@ -2,6 +2,8 @@
 # Changelog
 
 ## [Unreleased]
+- Normalizamos la construcción de intents/URIs de videollamada con el ISO resuelto por SIM/red y siempre anteponemos el código
+de país al formatear números de WhatsApp.
 - Corregimos la búsqueda y lanzamiento de videollamadas de WhatsApp marcando el helper como interno y devolviendo el estado de
 paquete ausente en vez de un booleano.
 - Corregimos el lanzamiento de videollamadas de WhatsApp usando dataId no nulo, ajustando la visibilidad del helper y cubriendo la cadena de intents con pruebas.

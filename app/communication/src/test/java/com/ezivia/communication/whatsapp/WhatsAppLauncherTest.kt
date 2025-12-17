@@ -151,6 +151,13 @@ class WhatsAppLauncherTest {
     }
 
     @Test
+    fun buildWebVideoCallUri_prefixesCountryCodeWhenFormattingFails() {
+        val uri = WhatsAppLauncher.buildWebVideoCallUri("123", "AQ")
+
+        assertThat(uri.toString()).isEqualTo("https://wa.me/672123?call=true&video=true")
+    }
+
+    @Test
     fun buildWebVideoCallIntent_setsPackageWhenProvided() {
         val intent = WhatsAppLauncher.buildWebVideoCallIntent("34600123456", "com.whatsapp", "ES")
 

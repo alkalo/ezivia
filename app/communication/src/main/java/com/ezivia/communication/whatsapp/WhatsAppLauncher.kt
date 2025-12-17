@@ -330,7 +330,7 @@ class WhatsAppLauncher(private val activity: Activity) {
             dataId: Long?,
             phoneNumber: String,
             packageName: String,
-            regionIso: String?,
+            regionIso: String,
         ): Intent {
             return buildVideoCallIntentChain(dataId, phoneNumber, packageName, regionIso).first()
         }
@@ -339,7 +339,7 @@ class WhatsAppLauncher(private val activity: Activity) {
             dataId: Long?,
             phoneNumber: String,
             packageName: String,
-            regionIso: String?,
+            regionIso: String,
         ): List<Intent> {
             val intents = mutableListOf<Intent>()
 
@@ -373,7 +373,7 @@ class WhatsAppLauncher(private val activity: Activity) {
             return Uri.withAppendedPath(ContactsContract.Data.CONTENT_URI, dataId.toString())
         }
 
-        internal fun buildVideoCallUri(phoneNumber: String, regionIso: String? = null): Uri {
+        internal fun buildVideoCallUri(phoneNumber: String, regionIso: String): Uri {
             val normalizedPhone = normalizeForCall(phoneNumber, regionIso)
             return Uri.parse("whatsapp://call")
                 .buildUpon()
@@ -381,14 +381,14 @@ class WhatsAppLauncher(private val activity: Activity) {
                 .build()
         }
 
-        internal fun buildVideoCallIntent(phoneNumber: String, packageName: String, regionIso: String? = null): Intent {
+        internal fun buildVideoCallIntent(phoneNumber: String, packageName: String, regionIso: String): Intent {
             return Intent(Intent.ACTION_VIEW, buildVideoCallUri(phoneNumber, regionIso)).apply {
                 setPackage(packageName)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
         }
 
-        internal fun buildWebVideoCallUri(phoneNumber: String, regionIso: String? = null): Uri {
+        internal fun buildWebVideoCallUri(phoneNumber: String, regionIso: String): Uri {
             val normalizedPhone = normalizeForCall(phoneNumber, regionIso)
             val plainDigits = normalizedPhone.filter { it.isDigit() }
             return Uri.parse("https://wa.me/$plainDigits")
@@ -400,7 +400,7 @@ class WhatsAppLauncher(private val activity: Activity) {
         internal fun buildWebVideoCallIntent(
             phoneNumber: String,
             packageName: String?,
-            regionIso: String? = null
+            regionIso: String,
         ): Intent {
             return Intent(Intent.ACTION_VIEW, buildWebVideoCallUri(phoneNumber, regionIso)).apply {
                 packageName?.let { setPackage(it) }
@@ -440,7 +440,7 @@ class WhatsAppLauncher(private val activity: Activity) {
             return builder.toString()
         }
 
-        private fun normalizeForCall(phoneNumber: String, regionIso: String?): String {
+        private fun normalizeForCall(phoneNumber: String, regionIso: String): String {
             val sanitizedNumber = sanitizePhoneNumber(phoneNumber)
             if (sanitizedNumber.isEmpty()) return ""
 
@@ -462,12 +462,15 @@ class WhatsAppLauncher(private val activity: Activity) {
         private fun formatWithCountryCodeFallback(phoneNumber: String, regionIso: String): String {
             if (phoneNumber.startsWith("+")) return phoneNumber
 
+            val phoneUtil = PhoneNumberUtil.getInstance()
             val countryCode = runCatching {
-                PhoneNumberUtil.getInstance().getCountryCodeForRegion(regionIso)
+                phoneUtil.getCountryCodeForRegion(regionIso)
             }.getOrNull()?.takeIf { it != 0 }
+                ?: phoneUtil.getCountryCodeForRegion(Locale.US.country)
+                .takeIf { it != 0 }
+                ?: 1
 
-            val prefix = countryCode?.let { "+$it" } ?: "+"
-            return "$prefix$phoneNumber"
+            return "+$countryCode$phoneNumber"
         }
 
         internal fun resolveRegionIso(
