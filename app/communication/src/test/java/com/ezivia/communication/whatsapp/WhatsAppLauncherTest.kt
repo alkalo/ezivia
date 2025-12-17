@@ -249,20 +249,24 @@ class WhatsAppLauncherTest {
     }
 
     @Test
-    fun mapLaunchResultToVideoCallResult_mapsPackageMissingToLaunchError() {
-        val result = WhatsAppLauncher.mapLaunchResultToVideoCallResult(
-            WhatsAppLauncher.LaunchResult.PackageMissing
+    fun resolveNotFoundWithFallback_returnsSuccessWhenFallbackLaunches() {
+        val result = WhatsAppLauncher.resolveNotFoundWithFallback(
+            fallbackLauncher = { _, _ -> true },
+            phoneNumber = "+34600123456",
+            packageName = "com.whatsapp",
         )
 
-        assertThat(result).isEqualTo(WhatsAppLauncher.VideoCallResult.LaunchError)
+        assertThat(result).isEqualTo(WhatsAppLauncher.VideoCallResult.Success)
     }
 
     @Test
-    fun mapLaunchResultToVideoCallResult_mapsLaunchErrorReasonToLaunchErrorResult() {
-        val result = WhatsAppLauncher.mapLaunchResultToVideoCallResult(
-            WhatsAppLauncher.LaunchResult.LaunchError("missing intent handler")
+    fun resolveNotFoundWithFallback_returnsMissingWhenFallbackFails() {
+        val result = WhatsAppLauncher.resolveNotFoundWithFallback(
+            fallbackLauncher = { _, _ -> false },
+            phoneNumber = "+34600123456",
+            packageName = "com.whatsapp",
         )
 
-        assertThat(result).isEqualTo(WhatsAppLauncher.VideoCallResult.LaunchError)
+        assertThat(result).isEqualTo(WhatsAppLauncher.VideoCallResult.VideoCallEntryMissing)
     }
 }
